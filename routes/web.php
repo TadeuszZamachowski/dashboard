@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BikeController;
+use App\Http\Controllers\BikesDashboardOrderController;
 use App\Http\Controllers\DashboardOrder;
 use App\Http\Controllers\DashboardOrderController;
 use App\Http\Controllers\LoginController;
@@ -78,9 +79,17 @@ Route::delete('/bikes/{bike}', [BikeController::class, 'destroy'])->middleware('
 //Show single bike
 Route::get('/bikes/{bike}', [BikeController::class, 'show'])->middleware('auth');
 
+
+//Schedule
 Route::get('/schedule', function() {
     return view('schedule');
 })->middleware('auth');
+
+//Show Assign bike form
+Route::get('/assign', [BikesDashboardOrderController::class, 'show']);
+
+//Store data
+Route::post('/assign', [BikesDashboardOrderController::class, 'store']);
 
 
 

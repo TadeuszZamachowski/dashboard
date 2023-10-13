@@ -3,5 +3,5 @@
     <a href="/orders/add">Add Order</a>
     <a href="/#">Edit Order</a>
     <a href="#">Delete Order</a>
-    <a href="#">Assign Bike to Order</a>
+    <a href="/assign">Assign Bike to Order</a>
   </div>
