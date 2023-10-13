@@ -91,7 +91,8 @@ Route::get('/assign', [BikesDashboardOrderController::class, 'show']);
 //Store data
 Route::post('/assign', [BikesDashboardOrderController::class, 'store']);
 
-
+//Show history of orders
+Route::get('/history', [BikesDashboardOrderController::class, 'index']);
 
 
 

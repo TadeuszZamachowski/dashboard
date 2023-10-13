@@ -37,4 +37,10 @@ class BikesDashboardOrderController extends Controller
 
         return redirect('/')->with('error', 'Bike with the specified id doesnt exist!');
     }
+
+    public function index() {
+        return view('history.index', [
+            'history' => BikesDashboardOrder::orderByDesc('id')->get()
+        ]);
+    }
 }

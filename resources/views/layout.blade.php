@@ -22,15 +22,9 @@
 .menu {
   position: fixed;
   top: 0;
-  margin-left: 180px;
-  margin-top: -30px;
-  margin-bottom: -20px;
-  
-  padding-top: 60px;
-  padding-bottom: 20px;
-  padding-left: 30px;
-  padding-right: 776px;
+  margin-left: 210px;
   background-color: #ffeaf7;
+  display: block;
 }
 
 .menu a:hover {
@@ -91,6 +85,7 @@
   <div class="menu">
     <a href="/">Orders</a>
     <a href="/bikes">Bikes</a>
+    <a href="/history">History</a>
     <a href="/schedule">Schedule</a>
   </div>
       <div id="main"> 
