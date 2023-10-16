@@ -25,10 +25,10 @@ use Illuminate\Http\Request;
 //show login form
 Route::get('/login',  [LoginController::class, 'login'])->name('login');
 
-//store login data
+//verify login
 Route::post('/login', [LoginController::class, 'doLogin'])->name('login');
 
-
+//TODO BIKES ADD NUMBER OF BIKES TO DASHBOARD ORDER AND TO FORM
 
 
 //---------------------> ORDERS
@@ -56,7 +56,7 @@ Route::get('/orders/{order}', [DashboardOrderController::class, 'show'])->middle
 
 
 
-//----------------------> BIKES
+//----------------------> BIKES ADD NUMBER OF BIKES TO DASHBOARD ORDER AND TO FORM
 
 //All bikes
 Route::get('/bikes', [BikeController::class, 'index'])->middleware('auth');
@@ -86,13 +86,13 @@ Route::get('/schedule', function() {
 })->middleware('auth');
 
 //Show Assign bike form
-Route::get('/assign', [BikesDashboardOrderController::class, 'show']);
+Route::get('/assign', [BikesDashboardOrderController::class, 'show'])->middleware('auth');
 
 //Store data
-Route::post('/assign', [BikesDashboardOrderController::class, 'store']);
+Route::post('/assign', [BikesDashboardOrderController::class, 'store'])->middleware('auth');
 
 //Show history of orders
-Route::get('/history', [BikesDashboardOrderController::class, 'index']);
+Route::get('/history', [BikesDashboardOrderController::class, 'index'])->middleware('auth');
 
 
 
