@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DashboardOrder;
 use Illuminate\Http\Request;
 use App\Models\Bike;
 
@@ -9,8 +10,9 @@ class BikeController extends Controller
 {
     //show all bikes
     public function index() {
+        $bikes = Bike::with('dashboardOrder')->get();
         return view('bikes.index', [
-            'bikes' => Bike::all()
+            'bikes' => $bikes
         ]);
     }
 
@@ -34,7 +36,7 @@ class BikeController extends Controller
             'name' => 'required',
             'status' => 'required',
             'location' =>'required',
-            'order_id' => ''
+            'dashboard_order_id' => ''
         ]);
         
         Bike::create($validation);
@@ -55,7 +57,7 @@ class BikeController extends Controller
             'name' => 'required',
             'status' => 'required',
             'location' => 'required',
-            'order_id' => ''
+            'dashboard_order_id' => ''
         ]);
         
         $bike->update($formFields);

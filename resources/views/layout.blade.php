@@ -90,7 +90,6 @@
   <div class="menu">
     <a href="/">Orders</a>
     <a href="/bikes">Bikes</a>
-    <a href="/history">History</a>
     <a href="/schedule">Schedule</a>
   </div>
       <div id="main">

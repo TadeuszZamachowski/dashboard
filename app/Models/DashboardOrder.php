@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class DashboardOrder extends Model
@@ -27,8 +28,8 @@ class DashboardOrder extends Model
         'is_woo'
       ];
 
-      public function bikesDashboardOrder(): HasMany
+      public function bikes(): HasMany
     {
-        return $this->hasMany(BikesDashboardOrder::class);
+        return $this->hasMany('App\Models\Bike', 'order_id', 'id');
     }
 }

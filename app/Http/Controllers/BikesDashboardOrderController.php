@@ -25,8 +25,8 @@ class BikesDashboardOrderController extends Controller
 
         $bike = Bike::find($request['bike_id']);
         if ($bike) {
-            if($bike->order_id == null) {
-                $bike->order_id = $request['order_id'];
+            if($bike->dashboard_order_id == null) {
+                $bike->dashboard_order_id = $request['order_id'];
                 $bike->save();
 
                 BikesDashboardOrder::create($data);

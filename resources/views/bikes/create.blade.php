@@ -40,9 +40,6 @@
         <p>{{$message}}</p>
     @enderror
 
-    <label for="order_id">Order ID:</label><br>
-    <input type="text" id="order_id" name="order_id" value="{{old('order_id')}}"><br>
-
     <input type="submit" value="Submit">
 </form>
 

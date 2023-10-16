@@ -1,5 +1,4 @@
 @extends('layout')
-@extends('orders.side-order')
 
 @section('content')
 <form method="POST" action="/assign">

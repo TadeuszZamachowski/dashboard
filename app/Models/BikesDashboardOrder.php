@@ -24,7 +24,7 @@ class BikesDashboardOrder extends Model
         return $this->belongsTo(Bike::class);
     }
 
-    public function dashboardOrder(): BelongsTo
+    public function dashboardOrders(): BelongsTo
     {
         return $this->belongsTo(DashboardOrder::class);
     }
