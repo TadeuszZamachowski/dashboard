@@ -1,5 +1,4 @@
 @extends('layout')
-@extends('bikes.side-bikes')
 
 @section('content')
 <style>

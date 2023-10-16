@@ -1,5 +1,4 @@
 @extends('layout')
-@extends('bikes.side-bikes')
 
 @section('content')
 <table id="dashboard-orders" class="row-border dashboard" style="margin-bottom:20px">
@@ -28,6 +27,17 @@
         <td>{{$bike['status']}}</td>
         <td>{{$bike['location']}}</td>
         <td>{{$bike['order_id']}}</td>
+        <td>
+            <div class="del-edit-icons">
+                <a href="/bikes/{{$bike->id}}/edit"><i class="fas fa-edit" style="color: #000000;"></i></a>
+
+                <form method="POST" action="/bikes/{{$bike->id}}">
+                    @csrf
+                    @method('DELETE')
+                    <button><i class="fa-solid fa-trash" style="color: #000000;"></i></button>
+                </form>
+            </div>
+        </td>
     </tr>
 </tbody>
 @endforeach
