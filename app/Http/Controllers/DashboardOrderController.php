@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DashboardOrder;
+use App\Models\Post;
 use Illuminate\Http\Request;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -35,6 +36,7 @@ class DashboardOrderController extends Controller
             'amount_paid' => 'required',
             'order_status' => 'required',
             'pickup_location' => 'required',
+            'number_of_bikes' => 'required'
         ]);
 
         $data['id'] = DashboardOrder::max('id') + 1;
@@ -47,6 +49,7 @@ class DashboardOrderController extends Controller
         $data['amount_paid'] = $request['amount_paid'];
         $data['order_status'] = $request['order_status'];
         $data['pickup_location'] = $request['pickup_location'];
+        $data['number_of_bikes'] = $request['number_of_bikes'];
         
         DashboardOrder::create($data);
 
@@ -68,6 +71,7 @@ class DashboardOrderController extends Controller
             'amount_paid' => 'required',
             'order_status' => 'required',
             'pickup_location' => 'required',
+            'number_of_bikes' => 'required'
         ]);
 
         $data['first_name'] = $request['first_name'];
@@ -79,8 +83,12 @@ class DashboardOrderController extends Controller
         $data['amount_paid'] = $request['amount_paid'];
         $data['order_status'] = $request['order_status'];
         $data['pickup_location'] = $request['pickup_location'];
+        $data['number_of_bikes'] = $request['number_of_bikes'];
         
         $order->update($data);
+        if($order->order_status = 'Completed' && $order->is_woo != 0) {//update corresponding woo commerce order
+            Post::where('ID', '=', $order->id)->update(array('post_status' => 'wc-completed'));
+        }
 
         return redirect('/orders/'.$order->id)->with('success', 'Order succesfully updated.');
     }

@@ -18,6 +18,7 @@
         <th>Amount Paid</th>
         <th>Status</th>
         <th>Pickup Location</th>
+        <th>Number of bikes</th>
     </tr>
     </thead>
 @foreach ($orders as $order)
@@ -36,6 +37,7 @@
         <td>{{$order->amount_paid. " $"}}</td>
         <td>{{$order->order_status}}</td>
         <td>{{$order->pickup_location}}</td>
+        <td>{{$order->number_of_bikes}}</td>
     </tr>
     </tbody>
     

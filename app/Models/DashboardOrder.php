@@ -23,6 +23,7 @@ class DashboardOrder extends Model
         'amount_paid',
         'order_status',
         'pickup_location',
+        'number_of_bikes',
         'is_woo'
       ];
 

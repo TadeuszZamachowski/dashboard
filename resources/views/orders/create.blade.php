@@ -67,6 +67,12 @@
         <p>{{$message}}</p>
     @enderror
 
+    <label for="number_of_bikes">Number of Bikes:</label><br>
+    <input type="text" id="number_of_bikes" name="number_of_bikes" value="{{old('number_of_bikes')}}"><br>
+    @error('number_of_bikes')
+        <p>{{$message}}</p>
+    @enderror
+
     {{-- unused fields: id, is_woo --}}
 
     <input type="submit" value="Submit">
