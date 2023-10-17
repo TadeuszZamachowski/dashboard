@@ -53,13 +53,6 @@
         <p>{{$message}}</p>
     @enderror
 
-    {{-- add status selector --}}
-    <label for="order_status">Status:</label><br>
-    <input type="text" id="order_status" name="order_status" value="{{old('order_status')}}"><br>
-    @error('order_status')
-        <p>{{$message}}</p>
-    @enderror
-
     <label for="pickup_location">Pickup Location:</label><br>
     <input type="text" id="pickup_location" name="pickup_location" value="{{old('pickup_location')}}"><br>
     @error('pickup_location')

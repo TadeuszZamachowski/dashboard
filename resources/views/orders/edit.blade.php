@@ -8,7 +8,7 @@
     }
 </style>
 <h1>Add Order</h1>
-<form method="POST" action="/orders/{{$order->id}}">
+<form method="POST" action="/orders/{{$order->dashboard_order_id}}">
     @csrf
     @method('PUT')
     <label for="first_name">First Name:</label><br>
@@ -55,11 +55,14 @@
     @enderror
 
     {{-- add status selector --}}
+
     <label for="order_status">Status:</label><br>
-    <input type="text" id="order_status" name="order_status" value="{{$order->order_status}}"><br>
-    @error('order_status')
-        <p>{{$message}}</p>
-    @enderror
+    <select name="order_status" id="order_status">
+        <option selected="selected">{{$order->order_status}}</option>
+        @foreach ($categories as $item)
+        <option value={{$item}}>  {{$item}} </option>
+        @endforeach
+    </select><br> 
 
     <label for="pickup_location">Pickup Location:</label><br>
     <input type="text" id="pickup_location" name="pickup_location" value="{{$order->pickup_location}}"><br>

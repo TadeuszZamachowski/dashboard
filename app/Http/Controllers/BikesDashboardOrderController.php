@@ -20,8 +20,8 @@ class BikesDashboardOrderController extends Controller
 
         $data['order_id'] = $request['order_id'];
         $data['bike_id'] = $request['bike_id'];
-        $data['start_date'] = DashboardOrder::where('id', '=', $request['order_id'])->first(['start_date'])->start_date;
-        $data['end_date'] = DashboardOrder::where('id', '=', $request['order_id'])->first(['end_date'])->end_date;
+        $data['start_date'] = DashboardOrder::where('dashboard_order_id', '=', $request['order_id'])->first(['start_date'])->start_date;
+        $data['end_date'] = DashboardOrder::where('dashboard_order_id', '=', $request['order_id'])->first(['end_date'])->end_date;
 
         $bike = Bike::find($request['bike_id']);
         if ($bike) {

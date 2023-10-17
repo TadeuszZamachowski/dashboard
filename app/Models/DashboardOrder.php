@@ -13,8 +13,10 @@ class DashboardOrder extends Model
 
     public $timestamps = false;
 
+    protected $primaryKey = 'dashboard_order_id';
+
     protected $fillable = [
-        'id',
+        'dashboard_order_id',
         'first_name',
         'last_name',
         'email',
@@ -30,6 +32,6 @@ class DashboardOrder extends Model
 
       public function bikes(): HasMany
     {
-        return $this->hasMany('App\Models\Bike', 'order_id', 'id');
+        return $this->hasMany('App\Models\Bike', 'dashboard_order_id', 'dashboard_order_id');
     }
 }

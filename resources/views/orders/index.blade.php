@@ -23,7 +23,7 @@
 @foreach ($orders as $order)
     <tbody>
     <tr>
-        <td>{{$order->id}}</td>
+        <td>{{$order->dashboard_order_id}}</td>
         <td>{{$order->first_name}}</td>
         <td>{{$order->last_name}}</td>
         <td>{{$order->email}}</td>
@@ -37,10 +37,10 @@
         <td>{{$order->pickup_location}}</td>
         <td>{{$order->number_of_bikes}}</td>
         <td>
-            <a href="/orders/{{$order->id}}/edit"><i class="fas fa-edit" style="color: #000000;"></i></a>
+            <a href="/orders/{{$order->dashboard_order_id}}/edit"><i class="fas fa-edit" style="color: #000000;"></i></a>
         </td>
         <td>
-            <form method="POST" action="/orders/{{$order->id}}">
+            <form method="POST" action="/orders/{{$order->dashboard_order_id}}">
                 @csrf
                 @method('DELETE')
                 <button><i class="fa-solid fa-trash" style="color: #000000;"></i></button>
