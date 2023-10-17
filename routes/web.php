@@ -28,7 +28,6 @@ Route::get('/login',  [LoginController::class, 'login'])->name('login');
 //verify login
 Route::post('/login', [LoginController::class, 'doLogin'])->name('login');
 
-//TODO BIKES ADD NUMBER OF BIKES TO DASHBOARD ORDER AND TO FORM
 
 
 //---------------------> ORDERS
@@ -56,7 +55,7 @@ Route::get('/orders/{order}', [DashboardOrderController::class, 'show'])->middle
 
 
 
-//----------------------> BIKES ADD NUMBER OF BIKES TO DASHBOARD ORDER AND TO FORM
+//----------------------> BIKES 
 
 //All bikes
 Route::get('/bikes', [BikeController::class, 'index'])->middleware('auth');
@@ -86,10 +85,10 @@ Route::get('/schedule', function() {
 })->middleware('auth');
 
 //Show Assign bike form
-Route::get('/assign', [BikesDashboardOrderController::class, 'show'])->middleware('auth');
+Route::get('/orders/{order}/assign', [BikesDashboardOrderController::class, 'show'])->middleware('auth');
 
 //Store data
-Route::post('/assign', [BikesDashboardOrderController::class, 'store'])->middleware('auth');
+Route::post('/assign/{order}', [BikesDashboardOrderController::class, 'store'])->middleware('auth');
 
 //Show history of orders
 Route::get('/history', [BikesDashboardOrderController::class, 'index'])->middleware('auth');

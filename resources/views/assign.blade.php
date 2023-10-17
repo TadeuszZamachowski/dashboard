@@ -1,19 +1,19 @@
 @extends('layout')
 
 @section('content')
-<form method="POST" action="/assign">
+<form method="POST" action="/assign/{{$order->dashboard_order_id}}">
     @csrf
-    <label for="order_id">Order ID:</label><br>
-    <input type="text" id="order_id" name="order_id" value="{{old('order_id')}}"><br>
-    @error('order_id')
-        <p>{{$message}}</p>
-    @enderror
+    <h1>Number of bikes: {{$order->number_of_bikes}}</h1>
+    <label for="bike_id">Bike(s):</label><br>
 
-    <label for="bike_id">Bike ID:</label><br>
-    <input type="text" id="bike_id" name="bike_id" value="{{old('bike_id')}}"><br>
-    @error('bike_id')
-        <p>{{$message}}</p>
-    @enderror
+    @for($i = 0; $i < $order->number_of_bikes; $i++)
+    <select name="bike_ids[]" id="bike_ids">
+        @foreach ($bikes as $bike)
+            <option value="{{$bike->id}}">{{$bike->name}}, Code - {{$bike->code}}, Rack - {{$bike->rack}}</option>
+        @endforeach
+    </select>
+    <br>
+    @endfor
 
     <input type="submit" value="Submit">
 </form>

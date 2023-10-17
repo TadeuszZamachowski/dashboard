@@ -26,6 +26,6 @@ class Bike extends Model
     
     public function dashboardOrder(): BelongsTo
     {
-        return $this->belongsTo('App\Models\DashboardOrder');
+        return $this->belongsTo('App\Models\DashboardOrder','dashboard_order_id', 'dashboard_order_id');
     }
 }

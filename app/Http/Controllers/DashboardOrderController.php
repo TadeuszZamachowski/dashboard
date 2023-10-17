@@ -98,8 +98,13 @@ class DashboardOrderController extends Controller
                 Post::where('ID', '=', $order->dashboard_order_id)->update(array('post_status' => 'wc-completed'));
             }
             //free up the bikes assigned to the order
-            $bikes = DashboardOrder::with('bikes')->get();
-            dd($bikes);
+            $orderWithBikes = DashboardOrder::where('dashboard_order_id','=',$order->dashboard_order_id)->with('bikes')->first();
+            foreach($orderWithBikes->bikes as $bike) {
+                $bike->update(array(
+                    'status' => 'in',
+                    'dashboard_order_id' => null
+                ));
+            }
         }
 
         return redirect('/orders/'.$order->dashboard_order_id)->with('success', 'Order succesfully updated.');

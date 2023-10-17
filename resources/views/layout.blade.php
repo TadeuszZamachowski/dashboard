@@ -97,7 +97,6 @@
           <a href="/"><img src="\images\RGB-LOGO-BYRON-BAY-BIKES.png" alt="Logo" width="150px"></a>
           <a href="/orders/add">Add Order</a>
           <a href="/bikes/add">Add Bike</a>
-          <a href="/assign">Assign Bike to Order</a>
           <a href="/history">History</a>
           <a href="/reports">Reports</a>
         </div> 

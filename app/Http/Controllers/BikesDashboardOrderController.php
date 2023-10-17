@@ -9,33 +9,48 @@ use Illuminate\Http\Request;
 
 class BikesDashboardOrderController extends Controller
 {
-    public function show() {
-        return view('assign');
-    }
-    public function store(Request $request) {
-        $this->validate($request, [
-            'order_id' => 'required',
-            'bike_id' => 'required'
+    public function show(DashboardOrder $order) {
+        $bikes = Bike::where('status', '=', 'in')->get();
+        return view('assign', [
+            'order' => $order,
+            'bikes' => $bikes
         ]);
+    }
+    public function store(Request $request, DashboardOrder $order) {
+        $this->validate($request, [
+            'bike_ids' => 'required'
+        ]);
+        $data['order_id'] = $order->dashboard_order_id;
+        $data['start_date'] = $order->start_date;
+        $data['end_date'] = $order->end_date;
 
-        $data['order_id'] = $request['order_id'];
-        $data['bike_id'] = $request['bike_id'];
-        $data['start_date'] = DashboardOrder::where('dashboard_order_id', '=', $request['order_id'])->first(['start_date'])->start_date;
-        $data['end_date'] = DashboardOrder::where('dashboard_order_id', '=', $request['order_id'])->first(['end_date'])->end_date;
+        $result = 0;
 
-        $bike = Bike::find($request['bike_id']);
-        if ($bike) {
-            if($bike->dashboard_order_id == null) {
-                $bike->dashboard_order_id = $request['order_id'];
-                $bike->save();
+        for($i = 0; $i < count($request->bike_ids); $i++) {
+            $data['bike_id'] = $request->bike_ids[$i];
 
-                BikesDashboardOrder::create($data);
-                return redirect('/')->with('success', 'Bike succesfully assigned.');
+            $bike = Bike::find($request->bike_ids[$i]);
+            if ($bike) {
+                if($bike->dashboard_order_id == null) {
+                    $bike->status = 'out';
+                    $bike->dashboard_order_id = $order->dashboard_order_id;
+                    $bike->save();
+    
+                    BikesDashboardOrder::create($data);
+                    $result = 1;
+                } else {
+                    $result = 2;
+                }
             }
-            return redirect('/')->with('error', 'Bike already assigned to order!');
         }
 
-        return redirect('/')->with('error', 'Bike with the specified id doesnt exist!');
+        if($result == 1) {
+            return redirect('/')->with('success', 'Bike succesfully assigned.');
+        } elseif($result == 2) {
+            return redirect('/')->with('error', 'Bike already assigned to order!');
+        } else {
+            return redirect('/')->with('error', 'Bike with the specified id doesnt exist!');
+        }
     }
 
     public function index() {

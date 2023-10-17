@@ -11,7 +11,6 @@
         <th>Start Date</th>
         <th>End Date</th>
         <th>Duration</th>
-        <th></th>
     </tr>
     </thead>
 
@@ -24,6 +23,13 @@
         <td>{{$entry->order_id}}</td>
         <td>{{$entry->start_date}}</td>
         <td>{{$entry->end_date}}</td>
+        @php
+            $date1 = new DateTime($entry->start_date);
+            $date2 = new DateTime($entry->end_date);
+            $interval = $date1->diff($date2);
+            $result = $interval->days;
+        @endphp
+        <td>{{$result}} days</td>
         {{-- add duration --}}
     </tr>
 </tbody>

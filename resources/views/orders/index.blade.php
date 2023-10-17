@@ -16,6 +16,7 @@
         <th>Status</th>
         <th>Pickup Location</th>
         <th>Number of bikes</th>
+        <th>Assign Bikes</th>
         <th>Edit</th>
         <th>Delete</th>
     </tr>
@@ -36,6 +37,9 @@
         <td>{{$order->order_status}}</td>
         <td>{{$order->pickup_location}}</td>
         <td>{{$order->number_of_bikes}}</td>
+        <td><a href="/orders/{{$order->dashboard_order_id}}/assign">
+            <i class="fa-solid fa-bicycle"></i></a>
+        </td>
         <td>
             <a href="/orders/{{$order->dashboard_order_id}}/edit"><i class="fas fa-edit" style="color: #000000;"></i></a>
         </td>
