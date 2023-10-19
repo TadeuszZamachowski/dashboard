@@ -2,7 +2,7 @@
 
 @section('content')
 
-<table id="dashboard-orders" class="row-border dashboard" style="margin-bottom:20px">
+<table id="dashboard-orders" class="order-table">
     <thead>
     <tr>
         <th>Order ID</th>

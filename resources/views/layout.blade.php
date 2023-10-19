@@ -16,14 +16,15 @@
       </div>
       <div class="main-menu">
         <ul>
-          <li><a href="/">ORDERS</a></li>
-          <li><a href="/bikes">BIKES</a></li>
-          <li><a href="/schedule">SCHEDULE</a></li>
-          <li><a href="/settings">SETTINGS</a></li>
+          <li><a class="nav-link" href="/">ORDERS</a></li>
+          <li><a class="nav-link" href="/bikes">BIKES</a></li>
+          <li><a class="nav-link" href="/schedule">SCHEDULE</a></li>
+          <li><a class="nav-link" href="/settings">SETTINGS</a></li>
         </ul>
       </div>
     </div>
   </nav>
+  <script src="\js\app.js"></script>
 
 
   <nav class="navbar-bottom">

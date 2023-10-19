@@ -1,6 +1,4 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+
 
 * {
   box-sizing: border-box;
@@ -15,6 +13,7 @@
 }
 
 body {
+  height: 100%;
   font-family: Arial, Helvetica, sans-serif;
   background: #fff;
   font-size: 16px;
@@ -42,9 +41,10 @@ img {
   padding: 20px;
 }
 
-.navbar-top .container { 
+
+.navbar-top .container{ 
   display: flex;
-  /* Pushes menu links to the right | justify-content: space-between; */
+  justify-content: space-between; 
   align-items: space-between;
 }
 
@@ -52,7 +52,7 @@ img {
   display: flex;
 }
 
-.navbar-top ul li a {
+.nav-link, .navbar-bottom ul li a {
   color: white;
   text-decoration: none;
   padding: 10px 20px;
@@ -61,11 +61,24 @@ img {
   transition: 0.5s;
 }
 
-.navbar-top ul li a:hover {
+.navbar-top ul li a:hover, .navbar-bottom ul li a:hover {
+  color: var(--light-pink);
+  background-color: #454545;
+}
+
+.navbar-top ul li a.active{
   color: var(--light-pink);
 }
 
 .navbar-bottom {
-  background: var(--dark-pink);;
+  background: var(--dark-pink);
   padding: 20px;
+  position: fixed;
+  height: 100%;
+  width: 13%;
+}
+
+#main {
+  margin-left: 13%;
+  padding: 20px; 
 }
