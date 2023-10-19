@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Accessory;
+use App\Models\Code;
 use App\Models\DashboardOrder;
+use App\Models\Location;
 use Illuminate\Http\Request;
 use App\Models\Bike;
 
@@ -25,17 +28,24 @@ class BikeController extends Controller
 
     //show create form
     public function create() {
-        return view('bikes.create');
+        return view('bikes.create', [
+            'accessories' => Accessory::all(),
+            'codes' => Code::all(),
+            'locations' => Location::all()
+        ]);
     }
 
     //store bike data
     public function store(Request $request) {
         $validation = $request->validate([
+            'color' => 'required',
+            'type' => 'required',
+            'gear' => 'required',
+            'accessory' => 'required',
+            'code' =>'required',
+            'location' => 'required',
             'rack' => 'required',
-            'code' => 'required',
-            'name' => 'required',
             'status' => 'required',
-            'location' =>'required',
             'dashboard_order_id' => ''
         ]);
         
@@ -52,11 +62,14 @@ class BikeController extends Controller
     //update bike
     public function update(Request $request, Bike $bike) {
         $formFields = $request->validate([
-            'rack' => 'required',
-            'code' => 'required',
-            'name' => 'required',
-            'status' => 'required',
+            'color' => 'required',
+            'type' => 'required',
+            'gear' => 'required',
+            'accessory' => 'required',
+            'code' =>'required',
             'location' => 'required',
+            'rack' => 'required',
+            'status' => 'required',
             'dashboard_order_id' => ''
         ]);
         

@@ -6,11 +6,14 @@
     <tr>
         {{-- <th><input type="checkbox" onclick="toggleAllCheckbox2()"></th> --}}
         <th>ID</th>
-        <th>Rack</th>
+        <th>Color</th>
+        <th>Type</th>
+        <th>Gear</th>
+        <th>Accessory</th>
         <th>Code</th>
-        <th>Description</th>
-        <th>Status</th>
         <th>Location</th>
+        <th>Rack</th>
+        <th>Status</th>
         <th>Order ID</th>
         <th>Name</th>
         <th>Edit</th>
@@ -22,11 +25,14 @@
     <tr>
         {{-- <td><input type="checkbox" name="order_id" value={{$bike['id']}}></td> --}}
         <td><a href="/bikes/{{$bike['id']}}">{{$bike['id']}}</td>
-        <td>{{$bike['rack']}}</td>
+        <td>{{$bike['color']}}</td>
+        <td>{{$bike['type']}}</td>
+        <td>{{$bike['gear']}}</td>
+        <td>{{$bike['accessory']}}</td>
         <td>{{$bike['code']}}</td>
-        <td>{{$bike['name']}}</td>
-        <td>{{$bike['status']}}</td>
         <td>{{$bike['location']}}</td>
+        <td>{{$bike['rack']}}</td>
+        <td>{{$bike['status']}}</td>
         <td>{{$bike['dashboard_order_id']}}</td>
         <td>{{optional($bike->dashboardOrder)->first_name}}</td>
         <td>

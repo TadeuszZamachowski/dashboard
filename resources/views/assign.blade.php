@@ -9,7 +9,7 @@
     @for($i = 0; $i < $order->number_of_bikes; $i++)
     <select name="bike_ids[]" id="bike_ids">
         @foreach ($bikes as $bike)
-            <option value="{{$bike->id}}">{{$bike->name}}, Code - {{$bike->code}}, Rack - {{$bike->rack}}</option>
+            <option value="{{$bike->id}}">{{$bike->color}}, Code - {{$bike->code}}, Rack - {{$bike->rack}}</option>
         @endforeach
     </select>
     <br>

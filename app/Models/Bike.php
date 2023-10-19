@@ -16,11 +16,14 @@ class Bike extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'rack',
+        'color',
+        'type',
+        'gear',
+        'accessory',
         'code',
-        'name',
-        'status',
         'location',
+        'rack',
+        'status',
         'dashboard_order_id'
     ];
     
