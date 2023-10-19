@@ -91,6 +91,7 @@
     <a href="/">Orders</a>
     <a href="/bikes">Bikes</a>
     <a href="/schedule">Schedule</a>
+    <a href="/settings">Settings</a>
   </div>
       <div id="main">
         <div id="mySidenav" class="sidenav">

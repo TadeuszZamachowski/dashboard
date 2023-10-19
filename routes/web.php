@@ -5,6 +5,7 @@ use App\Http\Controllers\BikesDashboardOrderController;
 use App\Http\Controllers\DashboardOrder;
 use App\Http\Controllers\DashboardOrderController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\SettingsController;
 use App\Models\Postmeta;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -92,6 +93,42 @@ Route::post('/assign/{order}', [BikesDashboardOrderController::class, 'store'])-
 
 //Show history of orders
 Route::get('/history', [BikesDashboardOrderController::class, 'index'])->middleware('auth');
+
+
+//-------------------------------------SETTINGS
+//show settings
+Route::get('/settings', [SettingsController::class, 'index'])->middleware('auth');
+
+//show codes
+Route::get('/settings/codes', [SettingsController::class, 'codes'])->middleware('auth');
+
+//add codes
+Route::post('/settings/codes', [SettingsController::class, 'codesStore'])->middleware('auth');
+
+//delete codes
+Route::delete('/settings/codes/{code}', [SettingsController::class, 'codesDestroy'])->middleware('auth');
+
+
+
+//show accessories
+Route::get('/settings/accessories', [SettingsController::class, 'accessories'])->middleware('auth');
+
+//add accessories
+Route::post('/settings/accessories', [SettingsController::class, 'accessoriesStore'])->middleware('auth');
+
+//delete accessories
+Route::delete('/settings/accessories/{accessory}', [SettingsController::class, 'accessoriesDestroy'])->middleware('auth');
+
+
+
+//show locations
+Route::get('/settings/locations', [SettingsController::class, 'locations'])->middleware('auth');
+
+//add locations
+Route::post('/settings/locations', [SettingsController::class, 'locationsStore'])->middleware('auth');
+
+//delete locations
+Route::delete('/settings/locations/{location}', [SettingsController::class, 'locationsDestroy'])->middleware('auth');
 
 
 
