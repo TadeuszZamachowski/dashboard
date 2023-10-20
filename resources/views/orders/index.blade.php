@@ -16,9 +16,9 @@
         <th>Status</th>
         <th>Pickup Location</th>
         <th>Number of bikes</th>
-        <th>Assign Bikes</th>
-        <th>Edit</th>
-        <th>Delete</th>
+        <th></th>
+        <th></th>
+        <th></th>
     </tr>
     </thead>
 @foreach ($orders as $order)
