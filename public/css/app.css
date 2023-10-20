@@ -37,15 +37,23 @@ img {
 }
 
 .navbar-top {
-  background: var(--dark-color);;
+  background: var(--dark-color);
+}
+
+.logo {
   padding: 20px;
+  background-color: beige;
 }
 
 
 .navbar-top .container{ 
   display: flex;
-  justify-content: space-between; 
-  align-items: space-between;
+  justify-content: left; 
+  align-items: center;
+}
+
+.navbar-top .main-menu {
+  margin-left: 30px;
 }
 
 .navbar-top .main-menu ul {
@@ -75,10 +83,10 @@ img {
   padding: 20px;
   position: fixed;
   height: 100%;
-  width: 13%;
+  width: 13.54%;
 }
 
 #main {
-  margin-left: 13%;
+  margin-left: 13.54%;
   padding: 20px; 
 }
