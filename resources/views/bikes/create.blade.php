@@ -8,7 +8,7 @@
     }
 </style>
 <h1>Add a bike</h1>
-<form method="POST" action="/bikes">
+<form method="POST" action="/bikes/">
     @csrf
     <label for="color">Color:</label><br>
     <select name="color" id="color">
@@ -58,7 +58,7 @@
     <select name="code" id="code">
         <option value="{{old('code')}}" disabled selected>{{old('code')}}</option>
         @foreach ($codes as $code)
-            <option value={{$code->value}}>{{$code->id}}.  {{$code->value}}</option>
+            <option value={{$code->value}}>{{$code->value}}</option>
         @endforeach
     </select><br>
     @error('code')

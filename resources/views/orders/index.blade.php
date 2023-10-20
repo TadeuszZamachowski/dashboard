@@ -2,7 +2,7 @@
 
 @section('content')
 
-<table id="dashboard-orders" class="order-table">
+<table id="orders-table" class="orders-table">
     <thead>
     <tr>
         <th>Order ID</th>
@@ -23,7 +23,10 @@
     </thead>
 @foreach ($orders as $order)
     <tbody>
-    <tr>
+    <tr @class([
+        'order-complete' => ($order->order_status == 'Completed' || $order->order_status == 'completed' || $order->order_status == 'wc-complete'),
+        'order-processing' => ($order->order_status == 'Processing' || $order->order_status == 'processing' || $order->order_status == 'wc-processing')
+    ])>
         <td>{{$order->dashboard_order_id}}</td>
         <td>{{$order->first_name}}</td>
         <td>{{$order->last_name}}</td>
@@ -53,8 +56,8 @@
         
     </tr>
     </tbody>
-    
 
 @endforeach
+</table>
 @endsection
 

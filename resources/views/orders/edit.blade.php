@@ -7,7 +7,7 @@
         font-size: 12px;
     }
 </style>
-<h1>Add Order</h1>
+<h1>Edit Order</h1>
 <form method="POST" action="/orders/{{$order->dashboard_order_id}}">
     @csrf
     @method('PUT')

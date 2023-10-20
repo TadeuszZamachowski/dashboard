@@ -8,12 +8,13 @@ use App\Models\DashboardOrder;
 use App\Models\Location;
 use Illuminate\Http\Request;
 use App\Models\Bike;
+use Illuminate\Support\Facades\DB;
 
 class BikeController extends Controller
 {
     //show all bikes
     public function index() {
-        $bikes = Bike::with('dashboardOrder')->get();
+        $bikes = Bike::with('dashboardOrder')->orderBy('rack')->get();
         return view('bikes.index', [
             'bikes' => $bikes
         ]);
@@ -28,9 +29,11 @@ class BikeController extends Controller
 
     //show create form
     public function create() {
+        //TODO filtering unused codes
+
         return view('bikes.create', [
             'accessories' => Accessory::all(),
-            'codes' => Code::all(),
+            'codes' => Code::orderBy('value')->get(),
             'locations' => Location::all()
         ]);
     }
@@ -56,7 +59,12 @@ class BikeController extends Controller
 
     //show edit form'
     public function edit(Bike $bike) {
-        return view('bikes.edit', ['bike' => $bike]);
+        return view('bikes.edit', [
+            'bike' => $bike,
+            'accessories' => Accessory::all(),
+            'codes' => Code::all(),
+            'locations' => Location::all()
+        ]);
     }
 
     //update bike

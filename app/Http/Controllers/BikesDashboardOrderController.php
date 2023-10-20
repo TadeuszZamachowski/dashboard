@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class BikesDashboardOrderController extends Controller
 {
     public function show(DashboardOrder $order) {
-        $bikes = Bike::where('status', '=', 'in')->get();
+        $bikes = Bike::where('status', '=', 'in')->orderBy('rack')->get();
         return view('assign', [
             'order' => $order,
             'bikes' => $bikes
@@ -54,8 +54,9 @@ class BikesDashboardOrderController extends Controller
     }
 
     public function index() {
+        $history = BikesDashboardOrder::with('bike')->with('dashboardOrder')->orderByDesc('id')->get();
         return view('history.index', [
-            'history' => BikesDashboardOrder::orderByDesc('id')->get()
+            'history' => $history
         ]);
     }
 }

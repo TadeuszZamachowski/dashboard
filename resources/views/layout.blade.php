@@ -19,7 +19,6 @@
           <li><a class="nav-link" href="/">ORDERS</a></li>
           <li><a class="nav-link" href="/bikes">BIKES</a></li>
           <li><a class="nav-link" href="/schedule">SCHEDULE</a></li>
-          <li><a class="nav-link" href="/settings">SETTINGS</a></li>
         </ul>
       </div>
     </div>
@@ -32,16 +31,16 @@
       <div class="main-menu">
         <ul>
           <li><a href="/orders/add">Add Order</a></li>
-          <li><a href="/bikes/add">Add Bike</a></li>
           <li><a href="/history">History</a></li>
           <li><a href="/reports">Reports</a></li>
+          <li><a href="/settings">Settings</a></li>
         </ul>
       </div>
     </div> 
   </nav> 
   <div id="main">
-    @yield('content')
     <x-flash-message />
+    @yield('content')
   </div>
 </body>
 </html>

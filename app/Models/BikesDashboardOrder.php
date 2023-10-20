@@ -19,13 +19,12 @@ class BikesDashboardOrder extends Model
         'end_date'
       ];
 
-      public function bikes(): BelongsTo
+      public function bike(): BelongsTo
     {
-        return $this->belongsTo(Bike::class);
+        return $this->belongsTo('App\Models\Bike', 'bike_id', 'id');
     }
-
-    public function dashboardOrders(): BelongsTo
+    public function dashboardOrder(): BelongsTo
     {
-        return $this->belongsTo(DashboardOrder::class);
+        return $this->belongsTo('App\Models\DashboardOrder', 'order_id', 'dashboard_order_id');
     }
 }
