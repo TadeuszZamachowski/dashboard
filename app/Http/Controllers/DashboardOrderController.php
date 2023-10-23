@@ -107,7 +107,7 @@ class DashboardOrderController extends Controller
             }
         }
 
-        return redirect('/orders/'.$order->dashboard_order_id)->with('success', 'Order succesfully updated.');
+        return redirect('/')->with('success', 'Order '. $order->dashboard_order_id .' edited.');
     }
 
     public function destroy(DashboardOrder $order) {

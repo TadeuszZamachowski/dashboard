@@ -2,6 +2,7 @@
 <style>
     .flash {
         color: green;
+        font-weight: bold;
     }
 </style>
 <div>
@@ -14,6 +15,7 @@
 <style>
     .flash {
         color: red;
+        font-weight: bold;
     }
 </style>
 <div>
