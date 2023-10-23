@@ -16,9 +16,9 @@
         <th>Status</th>
         <th>Pickup Location</th>
         <th>Number of bikes</th>
-        <th></th>
-        <th></th>
-        <th></th>
+        <th>Assign/</th>
+        <th>Edit/</th>
+        <th>Delete</th>
     </tr>
     </thead>
 @foreach ($orders as $order)
@@ -44,7 +44,7 @@
             <i class="fa-solid fa-bicycle"></i></a>
         </td>
         <td>
-            <a href="/orders/{{$order->dashboard_order_id}}/edit"><i class="fas fa-edit" style="color: #000000;"></i></a>
+            <a href="/orders/{{$order->dashboard_order_id}}/edit"><i class="fas fa-edit"></i></a>
         </td>
         <td>
             <form method="POST" action="/orders/{{$order->dashboard_order_id}}">

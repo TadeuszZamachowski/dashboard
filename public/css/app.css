@@ -22,6 +22,18 @@ body {
 
 i {
   font-family: "FontAwesome";
+  color: var(--dark-color);
+  padding: 2px;
+  font-size: 17px;
+}
+
+button {
+  border: none;
+  background: none;
+}
+
+button:hover {
+  cursor: pointer;
 }
 
 a {
@@ -34,6 +46,19 @@ ul {
 
 img {
   max-width: 100%;
+}
+
+input[type="text"], input[type="date"] {
+  margin-bottom: 30px;
+  width: 100%;
+  height: 5%;
+}
+
+select {
+  margin-bottom: 30px;
+  width: 100%;
+  height: 7%;
+  text-align: center;
 }
 
 .navbar-top {
@@ -102,6 +127,7 @@ img {
   text-align: center;
   padding: 15px;
   border-radius: 20px;
+  cursor: pointer;
   transition: 0.5s;
 }
 
@@ -124,7 +150,7 @@ tr {
 }
 
 tr:hover {
-  background-color: var(--light-pink);
+  background-color: rgba(254, 177, 223, 0.2);
 }
 
 td {
@@ -144,4 +170,26 @@ td {
 .orders-table .order-processing {
   color: rgb(105, 105, 18);
   font-weight: bold;
+}
+
+.order-create {
+  display: flex;
+}
+
+.order-create .left-side {
+  text-align: center;
+  letter-spacing: 1px;
+  padding-left: 30%;
+}
+.order-create .right-side {
+  margin-left: auto;
+  text-align: center;
+  letter-spacing: 1px;
+  padding-right: 30%;
+}
+
+.form-btn {
+  margin-left: 40%;
+  margin-top: 5%;
+  width: 20%;
 }
