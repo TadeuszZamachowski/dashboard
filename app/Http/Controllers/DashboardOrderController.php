@@ -10,6 +10,7 @@ use Carbon\Carbon;
 
 class DashboardOrderController extends Controller
 {
+    public static $COLOR = 0;
     public function index() {
         return view('orders.index', [
             'orders' => DashboardOrder::orderByDesc('dashboard_order_id')->get()
@@ -24,6 +25,22 @@ class DashboardOrderController extends Controller
 
     public function create() {
         return view('orders.create');
+    }
+
+    public function createEvent($name, $description, $startDate, $endDate) {
+        $event = new Event;
+
+        if (str_contains($startDate, '-0001') || str_contains($endDate, '-0001')) {
+            return -1;
+        }
+
+        $event->name = $name;
+        $event->description = $description;
+        $event->startDateTime = $startDate;
+        $event->endDateTime = $endDate;
+
+        $newEvent = $event->save();
+        return $newEvent;
     }
 
     public function store(Request $request) {
@@ -50,6 +67,8 @@ class DashboardOrderController extends Controller
         $data['order_status'] = 'Processing';
         $data['pickup_location'] = $request['pickup_location'];
         $data['number_of_bikes'] = $request['number_of_bikes'];
+        $event = $this->createEvent($data['first_name'],$data['dashboard_order_id'], Carbon::parse($data['start_date']), Carbon::parse($data['end_date']));
+        $data['event_id'] = $event->id;
         
         DashboardOrder::create($data);
 
@@ -112,16 +131,44 @@ class DashboardOrderController extends Controller
     }
 
     public function destroy(DashboardOrder $order) {
+        if($order->event_id != null) {
+            $event = Event::find($order->event_id);
+            if($event->status != 'cancelled') {
+                $event->delete();
+            }
+        }
+
         $order->delete();
         return redirect('/')->with('success', 'Order deleted succesfully');
     }
 
-    public function displaySchedule() {
-        
+    public function showSchedule() {
+        return view('schedule', [
+            'nullOrders' => DashboardOrder::where('event_id', null)->get()
+        ]);
+    }
 
-        $events = Event::get();
-        foreach($events as $event) {
-            error_log($event->description);
+    public function updateSchedule() { //creates google events for woo commerce orders
+        // $events = Event::get();
+
+        // foreach($events as $event) {
+        //     $event->delete();
+        // }
+        $orders = DashboardOrder::where('event_id', null)->get();
+        
+        foreach($orders as $order) {
+            $event = $this->createEvent($order->first_name,$order->dashboard_order_id, Carbon::parse($order->start_date), Carbon::parse($order->end_date));
+            if($event instanceof Event) {
+                $order->update(array(
+                    'event_id' => $event->id
+                ));
+            } else {
+                error_log("Incorrect date when setting an event for an order!");
+                $order->update(array(
+                    'event_id' => -1
+                ));
+                continue;
+            }
         }
         return redirect('/schedule')->with('success', 'Calendar updated!');
     }

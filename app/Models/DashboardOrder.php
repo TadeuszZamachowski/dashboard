@@ -27,7 +27,8 @@ class DashboardOrder extends Model
         'order_status',
         'pickup_location',
         'number_of_bikes',
-        'is_woo'
+        'is_woo',
+        'event_id'
       ];
 
       public function bikes(): HasMany

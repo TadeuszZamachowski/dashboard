@@ -39,15 +39,13 @@
         </div>
         <div class="right-side">
             <label for="start_date">Start Date:</label><br>
-            <?php $t = strtotime($order->start_date);   ?>
-            <input type="date" id="start_date" name="start_date" value="{{date('Y-m-d',$t)}}"><br>
+            <input type="datetime-local" id="start_date" name="start_date" value="{{strftime('%Y-%m-%dT%H:%M:%S', strtotime($order->start_date))}}"><br>
             @error('start_date')
                 <p>{{$message}}</p>
             @enderror
 
             <label for="end_date">End Date:</label><br>
-            <?php $t = strtotime($order->end_date);   ?>
-            <input type="date" id="end_date" name="end_date" value="{{date('Y-m-d',$t)}}"><br>
+            <input type="datetime-local" id="end_date" name="end_date" value="{{strftime('%Y-%m-%dT%H:%M:%S', strtotime($order->end_date))}}"><br>
             @error('end_date')
                 <p>{{$message}}</p>
             @enderror

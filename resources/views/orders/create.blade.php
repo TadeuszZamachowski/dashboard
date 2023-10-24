@@ -38,13 +38,13 @@
         </div>
         <div class="right-side">
             <label for="start_date">Start Date:</label><br>
-            <input type="date" id="start_date" name="start_date" value="{{old('start_date')}}"><br>
+            <input type="datetime-local" id="start_date" name="start_date" value="{{old('start_date')}}"><br>
             @error('start_date')
                 <p>{{$message}}</p>
             @enderror
 
             <label for="end_date">End Date:</label><br>
-            <input type="date" id="end_date" name="end_date" value="{{old('end_date')}}"><br>
+            <input type="datetime-local" id="end_date" name="end_date" value="{{old('end_date')}}"><br>
             @error('end_date')
                 <p>{{$message}}</p>
             @enderror
