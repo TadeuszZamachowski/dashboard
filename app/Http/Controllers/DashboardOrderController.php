@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\DashboardOrder;
 use App\Models\Post;
 use Illuminate\Http\Request;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
+use Spatie\GoogleCalendar\Event;
+use Carbon\Carbon;
 
 class DashboardOrderController extends Controller
 {
@@ -113,5 +114,15 @@ class DashboardOrderController extends Controller
     public function destroy(DashboardOrder $order) {
         $order->delete();
         return redirect('/')->with('success', 'Order deleted succesfully');
+    }
+
+    public function displaySchedule() {
+        
+
+        $events = Event::get();
+        foreach($events as $event) {
+            error_log($event->description);
+        }
+        return redirect('/schedule')->with('success', 'Calendar updated!');
     }
 }

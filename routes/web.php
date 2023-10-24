@@ -85,6 +85,8 @@ Route::get('/schedule', function() {
     return view('schedule');
 })->middleware('auth');
 
+Route::get('/schedule/update',[DashboardOrderController::class, 'displaySchedule'])->middleware('auth');
+
 //Show Assign bike form
 Route::get('/orders/{order}/assign', [BikesDashboardOrderController::class, 'show'])->middleware('auth');
 
