@@ -9,24 +9,10 @@
     <link rel="stylesheet" type="text/css" href="\css\app.css" >
 </head>
 <body>
-  <nav class="navbar-top">
-    <div class="container">
-      <div class="logo">
-        <a href="/"><img src="\images\RGB-LOGO-BYRON-BAY-BIKES.png" alt="Logo" width="150px"></a>
-      </div>
-      <div class="main-menu">
-        <ul>
-          <li><a class="nav-link" href="/">ORDERS</a></li>
-          <li><a class="nav-link" href="/bikes">BIKES</a></li>
-          <li><a class="nav-link" href="/schedule">SCHEDULE</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-  <script src="\js\app.js"></script>
-
-
   <nav class="navbar-bottom">
+    <div class="logo">
+      <a href="/"><img src="\images\RGB-LOGO-BYRON-BAY-BIKES.png" alt="Logo" width="150px"></a>
+    </div>
     <div class="container">
       <div class="main-menu">
         <ul>
@@ -38,6 +24,20 @@
       </div>
     </div> 
   </nav> 
+
+  <nav class="navbar-top">
+    <div class="container">
+      <div class="main-menu">
+        <ul>
+          <li><a class="nav-link" href="/">ORDERS</a></li>
+          <li><a class="nav-link" href="/bikes">BIKES</a></li>
+          <li><a class="nav-link" href="/schedule">SCHEDULE</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <script src="\js\app.js"></script>
+
   <div id="main">
     <x-flash-message />
     @yield('content')

@@ -45,6 +45,10 @@ class BikesDashboardOrderController extends Controller
         }
 
         if($result == 1) {
+            $status = 'Processing';
+            $order->update(array(
+                'order_status' => $status
+            ));
             return redirect('/')->with('success', 'Bike succesfully assigned.');
         } elseif($result == 2) {
             return redirect('/')->with('error', 'Bike already assigned to order!');

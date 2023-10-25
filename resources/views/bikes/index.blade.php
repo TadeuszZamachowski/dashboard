@@ -1,6 +1,19 @@
 @extends('layout')
 
 @section('content')
+<style>
+    table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {background-color: #5e1a1a;}
+</style>
 <table id="bikes-table" class="bikes-table">
     <thead>
     <tr>
@@ -19,12 +32,15 @@
         <th>Delete</th>
     </tr>
     </thead>
+@php
+    $even = false;
+@endphp
 @foreach ($bikes as $bike)
     <tbody>
         <tr @class([
-            'bike-out' => ($bike['status'] == 'out' || $bike['status'] == 'Out')
+            'bike-out' => ($bike['status'] == 'out' || $bike['status'] == 'Out'),
+            'even' => $even == true
         ])>
-            {{-- <td><input type="checkbox" name="order_id" value={{$bike['id']}}></td> --}}
             <td>{{$bike['color']}}</td>
             <td>{{$bike['type']}}</td>
             <td>{{$bike['gear']}}</td>
@@ -47,6 +63,13 @@
             </td>
         </tr>
     </tbody>
+    @php
+        if($even == true) {
+            $even = false;
+        } else {
+            $even = true;
+        }
+    @endphp
 @endforeach
 </table>
 <div class="container">

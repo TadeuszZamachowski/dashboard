@@ -47,6 +47,9 @@ Route::get('/orders/{order}/edit', [DashboardOrderController::class, 'edit'])->m
 //Update order
 Route::put('/orders/{order}', [DashboardOrderController::class, 'update'])->middleware('auth');
 
+//Update order status from index
+Route::put('/orders/status/{order}', [DashboardOrderController::class, 'updateStatusOnly'])->middleware('auth');
+
 //Delete order
 Route::delete('/orders/{order}', [DashboardOrderController::class, 'destroy'])->middleware('auth');
 

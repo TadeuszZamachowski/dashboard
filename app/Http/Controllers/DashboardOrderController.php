@@ -12,8 +12,16 @@ class DashboardOrderController extends Controller
 {
     public static $COLOR = 0;
     public function index() {
+        $categories = [
+            'Pending',
+            'On-Hold',
+            'Processing',
+            'Completed'
+        ];
+
         return view('orders.index', [
-            'orders' => DashboardOrder::orderByDesc('dashboard_order_id')->get()
+            'orders' => DashboardOrder::orderByDesc('dashboard_order_id')->get(),
+            'categories' =>  $categories
         ]);
     }
 
@@ -64,7 +72,7 @@ class DashboardOrderController extends Controller
         $data['start_date'] = $request['start_date'];
         $data['end_date'] = $request['end_date'];
         $data['amount_paid'] = $request['amount_paid'];
-        $data['order_status'] = 'Processing';
+        $data['order_status'] = 'Pending';
         $data['pickup_location'] = $request['pickup_location'];
         $data['number_of_bikes'] = $request['number_of_bikes'];
         $event = $this->createEvent($data['first_name'],$data['dashboard_order_id'], Carbon::parse($data['start_date']), Carbon::parse($data['end_date']));
@@ -110,6 +118,8 @@ class DashboardOrderController extends Controller
         $data['order_status'] = $request['order_status'];
         $data['pickup_location'] = $request['pickup_location'];
         $data['number_of_bikes'] = $request['number_of_bikes'];
+
+        
         
         $order->update($data);
         if($order->order_status == 'Completed') {
@@ -128,6 +138,33 @@ class DashboardOrderController extends Controller
         }
 
         return redirect('/')->with('success', 'Order '. $order->dashboard_order_id .' edited.');
+    }
+
+    public function updateStatusOnly(Request $request, DashboardOrder $order) {
+        $this->validate($request, [
+            'order_status' => 'required'
+        ]);
+        
+        $order->update(array(
+            'order_status' => $request['order_status']
+        ));
+
+        if($order->order_status == 'Completed') {
+            //update corresponding woo commerce order
+            if ($order->is_woo != 0) {
+                Post::where('ID', '=', $order->dashboard_order_id)->update(array('post_status' => 'wc-completed'));
+            }
+            //free up the bikes assigned to the order
+            $orderWithBikes = DashboardOrder::where('dashboard_order_id','=',$order->dashboard_order_id)->with('bikes')->first();
+            foreach($orderWithBikes->bikes as $bike) {
+                $bike->update(array(
+                    'status' => 'in',
+                    'dashboard_order_id' => null
+                ));
+            }
+        }
+
+        return redirect('/')->with('success', 'Status of '. $order->dashboard_order_id .' edited.');
     }
 
     public function destroy(DashboardOrder $order) {
@@ -155,6 +192,9 @@ class DashboardOrderController extends Controller
         //     $event->delete();
         // }
         $orders = DashboardOrder::where('event_id', null)->get();
+        if(count($orders) <= 0) {
+            return redirect('/schedule')->with('success', 'No records were updated');
+        }
         
         foreach($orders as $order) {
             $event = $this->createEvent($order->first_name,$order->dashboard_order_id, Carbon::parse($order->start_date), Carbon::parse($order->end_date));
