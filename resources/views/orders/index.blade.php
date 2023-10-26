@@ -2,18 +2,19 @@
 
 @section('content')
 <form method="GET" action="/">
-<select name="filter" id="filter">
-    <option selected="selected">{{$filter}}</option>
-    @foreach ($categories as $item)
-        <option value={{$item}}>  {{$item}} </option>
-    @endforeach
-    <option value="">None</option>
-</select>
-<button type="submit">
-Go
-</button>
+    <select name="filter" id="filter">
+        <option selected="selected">{{$filter}}</option>
+        @foreach ($categories as $item)
+            @if ($item == $filter)
+                {{-- Don't display duplicates --}}
+            @else
+                <option value={{$item}}>  {{$item}} </option>
+            @endif
+        @endforeach
+        <option value="">None</option>
+    </select>
+    <button type="submit">Go</button>
 </form>
-{{-- <a href="/{{}}">Go</a> --}}
 <table id="orders-table" class="orders-table">
     <thead>
     <tr>
@@ -61,7 +62,11 @@ Go
                     ])>
                         <option selected="selected">{{$order->order_status}}</option>
                         @foreach ($categories as $item)
-                            <option value={{$item}}>  {{$item}} </option>
+                            @if ($item == $order->order_status)
+                                {{-- Don't display duplicates --}}
+                            @else
+                                <option value={{$item}}>  {{$item}} </option>
+                            @endif
                         @endforeach
                     </select>
                     <button type="submit">

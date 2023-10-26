@@ -24,13 +24,12 @@ class DashboardOrderController extends Controller
             $orders = DashboardOrder::where('order_status','Completed')->orWhere('order_status','wc-completed')->orderByDesc('dashboard_order_id')->paginate(20);
         }
         else {
-            $orders = DashboardOrder::orderByDesc('dashboard_order_id')->orderByDesc('dashboard_order_id')->paginate(20);
+            $orders = DashboardOrder::orderByDesc('dashboard_order_id')->orderByDesc('dashboard_order_id')->paginate(3);
         }
         return $orders;
     }
     public function index(Request $request) {
-        $filter = $request->filter;
-        $orders = $this->filterOrder($filter);
+        $orders = $this->filterOrder($request->filter);
 
         $categories = [
             'Pending',
@@ -42,7 +41,7 @@ class DashboardOrderController extends Controller
         return view('orders.index', [
             'orders' => $orders,
             'categories' =>  $categories,
-            'filter' => $filter
+            'filter' => $request->filter
         ]);
     }
 
@@ -101,7 +100,7 @@ class DashboardOrderController extends Controller
         
         DashboardOrder::create($data);
 
-        return back()->with('success', 'Order succesfully added.');
+        return redirect('/')->with('success', 'Order succesfully added.');
     }
 
     public function edit(DashboardOrder $order) {
@@ -197,7 +196,7 @@ class DashboardOrderController extends Controller
         }
 
         $order->delete();
-        return redirect('/')->with('success', 'Order deleted succesfully');
+        return back()->with('success', 'Order deleted succesfully');
     }
 
     public function showSchedule() {

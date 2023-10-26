@@ -61,7 +61,11 @@
             <select name="order_status" id="order_status">
                 <option selected="selected">{{$order->order_status}}</option>
                 @foreach ($categories as $item)
-                <option value={{$item}}>  {{$item}} </option>
+                    @if ($item == $order->order_status)
+                        {{-- Don't display duplicates --}}
+                    @else
+                        <option value={{$item}}>  {{$item}} </option>
+                    @endif
                 @endforeach
             </select><br> 
 
