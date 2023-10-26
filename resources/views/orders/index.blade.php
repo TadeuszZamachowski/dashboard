@@ -56,7 +56,7 @@
                 <form method="POST" action="orders/status/{{$order->dashboard_order_id}}">
                     @csrf
                     @method('PUT')
-                    <select name="order_status" id="order_status" @class([
+                    <select onchange="this.form.submit()" name="order_status" id="order_status" @class([
                         'select-order-complete' => ($order->order_status == 'Completed' || $order->order_status == 'completed' || $order->order_status == 'wc-complete'),
                         'select-order-processing' => ($order->order_status == 'Processing' || $order->order_status == 'processing' || $order->order_status == 'wc-processing')
                     ])>
@@ -69,9 +69,6 @@
                             @endif
                         @endforeach
                     </select>
-                    <button type="submit">
-                    <i class="fas fa-save"></i>
-                    </button>
                 </form>
             </div>
         </td>

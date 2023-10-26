@@ -1,5 +1,5 @@
 <style>
-    li {
+    .pagination li {
         margin-top: 10px;
         padding: 0px 10px;
     }
