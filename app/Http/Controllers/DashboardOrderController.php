@@ -12,35 +12,40 @@ use Carbon\Carbon;
 class DashboardOrderController extends Controller
 {
     public static $COLOR = 0;
+    const PAGINATION_NUMBER = 20;
+    const CATEGORIES = [
+        'Pending',
+        'On-Hold',
+        'Processing',
+        'Completed'
+    ];
 
     public function filterOrder($filter) {
         if($filter == 'Pending') {
-            $orders = DashboardOrder::where('order_status','Pending')->orWhere('order_status','wc-pending')->orderByDesc('dashboard_order_id')->paginate(20);
+            $orders = DashboardOrder::where('order_status','Pending')->orWhere('order_status','wc-pending')
+            ->orderByDesc('dashboard_order_id')->paginate($this::PAGINATION_NUMBER);
         } else if($filter == 'On-Hold') {
-            $orders = DashboardOrder::where('order_status','On-Hold')->orWhere('order_status','wc-on-hold')->orderByDesc('dashboard_order_id')->paginate(20);
+            $orders = DashboardOrder::where('order_status','On-Hold')->orWhere('order_status','wc-on-hold')
+            ->orderByDesc('dashboard_order_id')->paginate($this::PAGINATION_NUMBER);
         } else if($filter == 'Processing') {
-            $orders = DashboardOrder::where('order_status','Processing')->orWhere('order_status','wc-processing')->orderByDesc('dashboard_order_id')->paginate(20);
+            $orders = DashboardOrder::where('order_status','Processing')->orWhere('order_status','wc-processing')
+            ->orderByDesc('dashboard_order_id')->paginate($this::PAGINATION_NUMBER);
         } else if($filter == 'Completed') {
-            $orders = DashboardOrder::where('order_status','Completed')->orWhere('order_status','wc-completed')->orderByDesc('dashboard_order_id')->paginate(20);
+            $orders = DashboardOrder::where('order_status','Completed')->orWhere('order_status','wc-completed')
+            ->orderByDesc('dashboard_order_id')->paginate($this::PAGINATION_NUMBER);
         }
         else {
-            $orders = DashboardOrder::orderByDesc('dashboard_order_id')->orderByDesc('dashboard_order_id')->paginate(3);
+            $orders = DashboardOrder::orderByDesc('dashboard_order_id')
+            ->orderByDesc('dashboard_order_id')->paginate($this::PAGINATION_NUMBER);
         }
         return $orders;
     }
     public function index(Request $request) {
         $orders = $this->filterOrder($request->filter);
 
-        $categories = [
-            'Pending',
-            'On-Hold',
-            'Processing',
-            'Completed'
-        ];
-
         return view('orders.index', [
             'orders' => $orders,
-            'categories' =>  $categories,
+            'categories' =>  $this::CATEGORIES,
             'filter' => $request->filter
         ]);
     }
@@ -104,12 +109,7 @@ class DashboardOrderController extends Controller
     }
 
     public function edit(DashboardOrder $order) {
-        $categories = [
-            'Pending',
-            'On-Hold',
-            'Processing',
-            'Completed'
-        ];
+        $categories = $this::CATEGORIES;
         return view('orders.edit', compact('order','categories')
         );
     }
