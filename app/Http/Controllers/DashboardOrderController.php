@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DashboardOrder;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Spatie\GoogleCalendar\Event;
 use Carbon\Carbon;
 
@@ -20,7 +21,7 @@ class DashboardOrderController extends Controller
         ];
 
         return view('orders.index', [
-            'orders' => DashboardOrder::orderByDesc('dashboard_order_id')->get(),
+            'orders' => DashboardOrder::orderByDesc('dashboard_order_id')->paginate(20),
             'categories' =>  $categories
         ]);
     }
@@ -80,7 +81,7 @@ class DashboardOrderController extends Controller
         
         DashboardOrder::create($data);
 
-        return redirect('/')->with('success', 'Order succesfully added.');
+        return back()->with('success', 'Order succesfully added.');
     }
 
     public function edit(DashboardOrder $order) {
@@ -92,6 +93,22 @@ class DashboardOrderController extends Controller
         ];
         return view('orders.edit', compact('order','categories')
         );
+    }
+
+    public function updateWooOrder($order) {
+        if ($order->is_woo != 0) {
+            Post::where('ID', '=', $order->dashboard_order_id)->update(array('post_status' => 'wc-completed'));
+        }
+    }
+
+    public function freeBikes($order) {
+        $orderWithBikes = DashboardOrder::where('dashboard_order_id','=',$order->dashboard_order_id)->with('bikes')->first();
+            foreach($orderWithBikes->bikes as $bike) {
+                $bike->update(array(
+                    'status' => 'in',
+                    'dashboard_order_id' => null
+                ));
+            }
     }
 
     public function update(Request $request, DashboardOrder $order) {
@@ -124,20 +141,12 @@ class DashboardOrderController extends Controller
         $order->update($data);
         if($order->order_status == 'Completed') {
             //update corresponding woo commerce order
-            if ($order->is_woo != 0) {
-                Post::where('ID', '=', $order->dashboard_order_id)->update(array('post_status' => 'wc-completed'));
-            }
+            $this->updateWooOrder($order);
             //free up the bikes assigned to the order
-            $orderWithBikes = DashboardOrder::where('dashboard_order_id','=',$order->dashboard_order_id)->with('bikes')->first();
-            foreach($orderWithBikes->bikes as $bike) {
-                $bike->update(array(
-                    'status' => 'in',
-                    'dashboard_order_id' => null
-                ));
-            }
+            $this->freeBikes($order);
         }
 
-        return redirect('/')->with('success', 'Order '. $order->dashboard_order_id .' edited.');
+        return redirect()->to($request->last_url)->with('success', 'Order '. $order->dashboard_order_id .' edited.');
     }
 
     public function updateStatusOnly(Request $request, DashboardOrder $order) {
@@ -151,20 +160,12 @@ class DashboardOrderController extends Controller
 
         if($order->order_status == 'Completed') {
             //update corresponding woo commerce order
-            if ($order->is_woo != 0) {
-                Post::where('ID', '=', $order->dashboard_order_id)->update(array('post_status' => 'wc-completed'));
-            }
+            $this->updateWooOrder($order);
             //free up the bikes assigned to the order
-            $orderWithBikes = DashboardOrder::where('dashboard_order_id','=',$order->dashboard_order_id)->with('bikes')->first();
-            foreach($orderWithBikes->bikes as $bike) {
-                $bike->update(array(
-                    'status' => 'in',
-                    'dashboard_order_id' => null
-                ));
-            }
+            $this->freeBikes($order);
         }
 
-        return redirect('/')->with('success', 'Status of '. $order->dashboard_order_id .' edited.');
+        return redirect()->back()->with('success', 'Status of '. $order->dashboard_order_id .' edited.');
     }
 
     public function destroy(DashboardOrder $order) {
@@ -186,11 +187,6 @@ class DashboardOrderController extends Controller
     }
 
     public function updateSchedule() { //creates google events for woo commerce orders
-        // $events = Event::get();
-
-        // foreach($events as $event) {
-        //     $event->delete();
-        // }
         $orders = DashboardOrder::where('event_id', null)->get();
         if(count($orders) <= 0) {
             return redirect('/schedule')->with('success', 'No records were updated');

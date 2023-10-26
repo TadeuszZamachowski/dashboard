@@ -1,11 +1,6 @@
 @extends('layout')
 
 @section('content')
-<style>
-    .selector {
-        background-color: antiquewhite;
-    }
-</style>
 <table id="orders-table" class="orders-table">
     <thead>
     <tr>
@@ -90,5 +85,8 @@
     @endphp
 @endforeach
 </table>
+<div class="pagination">
+    {{ $orders->onEachSide(1)->links() }}
+</div>
 @endsection
 

@@ -70,5 +70,4 @@
     </div>
     <input class="btn form-btn" type="submit" value="SUBMIT">
 </form>
-
 @endsection

@@ -3,6 +3,7 @@
     .flash {
         color: green;
         font-weight: bold;
+        font-size: 24px;
     }
 </style>
 <div>
@@ -16,6 +17,7 @@
     .flash {
         color: red;
         font-weight: bold;
+        font-size: 24px;
     }
 </style>
 <div>

@@ -78,8 +78,8 @@
             @enderror
         </div>
     </div>
+    {{-- last_url for redirecting to the appropraite page after edit --}}
+    <input type="hidden" name="last_url" value="{{  URL::previous() }}">
     <input class="btn form-btn" type="submit" value="Submit">
 </form>
-
-
 @endsection
