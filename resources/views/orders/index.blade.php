@@ -1,6 +1,19 @@
 @extends('layout')
 
 @section('content')
+<form method="GET" action="/">
+<select name="filter" id="filter">
+    <option selected="selected">{{$filter}}</option>
+    @foreach ($categories as $item)
+        <option value={{$item}}>  {{$item}} </option>
+    @endforeach
+    <option value="">None</option>
+</select>
+<button type="submit">
+Go
+</button>
+</form>
+{{-- <a href="/{{}}">Go</a> --}}
 <table id="orders-table" class="orders-table">
     <thead>
     <tr>

@@ -12,7 +12,26 @@ use Carbon\Carbon;
 class DashboardOrderController extends Controller
 {
     public static $COLOR = 0;
-    public function index() {
+
+    public function filterOrder($filter) {
+        if($filter == 'Pending') {
+            $orders = DashboardOrder::where('order_status','Pending')->orWhere('order_status','wc-pending')->orderByDesc('dashboard_order_id')->paginate(20);
+        } else if($filter == 'On-Hold') {
+            $orders = DashboardOrder::where('order_status','On-Hold')->orWhere('order_status','wc-on-hold')->orderByDesc('dashboard_order_id')->paginate(20);
+        } else if($filter == 'Processing') {
+            $orders = DashboardOrder::where('order_status','Processing')->orWhere('order_status','wc-processing')->orderByDesc('dashboard_order_id')->paginate(20);
+        } else if($filter == 'Completed') {
+            $orders = DashboardOrder::where('order_status','Completed')->orWhere('order_status','wc-completed')->orderByDesc('dashboard_order_id')->paginate(20);
+        }
+        else {
+            $orders = DashboardOrder::orderByDesc('dashboard_order_id')->orderByDesc('dashboard_order_id')->paginate(20);
+        }
+        return $orders;
+    }
+    public function index(Request $request) {
+        $filter = $request->filter;
+        $orders = $this->filterOrder($filter);
+
         $categories = [
             'Pending',
             'On-Hold',
@@ -21,8 +40,9 @@ class DashboardOrderController extends Controller
         ];
 
         return view('orders.index', [
-            'orders' => DashboardOrder::orderByDesc('dashboard_order_id')->paginate(20),
-            'categories' =>  $categories
+            'orders' => $orders,
+            'categories' =>  $categories,
+            'filter' => $filter
         ]);
     }
 
