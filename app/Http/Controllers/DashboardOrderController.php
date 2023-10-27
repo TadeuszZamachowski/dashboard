@@ -21,7 +21,7 @@ class DashboardOrderController extends Controller
         'Archived'
     ];
 
-    public function filterOrder($filter) { //not very elegant filtering
+    public function filterOrders($filter) { //not very elegant filtering
         if($filter == 'Pending') {
             $orders = DashboardOrder::where('order_status', '!=', 'Archived')->where('order_status','Pending')->orWhere('order_status','wc-pending')
             ->orderByDesc('dashboard_order_id')->paginate($this::PAGINATION_NUMBER);
@@ -41,13 +41,28 @@ class DashboardOrderController extends Controller
         }
         return $orders;
     }
+
+    public function searchOrders($search) {
+        return DashboardOrder::where('order_status','!=','Archived')
+        ->where('first_name','LIKE', '%'.$search.'%')
+        ->orWhere('last_name', 'LIKE', '%'.$search.'%')
+        ->orWhere('email', 'LIKE', '%'.$search.'%')
+        ->orWhere('mobile', 'LIKE', '%'.$search.'%')
+        ->orWhere('amount_paid', 'LIKE', '%'.$search.'%')
+        ->orWhere('pickup_location', 'LIKE', '%'.$search.'%')
+        ->orderByDesc('dashboard_order_id')->paginate($this::PAGINATION_NUMBER);
+    }
     public function index(Request $request) {
-        $orders = $this->filterOrder($request->filter);
+        $orders = $this->filterOrders($request->filter);
+        if($request->search != null) {
+            $orders = $this->searchOrders($request->search);
+        }
 
         return view('orders.index', [
             'orders' => $orders,
             'categories' =>  $this::CATEGORIES,
-            'filter' => $request->filter
+            'filter' => $request->filter,
+            'search' => $request->search
         ]);
     }
 

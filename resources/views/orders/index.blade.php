@@ -1,20 +1,31 @@
 @extends('layout')
 
 @section('content')
-<form method="GET" action="/">
-    <select name="filter" id="filter">
-        <option selected="selected">{{$filter}}</option>
-        @foreach ($categories as $item)
-            @if ($item == $filter || $item == 'Archived')
-                {{-- Don't display duplicates --}}
-            @else
-                <option value={{$item}}>  {{$item}} </option>
-            @endif
-        @endforeach
-        <option value="">None</option>
-    </select>
-    <button type="submit">Go</button>
-</form>
+<div class="sorting-section">
+    <div class="filter-selector">
+        <form method="GET" action="/">
+            <select name="filter" id="filter">
+                <option selected="selected">{{$filter}}</option>
+                @foreach ($categories as $item)
+                    @if ($item == $filter || $item == 'Archived')
+                        {{-- Don't display duplicates --}}
+                    @else
+                        <option value={{$item}}>  {{$item}} </option>
+                    @endif
+                @endforeach
+                <option value="">None</option>
+            </select>
+            <button type="submit">Go</button>
+        </form>
+    </div>
+    <div class="search-bar">
+        <form method="GET" action="/">
+            <input name="search" type="text" placeholder="Search.." value="{{$search}}">
+            <button type="submit"><i class="fas fa-search"></i></button>
+        </form>
+    </div>
+</div>
+
 <table id="orders-table" class="orders-table">
     <thead>
     <tr>

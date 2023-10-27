@@ -1,19 +1,7 @@
 @extends('layout')
 
 @section('content')
-<style>
-    table {
-  border-collapse: collapse;
-  width: 100%;
-}
 
-th, td {
-  text-align: left;
-  padding: 8px;
-}
-
-tr:nth-child(even) {background-color: #5e1a1a;}
-</style>
 <table id="bikes-table" class="bikes-table">
     <thead>
     <tr>

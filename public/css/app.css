@@ -244,6 +244,21 @@ td {
   color: var(--complete-color);
 }
 
+.sorting-section {
+  display: flex;
+}
+
+.sorting-section div:last-child {
+  margin-left: auto;
+}
+
+.sorting-section input[type=text] {
+  float: right;
+  border: none;
+  height: 30px;
+  width: 50px;
+}
+
 .footer {
   display: flex;
   align-items: center;
