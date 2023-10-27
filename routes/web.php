@@ -53,6 +53,9 @@ Route::put('/orders/status/{order}', [DashboardOrderController::class, 'updateSt
 //Delete order
 Route::delete('/orders/{order}', [DashboardOrderController::class, 'destroy'])->middleware('auth');
 
+//Show archived orders
+Route::get('/orders/archive', [DashboardOrderController::class, 'archive'])->middleware('auth');
+
 //Show single order
 Route::get('/orders/{order}', [DashboardOrderController::class, 'show'])->middleware('auth');
 

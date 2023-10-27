@@ -16,7 +16,7 @@
     <div class="container">
       <div class="main-menu">
         <ul>
-          <li><a href="/orders/add">Add Order</a></li>
+          <li><a href="/orders/archive">Archive</a></li>
           <li><a href="/history">History</a></li>
           <li><a href="/reports">Reports</a></li>
           <li><a href="/settings">Settings</a></li>
@@ -43,4 +43,7 @@
     @yield('content')
   </div>
 </body>
+<footer class="footer">
+  Copyright &copy; 2023 All Rights Reserved by Ostral
+</footer>
 </html>

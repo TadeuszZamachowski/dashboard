@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 class BikesDashboardOrderController extends Controller
 {
     public function show(DashboardOrder $order) {
+        if($order->bikes_assigned == 1) {
+            return back()->with("error","Bikes already assigned to this order");
+        }
         $bikes = Bike::where('status', '=', 'in')->orderBy('rack')->get();
         return view('assign', [
             'order' => $order,
@@ -47,7 +50,8 @@ class BikesDashboardOrderController extends Controller
         if($result == 1) {
             $status = 'Processing';
             $order->update(array(
-                'order_status' => $status
+                'order_status' => $status,
+                'bikes_assigned' => 1
             ));
             return redirect()->to($request->last_url)->with('success', 'Bike succesfully assigned.');
         } elseif($result == 2) {

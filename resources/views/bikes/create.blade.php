@@ -8,7 +8,7 @@
     }
 </style>
 <h1>Add a bike</h1>
-<form method="POST" action="/bikes/">
+<form method="POST" action="/bikes">
     @csrf
     <div class="order-create">
         <div class="left-side">

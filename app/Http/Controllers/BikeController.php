@@ -64,7 +64,7 @@ class BikeController extends Controller
         return view('bikes.edit', [
             'bike' => $bike,
             'accessories' => Accessory::all(),
-            'codes' => Code::all(),
+            'codes' => Code::orderBy('value')->get(),
             'locations' => Location::all()
         ]);
     }

@@ -18,13 +18,13 @@ tr:nth-child(even) {background-color: #5e1a1a;}
     <thead>
     <tr>
         {{-- <th><input type="checkbox" onclick="toggleAllCheckbox2()"></th> --}}
+        <th>Rack</th>
         <th>Color</th>
         <th>Type</th>
         <th>Gear</th>
         <th>Accessory</th>
         <th>Code</th>
         <th>Location</th>
-        <th>Rack</th>
         <th>Status</th>
         <th>Order ID</th>
         <th>Name</th>
@@ -41,13 +41,13 @@ tr:nth-child(even) {background-color: #5e1a1a;}
             'bike-out' => ($bike['status'] == 'out' || $bike['status'] == 'Out'),
             'even' => $even == true
         ])>
+            <td>{{$bike['rack']}}</td>
             <td>{{$bike['color']}}</td>
             <td>{{$bike['type']}}</td>
             <td>{{$bike['gear']}}</td>
             <td>{{$bike['accessory']}}</td>
             <td><a href="/bikes/{{$bike['id']}}">{{$bike['code']}}</a></td>
             <td>{{$bike['location']}}</td>
-            <td>{{$bike['rack']}}</td>
             <td>{{$bike['status']}}</td>
             <td>{{$bike['dashboard_order_id']}}</td>
             <td>{{optional($bike->dashboardOrder)->first_name}}</td>

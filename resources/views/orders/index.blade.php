@@ -5,7 +5,7 @@
     <select name="filter" id="filter">
         <option selected="selected">{{$filter}}</option>
         @foreach ($categories as $item)
-            @if ($item == $filter)
+            @if ($item == $filter || $item == 'Archived')
                 {{-- Don't display duplicates --}}
             @else
                 <option value={{$item}}>  {{$item}} </option>
@@ -36,19 +36,20 @@
     $even = false;
 @endphp
 @foreach ($orders as $order)
+    @php
+        $frmtStartDate = date('d-m-Y',strtotime($order->start_date));
+        $frmtEndDate = date('d-m-Y',strtotime($order->end_date));
+    @endphp
     <tbody>
     <tr @class([
-        'order-complete' => ($order->order_status == 'Completed' || $order->order_status == 'completed' || $order->order_status == 'wc-complete'),
-        'order-processing' => ($order->order_status == 'Processing' || $order->order_status == 'processing' || $order->order_status == 'wc-processing'),
-        'even' => $even == true
+        'even' => $even == true,
+        'due-date' => ($order->order_status == 'Processing') && (date('Y-m-d H:i:s', strtotime($order->end_date)) < date('Y-m-d H:i:s'))
     ])>
         <td><a href="/orders/{{$order->dashboard_order_id}}">{{$order->dashboard_order_id}}</a></td>
         <td>{{$order->first_name}} {{$order->last_name}}</td>
         <td>{{$order->mobile}}</td>
-        <?php $t = strtotime($order->start_date);   ?>
-        <td nowrap>{{date('d-m-Y',$t)}}</td>
-        <?php $t = strtotime($order->end_date);   ?>
-        <td nowrap>{{date('d-m-Y',$t)}}</td>
+        <td nowrap>{{$frmtStartDate}}</td>
+        <td nowrap>{{$frmtEndDate}}</td>
         <td>{{"$".$order->amount_paid}}</td>
 
         <td>
@@ -76,7 +77,9 @@
         <td>{{$order->pickup_location}}</td>
         <td>{{$order->number_of_bikes}}</td>
         <td><a href="/orders/{{$order->dashboard_order_id}}/assign">
-            <i class="fa-solid fa-bicycle"></i></a>
+            <i @class([
+                'fa-solid fa-bicycle bikes-assigned' => $order->bikes_assigned == 1,
+                'fa-solid fa-bicycle' => $order->bikes_assigned != 1])></i></a>
         </td>
         <td>
             <a href="/orders/{{$order->dashboard_order_id}}/edit"><i class="fas fa-edit"></i></a>
@@ -103,5 +106,6 @@
 <div class="pagination">
     {{ $orders->onEachSide(1)->links() }}
 </div>
+<a href="/orders/add" class="btn">Add Order</a>
 @endsection
 

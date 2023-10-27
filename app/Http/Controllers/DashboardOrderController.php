@@ -17,26 +17,27 @@ class DashboardOrderController extends Controller
         'Pending',
         'On-Hold',
         'Processing',
-        'Completed'
+        'Completed',
+        'Archived'
     ];
 
-    public function filterOrder($filter) {
+    public function filterOrder($filter) { //not very elegant filtering
         if($filter == 'Pending') {
-            $orders = DashboardOrder::where('order_status','Pending')->orWhere('order_status','wc-pending')
+            $orders = DashboardOrder::where('order_status', '!=', 'Archived')->where('order_status','Pending')->orWhere('order_status','wc-pending')
             ->orderByDesc('dashboard_order_id')->paginate($this::PAGINATION_NUMBER);
         } else if($filter == 'On-Hold') {
-            $orders = DashboardOrder::where('order_status','On-Hold')->orWhere('order_status','wc-on-hold')
+            $orders = DashboardOrder::where('order_status', '!=', 'Archived')->where('order_status','On-Hold')->orWhere('order_status','wc-on-hold')
             ->orderByDesc('dashboard_order_id')->paginate($this::PAGINATION_NUMBER);
         } else if($filter == 'Processing') {
-            $orders = DashboardOrder::where('order_status','Processing')->orWhere('order_status','wc-processing')
+            $orders = DashboardOrder::where('order_status', '!=', 'Archived')->where('order_status','Processing')->orWhere('order_status','wc-processing')
             ->orderByDesc('dashboard_order_id')->paginate($this::PAGINATION_NUMBER);
         } else if($filter == 'Completed') {
-            $orders = DashboardOrder::where('order_status','Completed')->orWhere('order_status','wc-completed')
+            $orders = DashboardOrder::where('order_status', '!=', 'Archived')->where('order_status','Completed')->orWhere('order_status','wc-completed')
             ->orderByDesc('dashboard_order_id')->paginate($this::PAGINATION_NUMBER);
         }
         else {
-            $orders = DashboardOrder::orderByDesc('dashboard_order_id')
-            ->orderByDesc('dashboard_order_id')->paginate($this::PAGINATION_NUMBER);
+            $orders = DashboardOrder::where('order_status', '!=', 'Archived')->
+            orderByDesc('dashboard_order_id')->paginate($this::PAGINATION_NUMBER);
         }
         return $orders;
     }
@@ -130,6 +131,23 @@ class DashboardOrderController extends Controller
             }
     }
 
+    public function onArchived($order) {
+        //delete event from google calendar
+        if($order->event_id != null) {
+            $event = Event::find($order->event_id);
+            if($event->status != 'cancelled') {
+                $event->delete();
+            }
+        }
+    }
+
+    public function onComplete($order) {
+        //update corresponding woo commerce order
+        $this->updateWooOrder($order);
+        //free up the bikes assigned to the order
+        $this->freeBikes($order);
+    }
+
     public function update(Request $request, DashboardOrder $order) {
         $this->validate($request, [
             'first_name' => 'required',
@@ -159,10 +177,11 @@ class DashboardOrderController extends Controller
         
         $order->update($data);
         if($order->order_status == 'Completed') {
-            //update corresponding woo commerce order
-            $this->updateWooOrder($order);
-            //free up the bikes assigned to the order
-            $this->freeBikes($order);
+            $this->onComplete($order);
+            return redirect()->to($request->last_url)->with('success', 'Order '. $order->dashboard_order_id .' completed, bikes in.');
+        } else if ( $order->order_status == 'Archived') {
+            $this->onArchived($order);
+            return redirect()->to($request->last_url)->with('success', 'Order '. $order->dashboard_order_id .' archived.');
         }
 
         return redirect()->to($request->last_url)->with('success', 'Order '. $order->dashboard_order_id .' edited.');
@@ -178,14 +197,18 @@ class DashboardOrderController extends Controller
         ));
 
         if($order->order_status == 'Completed') {
-            //update corresponding woo commerce order
-            $this->updateWooOrder($order);
-            //free up the bikes assigned to the order
-            $this->freeBikes($order);
+            $this->onComplete($order);
+            return redirect()->back()->with('success', 'Order '. $order->dashboard_order_id .' completed, bikes in.');
+        } else if ($order->order_status == 'Archived') {
+            $this->onArchived($order);
+            return redirect()->back()->with('success', 'Order '. $order->dashboard_order_id .' archived.');
         }
 
         return redirect()->back()->with('success', 'Status of '. $order->dashboard_order_id .' edited.');
     }
+
+
+
 
     public function destroy(DashboardOrder $order) {
         if($order->event_id != null) {
@@ -204,6 +227,10 @@ class DashboardOrderController extends Controller
             'nullOrders' => DashboardOrder::where('event_id', null)->get()
         ]);
     }
+
+
+
+
 
     public function updateSchedule() { //creates google events for woo commerce orders
         $orders = DashboardOrder::where('event_id', null)->get();
@@ -226,5 +253,15 @@ class DashboardOrderController extends Controller
             }
         }
         return redirect('/schedule')->with('success', 'Calendar updated!');
+    }
+
+
+
+
+
+    public function archive() {
+        return view('orders.archive', [
+            'orders' => DashboardOrder::where('order_status', 'Archived')->paginate($this::PAGINATION_NUMBER)
+        ]);
     }
 }
