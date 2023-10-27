@@ -10,8 +10,10 @@
 </head>
 <body>
   <nav class="navbar-bottom">
-    <div class="logo">
-      <a href="/"><img src="\images\RGB-LOGO-BYRON-BAY-BIKES.png" alt="Logo" width="150px"></a>
+    <div class="logo-container">
+      <div class="logo">
+        <a href="/"><img src="\images\RGB-LOGO-BYRON-BAY-BIKES.png" alt="Logo" width="150px"></a>
+      </div>
     </div>
     <div class="container">
       <div class="main-menu">

@@ -103,6 +103,16 @@ input[type="text"], input[type="date"] {
   width: 13.54%;
 }
 
+.navbar-bottom .logo-container {
+  background-color: white;
+  margin-top: -20px;
+  padding-top: 19px;
+  margin-left: -19px;
+  padding-left: 19px;
+  margin-right: -19px;
+  padding-bottom: 15px;
+}
+
 #main {
   margin-left: 13.54%;
   padding: 60px; 

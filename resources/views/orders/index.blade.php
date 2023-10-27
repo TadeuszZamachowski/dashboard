@@ -88,7 +88,7 @@
             <form method="POST" action="/orders/{{$order->dashboard_order_id}}">
                 @csrf
                 @method('DELETE')
-                <button><i class="fa-solid fa-trash" style="color: #000000;"></i></button>
+                <button onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa-solid fa-trash" style="color: #000000;"></i></button>
             </form>
         </td>
         

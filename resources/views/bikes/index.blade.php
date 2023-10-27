@@ -58,7 +58,7 @@ tr:nth-child(even) {background-color: #5e1a1a;}
                 <form method="POST" action="/bikes/{{$bike->id}}">
                     @csrf
                     @method('DELETE')
-                    <button><i class="fa-solid fa-trash" style="color: #000000;"></i></button>
+                    <button onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa-solid fa-trash" style="color: #000000;"></i></button>
                 </form>
             </td>
         </tr>
