@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bike;
+use App\Models\BikesDashboardOrder;
 use App\Models\DashboardOrder;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -58,7 +60,22 @@ class DashboardOrderController extends Controller
 
     public function show(DashboardOrder $order) {
         return view('orders.show', [
-            'order' => $order
+            'order' => $order,
+            'archive' => false
+        ]);
+    }
+
+    public function showArchive(DashboardOrder $order) {
+        $history = BikesDashboardOrder::where('order_id', $order->dashboard_order_id)->get();
+        $bikes = array();
+        foreach($history as $item) {    
+            $bikes[] = Bike::where('id', $item->bike_id)->first();
+        }
+        
+        return view('orders.show', [
+            'order' => $order,
+            'archive' => true,
+            'bikes' => $bikes
         ]);
     }
 
@@ -121,9 +138,8 @@ class DashboardOrderController extends Controller
     }
 
     public function updateWooOrder($order) {
-        if ($order->is_woo != 0) {
-            Post::where('ID', '=', $order->dashboard_order_id)->update(array('post_status' => 'wc-completed'));
-        }
+        Post::where('ID', '=', $order->dashboard_order_id)->update(array('post_status' => 'wc-'.strtolower($order->order_status)));
+        
     }
 
     public function freeBikes($order) {
@@ -136,7 +152,7 @@ class DashboardOrderController extends Controller
             }
     }
 
-    public function onArchived($order) {
+    public function deleteEvent($order) {
         //delete event from google calendar
         if($order->event_id != null) {
             $event = Event::find($order->event_id);
@@ -146,12 +162,7 @@ class DashboardOrderController extends Controller
         }
     }
 
-    public function onComplete($order) {
-        //update corresponding woo commerce order
-        $this->updateWooOrder($order);
-        //free up the bikes assigned to the order
-        $this->freeBikes($order);
-    }
+    
 
     public function update(Request $request, DashboardOrder $order) {
         $this->validate($request, [
@@ -181,11 +192,14 @@ class DashboardOrderController extends Controller
         
         
         $order->update($data);
+        if($order->is_woo == 1) {
+            $this->updateWooOrder($order);
+        }
         if($order->order_status == 'Completed') {
-            $this->onComplete($order);
+            $this->freeBikes($order);
             return redirect()->to($request->last_url)->with('success', 'Order '. $order->dashboard_order_id .' completed, bikes in.');
         } else if ( $order->order_status == 'Archived') {
-            $this->onArchived($order);
+            $this->deleteEvent($order);
             return redirect()->to($request->last_url)->with('success', 'Order '. $order->dashboard_order_id .' archived.');
         }
 
@@ -201,11 +215,15 @@ class DashboardOrderController extends Controller
             'order_status' => $request['order_status']
         ));
 
+        if($order->is_woo == 1) {
+            $this->updateWooOrder($order);
+        }
+
         if($order->order_status == 'Completed') {
-            $this->onComplete($order);
+            $this->freeBikes($order);
             return redirect()->back()->with('success', 'Order '. $order->dashboard_order_id .' completed, bikes in.');
         } else if ($order->order_status == 'Archived') {
-            $this->onArchived($order);
+            $this->deleteEvent($order);
             return redirect()->back()->with('success', 'Order '. $order->dashboard_order_id .' archived.');
         }
 
@@ -216,12 +234,7 @@ class DashboardOrderController extends Controller
 
 
     public function destroy(DashboardOrder $order) {
-        if($order->event_id != null) {
-            $event = Event::find($order->event_id);
-            if($event->status != 'cancelled') {
-                $event->delete();
-            }
-        }
+        $this->deleteEvent($order);
 
         $order->delete();
         return back()->with('success', 'Order deleted succesfully');

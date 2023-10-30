@@ -28,8 +28,6 @@
         <th>Rack</th>
         <th>Color</th>
         <th>Type</th>
-        <th>Gear</th>
-        <th>Accessory</th>
         <th>Code</th>
         <th>Location</th>
         <th>Status</th>
@@ -51,8 +49,6 @@
             <td>{{$bike['rack']}}</td>
             <td>{{$bike['color']}}</td>
             <td>{{$bike['type']}}</td>
-            <td>{{$bike['gear']}}</td>
-            <td>{{$bike['accessory']}}</td>
             <td><a href="/bikes/{{$bike['id']}}">{{$bike['code']}}</a></td>
             <td>{{$bike['location']}}</td>
             <td>{{$bike['status']}}</td>

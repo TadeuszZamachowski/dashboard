@@ -266,6 +266,15 @@ td {
   text-align: center;
 }
 
+.show-order {
+  display: flex;
+}
+
+.show-order div:last-child {
+  margin-left: 200px;
+}
+
+
 .footer {
   display: flex;
   align-items: center;

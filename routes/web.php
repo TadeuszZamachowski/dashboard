@@ -59,6 +59,9 @@ Route::get('/orders/archive', [DashboardOrderController::class, 'archive'])->mid
 //Show single order
 Route::get('/orders/{order}', [DashboardOrderController::class, 'show'])->middleware('auth');
 
+//Show single archived order
+Route::get('/orders/archive/{order}', [DashboardOrderController::class, 'showArchive'])->middleware('auth');
+
 
 
 

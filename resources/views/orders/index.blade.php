@@ -33,14 +33,14 @@
         <th>Name</th>
         <th>Phone number</th>
         <th>Start Date</th>
-        <th>End Date</th>
+        <th>Duration</th>
         <th>Amount</th>
         <th>Status</th>
         <th>Pickup</th>
         <th style="padding-right: 10px">Bikes</th>
-        <th>Assign</th>
-        <th>Edit</th>
-        <th>Delete</th>
+        <th></th>
+        <th></th>
+        <th></th>
     </tr>
     </thead>
 @php
@@ -50,6 +50,11 @@
     @php
         $frmtStartDate = date('d-m-Y',strtotime($order->start_date));
         $frmtEndDate = date('d-m-Y',strtotime($order->end_date));
+
+        $date1 = new DateTime($order->start_date);
+        $date2 = new DateTime($order->end_date);
+        $interval = $date1->diff($date2);
+        $duration = $interval->days;
     @endphp
     <tbody>
     <tr @class([
@@ -60,7 +65,7 @@
         <td>{{$order->first_name}} {{$order->last_name}}</td>
         <td>{{$order->mobile}}</td>
         <td nowrap>{{$frmtStartDate}}</td>
-        <td nowrap>{{$frmtEndDate}}</td>
+        <td nowrap>{{$duration}} days</td>
         <td>{{"$".$order->amount_paid}}</td>
 
         <td>

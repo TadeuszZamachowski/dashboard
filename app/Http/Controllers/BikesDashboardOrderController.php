@@ -21,6 +21,10 @@ class BikesDashboardOrderController extends Controller
                     'dashboard_order_id' => null
                 ));
             }
+            $history = BikesDashboardOrder::where('order_id', $order->dashboard_order_id)->get();
+            foreach($history as $entry) {
+                $entry->delete();
+            }
         }
 
         if($order->bikes_assigned == 1) {
