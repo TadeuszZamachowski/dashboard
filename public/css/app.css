@@ -248,6 +248,10 @@ td {
   display: flex;
 }
 
+.sorting-section-bike {
+  padding-bottom: 20px;
+}
+
 .sorting-section div:last-child {
   margin-left: auto;
 }
@@ -256,7 +260,10 @@ td {
   float: right;
   border: none;
   height: 30px;
-  width: 50px;
+  width: 100px;
+  border: solid 1px;
+  border-radius: 20px;
+  text-align: center;
 }
 
 .footer {

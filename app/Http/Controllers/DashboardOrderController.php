@@ -21,21 +21,11 @@ class DashboardOrderController extends Controller
         'Archived'
     ];
 
-    public function filterOrders($filter) { //not very elegant filtering
-        if($filter == 'Pending') {
-            $orders = DashboardOrder::where('order_status', '!=', 'Archived')->where('order_status','Pending')->orWhere('order_status','wc-pending')
-            ->orderByDesc('dashboard_order_id')->paginate($this::PAGINATION_NUMBER);
-        } else if($filter == 'On-Hold') {
-            $orders = DashboardOrder::where('order_status', '!=', 'Archived')->where('order_status','On-Hold')->orWhere('order_status','wc-on-hold')
-            ->orderByDesc('dashboard_order_id')->paginate($this::PAGINATION_NUMBER);
-        } else if($filter == 'Processing') {
-            $orders = DashboardOrder::where('order_status', '!=', 'Archived')->where('order_status','Processing')->orWhere('order_status','wc-processing')
-            ->orderByDesc('dashboard_order_id')->paginate($this::PAGINATION_NUMBER);
-        } else if($filter == 'Completed') {
-            $orders = DashboardOrder::where('order_status', '!=', 'Archived')->where('order_status','Completed')->orWhere('order_status','wc-completed')
-            ->orderByDesc('dashboard_order_id')->paginate($this::PAGINATION_NUMBER);
-        }
-        else {
+    public function filterOrders($filter) {
+        if($filter != null) {
+            $orders = DashboardOrder::where('order_status', '!=', 'Archived')->where('order_status',$filter)->orWhere('order_status','wc-'.strtolower($filter))
+        ->orderByDesc('dashboard_order_id')->paginate($this::PAGINATION_NUMBER);
+        } else {
             $orders = DashboardOrder::where('order_status', '!=', 'Archived')->
             orderByDesc('dashboard_order_id')->paginate($this::PAGINATION_NUMBER);
         }

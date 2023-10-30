@@ -2,6 +2,25 @@
 
 @section('content')
 
+<div class="sorting-section-bike">
+    <div class="filter-selector">
+        <form method="GET" action="/bikes">
+            <select name="filter" id="filter">
+                <option selected="selected">{{$filter}}</option>
+                @foreach ($categories as $item)
+                    @if ($item == $filter)
+                        {{-- Don't display duplicates --}}
+                    @else
+                        <option value={{$item}}>  {{$item}} </option>
+                    @endif
+                @endforeach
+                <option value="None">None</option>
+            </select>
+            <button type="submit">Go</button>
+        </form>
+    </div>
+</div>
+
 <table id="bikes-table" class="bikes-table">
     <thead>
     <tr>

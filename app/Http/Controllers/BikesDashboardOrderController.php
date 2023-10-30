@@ -9,15 +9,31 @@ use Illuminate\Http\Request;
 
 class BikesDashboardOrderController extends Controller
 {
-    public function show(DashboardOrder $order) {
-        if($order->bikes_assigned == 1) {
-            return back()->with("error","Bikes already assigned to this order");
+    public function show(Request $request, DashboardOrder $order) {
+        if($request->reassign == true) {
+            $order->update(array(
+                'bikes_assigned' => null
+            ));
+            $prevAssignedBikes = Bike::where('dashboard_order_id', $order->dashboard_order_id)->get();
+            foreach($prevAssignedBikes as $bike) {
+                $bike->update(array(
+                    'status' => 'in',
+                    'dashboard_order_id' => null
+                ));
+            }
         }
-        $bikes = Bike::where('status', '=', 'in')->orderBy('rack')->get();
-        return view('assign', [
-            'order' => $order,
-            'bikes' => $bikes
-        ]);
+
+        if($order->bikes_assigned == 1) {
+            return view('assign.check', [
+                'order' => $order,
+                'bikes' => Bike::where('dashboard_order_id', $order->dashboard_order_id)->get()
+            ]);
+        } else {
+            return view('assign.assign', [
+                'order' => $order,
+                'bikes' => Bike::where('status', '=', 'in')->orderBy('rack')->get()
+            ]);
+        }
     }
     public function store(Request $request, DashboardOrder $order) {
         $this->validate($request, [

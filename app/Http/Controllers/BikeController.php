@@ -14,11 +14,27 @@ use Illuminate\Support\Facades\DB;
 
 class BikeController extends Controller
 {
+    const LOCATIONS = ['Mercato', 'Airbnb', 'Suffolk'];
+
+    public function filterBikes($filter) {
+        if($filter != 'None') {
+            $bikes = Bike::with('dashboardOrder')->where('location', $filter)->orderBy('rack')->get();
+        } else {
+            $bikes = Bike::with('dashboardOrder')->orderBy('rack')->get();
+        }
+        return $bikes;
+    }
+
     //show all bikes
-    public function index() {
-        $bikes = Bike::with('dashboardOrder')->orderBy('rack')->get();
+    public function index(Request $request) {
+        if($request->filter == null) {
+            $request->filter = 'Mercato';
+        }
+        $bikes = $this->filterBikes($request->filter);
         return view('bikes.index', [
-            'bikes' => $bikes
+            'bikes' => $bikes,
+            'categories' => $this::LOCATIONS,
+            'filter' => $request->filter
         ]);
     }
 
