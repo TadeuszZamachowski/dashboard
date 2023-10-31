@@ -47,7 +47,6 @@ class BikeController extends Controller
 
     //show create form
     public function create() {
-        //TODO filtering unused codes
 
         return view('bikes.create', [
             'accessories' => Accessory::all(),

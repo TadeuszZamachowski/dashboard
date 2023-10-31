@@ -44,7 +44,8 @@
     <tbody>
         <tr @class([
             'bike-out' => ($bike['status'] == 'out' || $bike['status'] == 'Out'),
-            'even' => $even == true
+            'even' => $even == true,
+            'bike-free' => $bike['status'] == 'free'
         ])>
             <td>{{$bike['rack']}}</td>
             <td>{{$bike['color']}}</td>

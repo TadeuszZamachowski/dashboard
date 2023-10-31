@@ -35,6 +35,7 @@
         <th>Start Date</th>
         <th>Duration</th>
         <th>Amount</th>
+        <th>End Date</th>
         <th>Status</th>
         <th>Pickup</th>
         <th style="padding-right: 10px">Bikes</th>
@@ -67,7 +68,7 @@
         <td nowrap>{{$frmtStartDate}}</td>
         <td nowrap>{{$duration}} days</td>
         <td>{{"$".$order->amount_paid}}</td>
-
+        <td nowrap>{{$frmtEndDate}}</td>
         <td>
             <div class="status-selector">
                 <form method="POST" action="orders/status/{{$order->dashboard_order_id}}">

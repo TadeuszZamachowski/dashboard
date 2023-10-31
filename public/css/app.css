@@ -167,6 +167,10 @@ td {
   color: red;
 }
 
+.bikes-table .bike-free {
+  background-color: rgba(255, 0, 0, 0.15);
+}
+
 .even {
   background-color: rgba(37, 30, 34, 0.05);
 }

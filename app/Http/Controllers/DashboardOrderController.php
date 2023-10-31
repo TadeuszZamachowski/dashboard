@@ -17,9 +17,11 @@ class DashboardOrderController extends Controller
     const PAGINATION_NUMBER = 20;
     const CATEGORIES = [
         'Pending',
-        'On-Hold',
+        'On-hold',
         'Processing',
         'Completed',
+        'Cancelled',
+        'Failed',
         'Archived'
     ];
 
@@ -83,7 +85,7 @@ class DashboardOrderController extends Controller
         return view('orders.create');
     }
 
-    public function createEvent($name, $description, $startDate, $endDate) {
+    public function createEvent($name, $description, $startDate, $endDate) {//google calendar
         $event = new Event;
 
         if (str_contains($startDate, '-0001') || str_contains($endDate, '-0001')) {
@@ -242,7 +244,7 @@ class DashboardOrderController extends Controller
 
     public function showSchedule() {
         return view('schedule', [
-            'nullOrders' => DashboardOrder::where('event_id', null)->get()
+            'nullOrders' => DashboardOrder::where('event_id', null)->where('order_status', '!=', 'Archived')->get()
         ]);
     }
 

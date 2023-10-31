@@ -93,8 +93,9 @@
             <label for="status">Status:</label><br>
             <select name="status" id="status">
                 <option value="{{old('status')}}" disabled selected>{{old('status')}}</option>
-                <option value="in">In</option>
-                <option value="out">Out</option>
+                <option value="in">in</option>
+                <option value="out">out</option>
+                <option value="free">free</option>
             </select><br>
             @error('status')
                 <p>{{$message}}</p>

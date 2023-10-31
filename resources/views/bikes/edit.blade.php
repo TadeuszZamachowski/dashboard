@@ -98,6 +98,7 @@
                 <option value="{{$bike->status}}">{{$bike->status}}</option>
                 <option value="in">in</option>
                 <option value="out">out</option>
+                <option value="free">free</option>
             </select><br>
             @error('status')
                 <p>{{$message}}</p>
