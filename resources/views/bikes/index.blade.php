@@ -11,7 +11,7 @@
                     @if ($item == $filter)
                         {{-- Don't display duplicates --}}
                     @else
-                        <option value={{$item}}>  {{$item}} </option>
+                        <option value={{$item}}>{{$item}} </option>
                     @endif
                 @endforeach
                 <option value="None">None</option>
@@ -33,6 +33,7 @@
         <th>Status</th>
         <th>Order ID</th>
         <th>Name</th>
+        <th>Assign</th>
         <th>Edit</th>
         <th>Delete</th>
     </tr>
@@ -55,6 +56,12 @@
             <td>{{$bike['status']}}</td>
             <td>{{$bike['dashboard_order_id']}}</td>
             <td>{{optional($bike->dashboardOrder)->first_name}}</td>
+            <td>
+                <a href="/bikes/{{$bike->id}}/assign">
+                    <i class="fa-solid fa-bicycle" style="color: black">
+                    </i>
+                </a>
+            </td>
             <td>
                 <a href="/bikes/{{$bike->id}}/edit"><i class="fas fa-edit" style="color: #000000;"></i></a>            
             </td>

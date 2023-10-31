@@ -21,23 +21,22 @@ class DashboardOrderController extends Controller
         'Processing',
         'Completed',
         'Cancelled',
-        'Failed',
-        'Archived'
+        'Failed'
     ];
 
     public function filterOrders($filter) {
         if($filter != null) {
-            $orders = DashboardOrder::where('order_status', '!=', 'Archived')->where('order_status',$filter)->orWhere('order_status','wc-'.strtolower($filter))
+            $orders = DashboardOrder::where('order_status', '!=', 'Completed')->where('order_status',$filter)->orWhere('order_status','wc-'.strtolower($filter))
         ->orderByDesc('dashboard_order_id')->paginate($this::PAGINATION_NUMBER);
         } else {
-            $orders = DashboardOrder::where('order_status', '!=', 'Archived')->
+            $orders = DashboardOrder::where('order_status', '!=', 'Completed')->
             orderByDesc('dashboard_order_id')->paginate($this::PAGINATION_NUMBER);
         }
         return $orders;
     }
 
     public function searchOrders($search) {
-        return DashboardOrder::where('order_status','!=','Archived')
+        return DashboardOrder::where('order_status','!=','Completed')
         ->where('first_name','LIKE', '%'.$search.'%')
         ->orWhere('last_name', 'LIKE', '%'.$search.'%')
         ->orWhere('email', 'LIKE', '%'.$search.'%')
@@ -199,10 +198,8 @@ class DashboardOrderController extends Controller
         }
         if($order->order_status == 'Completed') {
             $this->freeBikes($order);
-            return redirect()->to($request->last_url)->with('success', 'Order '. $order->dashboard_order_id .' completed, bikes in.');
-        } else if ( $order->order_status == 'Archived') {
             $this->deleteEvent($order);
-            return redirect()->to($request->last_url)->with('success', 'Order '. $order->dashboard_order_id .' archived.');
+            return redirect()->to($request->last_url)->with('success', 'Order '. $order->dashboard_order_id .' completed and moved to archive');
         }
 
         return redirect()->to($request->last_url)->with('success', 'Order '. $order->dashboard_order_id .' edited.');
@@ -223,11 +220,9 @@ class DashboardOrderController extends Controller
 
         if($order->order_status == 'Completed') {
             $this->freeBikes($order);
-            return redirect()->back()->with('success', 'Order '. $order->dashboard_order_id .' completed, bikes in.');
-        } else if ($order->order_status == 'Archived') {
             $this->deleteEvent($order);
-            return redirect()->back()->with('success', 'Order '. $order->dashboard_order_id .' archived.');
-        }
+            return redirect()->back()->with('success', 'Order '. $order->dashboard_order_id .' completed and moved to archive');
+        } 
 
         return redirect()->back()->with('success', 'Status of '. $order->dashboard_order_id .' edited.');
     }
@@ -244,7 +239,7 @@ class DashboardOrderController extends Controller
 
     public function showSchedule() {
         return view('schedule', [
-            'nullOrders' => DashboardOrder::where('event_id', null)->where('order_status', '!=', 'Archived')->get()
+            'nullOrders' => DashboardOrder::where('event_id', null)->where('order_status', '!=', 'Completed')->get()
         ]);
     }
 
@@ -281,7 +276,8 @@ class DashboardOrderController extends Controller
 
     public function archive() {
         return view('orders.archive', [
-            'orders' => DashboardOrder::where('order_status', 'Archived')->paginate($this::PAGINATION_NUMBER)
+            'orders' => DashboardOrder::where('order_status', 'Completed')->orderByDesc('dashboard_order_id')
+            ->paginate($this::PAGINATION_NUMBER)
         ]);
     }
 }

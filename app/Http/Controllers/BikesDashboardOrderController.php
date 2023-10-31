@@ -9,6 +9,14 @@ use Illuminate\Http\Request;
 
 class BikesDashboardOrderController extends Controller
 {
+
+    public function index() {
+        $history = BikesDashboardOrder::with('bike')->with('dashboardOrder')->orderByDesc('id')->get();
+        return view('history.index', [
+            'history' => $history
+        ]);
+    }
+
     public function show(Request $request, DashboardOrder $order) {
         if($request->reassign == true) {
             $order->update(array(
@@ -39,6 +47,16 @@ class BikesDashboardOrderController extends Controller
             ]);
         }
     }
+
+    public function showBikeSide(Request $request, Bike $bike) {
+        return view('assign.assign-bike', [
+            'bike' => $bike,
+            'orders' => DashboardOrder::where('order_status', '!=', 'Completed')->where('order_status', '!=', 'Cancelled')
+                        ->where('order_status', '!=', 'Failed')->orderByDesc('dashboard_order_id')->get()
+        ]);
+    }
+
+
     public function store(Request $request, DashboardOrder $order) {
         $this->validate($request, [
             'bike_ids' => 'required'
@@ -81,10 +99,42 @@ class BikesDashboardOrderController extends Controller
         }
     }
 
-    public function index() {
-        $history = BikesDashboardOrder::with('bike')->with('dashboardOrder')->orderByDesc('id')->get();
-        return view('history.index', [
-            'history' => $history
+    public function storeBikeSide(Request $request, Bike $bike) {
+        $this->validate($request, [
+            'dashboard_order_id' => 'required'
         ]);
+
+        $order = DashboardOrder::where('dashboard_order_id', $request->dashboard_order_id)->first();
+
+        $data['bike_id'] = $bike->id;
+        $data['order_id'] = $order->dashboard_order_id;
+        $data['start_date'] = $order->start_date;
+        $data['end_date'] = $order->end_date;
+
+        BikesDashboardOrder::create($data);
+        $bike->update(array(
+            'status' => 'out',
+            'dashboard_order_id' => $order->dashboard_order_id
+        ));
+
+        $order->update(array(
+            'order_status' => 'Processing',
+            'bikes_assigned' => 1
+        ));
+
+        return redirect()->to($request->last_url)->with('success', 'Bike succesfully assigned.');
     }
-}
+
+    public function destroy(Request $request, Bike $bike) {
+        $order_id = $bike->dashboard_order_id;
+        $bike->update(array(
+            'status'=> 'in',
+            'dashboard_order_id'=> null
+        ));
+
+        $history = BikesDashboardOrder::where('order_id', $order_id)->where('bike_id', $bike->id)->first();
+        $history->delete();
+
+        return redirect()->to($request->last_url)->with('success', 'Bike succesfully freed.');
+    }
+ }

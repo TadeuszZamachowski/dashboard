@@ -7,7 +7,7 @@
             <select name="filter" id="filter">
                 <option selected="selected">{{$filter}}</option>
                 @foreach ($categories as $item)
-                    @if ($item == $filter || $item == 'Archived')
+                    @if ($item == $filter || $item == 'Completed')
                         {{-- Don't display duplicates --}}
                     @else
                         <option value={{$item}}>  {{$item}} </option>

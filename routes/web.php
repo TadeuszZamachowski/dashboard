@@ -94,11 +94,20 @@ Route::get('/schedule',[DashboardOrderController::class, 'showSchedule'])->middl
 
 Route::get('/schedule/update',[DashboardOrderController::class, 'updateSchedule'])->middleware('auth');
 
-//Show Assign bike form
+//Show Assign bike to order form
 Route::get('/orders/{order}/assign', [BikesDashboardOrderController::class, 'show'])->middleware('auth');
 
 //Store data
 Route::post('/assign/{order}', [BikesDashboardOrderController::class, 'store'])->middleware('auth');
+
+//Show Assign order to bike form
+Route::get('/bikes/{bike}/assign', [BikesDashboardOrderController::class, 'showBikeSide'])->middleware('auth');
+
+//Store data
+Route::post('/bikes/assign/{bike}', [BikesDashboardOrderController::class, 'storeBikeSide'])->middleware('auth');
+
+//Delete from history
+Route::delete('/bikes/assign/{bike}', [BikesDashboardOrderController::class, 'destroy'])->middleware('auth');
 
 //Show history of orders
 Route::get('/history', [BikesDashboardOrderController::class, 'index'])->middleware('auth');
