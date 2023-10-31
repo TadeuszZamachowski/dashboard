@@ -15,11 +15,9 @@
             <label for="color">Color:</label><br>
             <select name="color" id="color">
                 <option value="{{old('color')}}" disabled selected>{{old('color')}}</option>
-                <option value="Pink">Pink</option>
-                <option value="Mint">Mint</option>
-                <option value="Grey">Grey</option>
-                <option value="Aqua">Aqua</option>
-                <option value="White">White</option>
+                @foreach ($colors as $color)
+                    <option value={{$color->value}}>{{$color->value}}</option>
+                @endforeach
             </select><br>
             @error('color')
                 <p>{{$message}}</p>
@@ -82,9 +80,10 @@
 
             <label for="rack">Rack:</label><br>
             <select name="rack" id="rack">
-                @for($i = 0; $i <= 39; $i++)
-                    <option value={{$i}}>{{$i}}</option>
-                @endfor
+                <option value="{{old('rack')}}" disabled selected>{{old('rack')}}</option>
+                @foreach ($racks as $rack)
+                    <option value={{$rack->value}}>{{$rack->value}}</option>
+                @endforeach
             </select><br>
             @error('rack')
                 <p>{{$message}}</p>

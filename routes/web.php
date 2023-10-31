@@ -150,6 +150,26 @@ Route::delete('/settings/locations/{location}', [SettingsController::class, 'loc
 
 
 
+//show colors
+Route::get('/settings/colors', [SettingsController::class, 'colors'])->middleware('auth');
+
+//add colors
+Route::post('/settings/colors', [SettingsController::class, 'colorsStore'])->middleware('auth');
+
+//delete colors
+Route::delete('/settings/colors/{color}', [SettingsController::class, 'colorsDestroy'])->middleware('auth');
+
+
+
+
+//show racks
+Route::get('/settings/racks', [SettingsController::class, 'racks'])->middleware('auth');
+
+//add racks
+Route::post('/settings/racks', [SettingsController::class, 'racksStore'])->middleware('auth');
+
+//delete racks
+Route::delete('/settings/racks/{rack}', [SettingsController::class, 'racksDestroy'])->middleware('auth');
 
 
 

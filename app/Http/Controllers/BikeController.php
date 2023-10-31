@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Accessory;
+use App\Models\BikeColor;
+use App\Models\BikeRack;
 use App\Models\Code;
 use App\Models\DashboardOrder;
 use App\Models\Location;
@@ -51,7 +53,9 @@ class BikeController extends Controller
         return view('bikes.create', [
             'accessories' => Accessory::all(),
             'codes' => Code::orderBy('value')->get(),
-            'locations' => Location::all()
+            'locations' => Location::all(),
+            'colors' => BikeColor::all(),
+            'racks' => BikeRack::all()
         ]);
     }
 
@@ -80,7 +84,9 @@ class BikeController extends Controller
             'bike' => $bike,
             'accessories' => Accessory::all(),
             'codes' => Code::orderBy('value')->get(),
-            'locations' => Location::all()
+            'locations' => Location::all(),
+            'colors' => BikeColor::all(),
+            'racks' => BikeRack::all()
         ]);
     }
 

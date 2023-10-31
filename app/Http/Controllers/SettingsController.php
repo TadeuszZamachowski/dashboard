@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Accessory;
+use App\Models\BikeColor;
+use App\Models\BikeRack;
 use App\Models\Code;
 use App\Models\Location;
 use Illuminate\Http\Request;
@@ -74,5 +76,47 @@ class SettingsController extends Controller
     public function locationsDestroy(Location $location) {
         $location->delete();
         return redirect('/settings/locations')->with('success', 'Location deleted succesfully');
+    }
+
+    public function colors() {
+        return view('settings.colors', [
+            'colors' => BikeColor::all()
+        ]);
+    }
+
+    public function colorsStore(Request $request) {
+        $validation = $request->validate([
+            'value' => 'required'
+        ]);
+        
+        BikeColor::create($validation);
+
+        return redirect('/settings/colors')->with('success', 'Color succesfully added.');
+    }
+
+    public function colorsDestroy(BikeColor $color) {
+        $color->delete();
+        return redirect('/settings/colors')->with('success', 'Color deleted succesfully');
+    }
+
+    public function racks() {
+        return view('settings.racks', [
+            'racks' => BikeRack::all()
+        ]);
+    }
+
+    public function racksStore(Request $request) {
+        $validation = $request->validate([
+            'value' => 'required'
+        ]);
+        
+        BikeRack::create($validation);
+
+        return redirect('/settings/racks')->with('success', 'Rack succesfully added.');
+    }
+
+    public function racksDestroy(BikeRack $rack) {
+        $rack->delete();
+        return redirect('/settings/racks')->with('success', 'Rack deleted succesfully');
     }
 }

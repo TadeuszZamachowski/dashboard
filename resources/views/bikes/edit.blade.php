@@ -16,12 +16,10 @@
         <div class="left-side">
             <label for="color">Color:</label><br>
             <select name="color" id="color">
-                <option value="{{$bike->color}}">{{$bike->color}}</option>
-                <option value="Pink">Pink</option>
-                <option value="Mint">Mint</option>
-                <option value="Grey">Grey</option>
-                <option value="Aqua">Aqua</option>
-                <option value="White">White</option>
+                <option value="{{$bike->color}}" disabled selected>{{$bike->color}}</option>
+                @foreach ($colors as $color)
+                    <option value={{$color->value}}>{{$color->value}}</option>
+                @endforeach
             </select><br>
             @error('color')
                 <p>{{$message}}</p>
@@ -84,10 +82,10 @@
 
             <label for="rack">Rack:</label><br>
             <select name="rack" id="rack">
-                <option value={{$bike->rack}}>{{$bike->rack}}</option>
-                @for($i = 0; $i <= 39; $i++)
-                    <option value={{$i}}>{{$i}}</option>
-                @endfor
+                <option value="{{$bike->rack}}" disabled selected>{{$bike->rack}}</option>
+                @foreach ($racks as $rack)
+                    <option value={{$rack->value}}>{{$rack->value}}</option>
+                @endforeach
             </select><br>
             @error('rack')
                 <p>{{$message}}</p>
