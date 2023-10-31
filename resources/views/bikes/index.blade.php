@@ -25,17 +25,17 @@
     <thead>
     <tr>
         {{-- <th><input type="checkbox" onclick="toggleAllCheckbox2()"></th> --}}
-        <th>Rack</th>
-        <th>Color</th>
-        <th>Type</th>
-        <th>Code</th>
-        <th>Location</th>
-        <th>Status</th>
-        <th>Order ID</th>
-        <th>Name</th>
-        <th>Assign</th>
-        <th>Edit</th>
-        <th>Delete</th>
+        <th onclick="sortTable(0,0)">Rack</th>
+        <th onclick="sortTable(0,0)">Color</th>
+        <th onclick="sortTable(0,0)">Type</th>
+        <th onclick="sortTable(0,0)">Code</th>
+        <th onclick="sortTable(0,0)">Location</th>
+        <th onclick="sortTable(0,0)">Status</th>
+        <th onclick="sortTable(0,0)">Order ID</th>
+        <th onclick="sortTable(0,0)">Name</th>
+        <th></th>
+        <th></th>
+        <th></th>
     </tr>
     </thead>
 @php
@@ -83,6 +83,69 @@
     @endphp
 @endforeach
 </table>
+<script>
+    function sortTable(n, isStatus) {
+      var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+      table = document.getElementById("orders-table");
+      switching = true;
+      // Set the sorting direction to ascending:
+      dir = "asc";
+      /* Make a loop that will continue until
+      no switching has been done: */
+      while (switching) {
+        // Start by saying: no switching is done:
+        switching = false;
+        rows = table.rows;
+        /* Loop through all table rows (except the
+        first, which contains table headers): */
+        for (i = 1; i < (rows.length - 1); i++) {
+          // Start by saying there should be no switching:
+          shouldSwitch = false;
+          /* Get the two elements you want to compare,
+          one from current row and one from the next: */
+          if(isStatus == 1) {
+            x = rows[i].getElementsByTagName("option")[0];
+            console.log(x);
+            y = rows[i + 1].getElementsByTagName("option")[0];
+          } else {
+            x = rows[i].getElementsByTagName("TD")[n];
+            console.log(x);
+            y = rows[i + 1].getElementsByTagName("TD")[n];
+          }
+          /* Check if the two rows should switch place,
+          based on the direction, asc or desc: */
+          if (dir == "asc") {
+            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+              // If so, mark as a switch and break the loop:
+              shouldSwitch = true;
+              break;
+            }
+          } else if (dir == "desc") {
+            if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+              // If so, mark as a switch and break the loop:
+              shouldSwitch = true;
+              break;
+            }
+          }
+        }
+        if (shouldSwitch) {
+          /* If a switch has been marked, make the switch
+          and mark that a switch has been done: */
+          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+          switching = true;
+          // Each time a switch is done, increase this count by 1:
+          switchcount ++;
+        } else {
+          /* If no switching has been done AND the direction is "asc",
+          set the direction to "desc" and run the while loop again. */
+          if (switchcount == 0 && dir == "asc") {
+            dir = "desc";
+            switching = true;
+          }
+        }
+      }
+    }
+</script>
 <div class="container">
     <a class="btn" href="/bikes/add">Add Bike</a>
 </div>

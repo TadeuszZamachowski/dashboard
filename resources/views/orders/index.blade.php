@@ -1,6 +1,7 @@
 @extends('layout')
 
 @section('content')
+
 <div class="sorting-section">
     <div class="filter-selector">
         <form method="GET" action="/">
@@ -29,16 +30,16 @@
 <table id="orders-table" class="orders-table">
     <thead>
     <tr>
-        <th>Order ID</th>
-        <th>Name</th>
-        <th>Phone number</th>
-        <th>Start Date</th>
-        <th>Duration</th>
-        <th>Amount</th>
-        <th>End Date</th>
-        <th>Status</th>
-        <th>Pickup</th>
-        <th style="padding-right: 10px">Bikes</th>
+        <th onclick="sortTable(0,0)">Order ID</th>
+        <th onclick="sortTable(1,0)">Name</th>
+        <th onclick="sortTable(2,0)">Phone number</th>
+        <th onclick="sortTable(3,0)">Start Date</th>
+        <th onclick="sortTable(4,0)">Duration</th>
+        <th onclick="sortTable(5,0)">Amount</th>
+        <th onclick="sortTable(6,0)">End Date</th>
+        <th onclick="sortTable(7,1)">Status</th>
+        <th onclick="sortTable(8,0)">Pickup</th>
+        <th onclick="sortTable(9)" style="padding-right: 10px">Bikes</th>
         <th></th>
         <th></th>
         <th></th>
@@ -78,12 +79,12 @@
                         'select-order-complete' => ($order->order_status == 'Completed' || $order->order_status == 'completed' || $order->order_status == 'wc-complete'),
                         'select-order-processing' => ($order->order_status == 'Processing' || $order->order_status == 'processing' || $order->order_status == 'wc-processing')
                     ])>
-                        <option selected="selected">{{$order->order_status}}</option>
+                        <option id="status_option" selected="selected">{{$order->order_status}}</option>
                         @foreach ($categories as $item)
                             @if ($item == $order->order_status)
                                 {{-- Don't display duplicates --}}
                             @else
-                                <option value={{$item}}>  {{$item}} </option>
+                                <option value={{$item}}>{{$item}} </option>
                             @endif
                         @endforeach
                     </select>
@@ -120,9 +121,75 @@
     @endphp
 @endforeach
 </table>
+<script>
+    function sortTable(n, isStatus) {
+      var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+      table = document.getElementById("orders-table");
+      switching = true;
+      // Set the sorting direction to ascending:
+      dir = "asc";
+      /* Make a loop that will continue until
+      no switching has been done: */
+      while (switching) {
+        // Start by saying: no switching is done:
+        switching = false;
+        rows = table.rows;
+        /* Loop through all table rows (except the
+        first, which contains table headers): */
+        for (i = 1; i < (rows.length - 1); i++) {
+          // Start by saying there should be no switching:
+          shouldSwitch = false;
+          /* Get the two elements you want to compare,
+          one from current row and one from the next: */
+          if(isStatus == 1) {
+            x = rows[i].getElementsByTagName("option")[0];
+            console.log(x);
+            y = rows[i + 1].getElementsByTagName("option")[0];
+          } else {
+            x = rows[i].getElementsByTagName("TD")[n];
+            console.log(x);
+            y = rows[i + 1].getElementsByTagName("TD")[n];
+          }
+          /* Check if the two rows should switch place,
+          based on the direction, asc or desc: */
+          if (dir == "asc") {
+            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+              // If so, mark as a switch and break the loop:
+              shouldSwitch = true;
+              break;
+            }
+          } else if (dir == "desc") {
+            if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+              // If so, mark as a switch and break the loop:
+              shouldSwitch = true;
+              break;
+            }
+          }
+        }
+        if (shouldSwitch) {
+          /* If a switch has been marked, make the switch
+          and mark that a switch has been done: */
+          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+          switching = true;
+          // Each time a switch is done, increase this count by 1:
+          switchcount ++;
+        } else {
+          /* If no switching has been done AND the direction is "asc",
+          set the direction to "desc" and run the while loop again. */
+          if (switchcount == 0 && dir == "asc") {
+            dir = "desc";
+            switching = true;
+          }
+        }
+      }
+    }
+</script>
+
+
 <div class="pagination">
     {{ $orders->onEachSide(1)->links() }}
 </div>
 <a href="/orders/add" class="btn">Add Order</a>
+
 @endsection
 
