@@ -94,10 +94,24 @@
 
         <td>{{$order->pickup_location}}</td>
         <td>{{$order->number_of_bikes}}</td>
-        <td><a href="/orders/{{$order->dashboard_order_id}}/assign">
-            <i @class([
-                'fa-solid fa-bicycle bikes-assigned' => $order->bikes_assigned == 1,
-                'fa-solid fa-bicycle' => $order->bikes_assigned != 1])></i></a>
+        <td>
+            <div @class([
+                'tooltip' => count($order->bikes) > 0
+                ])>
+                <a href="/orders/{{$order->dashboard_order_id}}/assign">
+                    <i @class([
+                        'fa-solid fa-bicycle bikes-assigned' => $order->bikes_assigned == 1,
+                        'fa-solid fa-bicycle' => $order->bikes_assigned != 1])>
+                    </i>
+                </a>
+                <span class="tooltiptext">
+                    @if(count($order->bikes) > 0)
+                        @foreach ($order->bikes as $bike)
+                            Rack {{$bike->rack}} | Code: {{$bike->code}}
+                        @endforeach 
+                    @endif
+                </span>
+            </div>
         </td>
         <td>
             <a href="/orders/{{$order->dashboard_order_id}}/edit"><i class="fas fa-edit"></i></a>
@@ -126,5 +140,35 @@
 </div>
 <a href="/orders/add" class="btn">Add Order</a>
 
+<style>
+    /* Tooltip container */
+    .tooltip {
+      position: relative;
+      display: inline-block;
+    }
+    
+    /* Tooltip text */
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      background-color: black;
+      width: 150px;
+      color: #fff;
+      text-align: center;
+      padding: 5px 0;
+      border-radius: 6px;
+      bottom: 100%;
+      left: 50%;
+      margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
+     
+      /* Position the tooltip text - see examples below! */
+      position: absolute;
+      z-index: 1;
+    }
+    
+    /* Show the tooltip text when you mouse over the tooltip container */
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+    }
+    </style>
 @endsection
 
