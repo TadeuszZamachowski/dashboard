@@ -55,6 +55,18 @@
                 <p>{{$message}}</p>
             @enderror
 
+            <label for="payment_method">Payment Method:</label><br>
+            <select name="payment_method" id="payment_method">
+                <option value="{{old('payment_method')}}" disabled selected>{{old('payment_method')}}</option>
+                <option value="bacs">Bank Transfer</option>
+                <option value="cc">Credit Card</option>
+                <option value="pp">PayPal</option>
+                <option value="ap">AfterPay</option>
+            </select><br>
+            @error('payment_method')
+                <p>{{$message}}</p>
+            @enderror
+
             <label for="pickup_location">Pickup Location:</label><br>
             <input type="text" id="pickup_location" name="pickup_location" value="{{old('pickup_location')}}"><br>
             @error('pickup_location')

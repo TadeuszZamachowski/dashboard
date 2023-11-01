@@ -109,6 +109,7 @@ class DashboardOrderController extends Controller
             'start_date' =>'required',
             'end_date' => 'required',
             'amount_paid' => 'required',
+            'payment_method' => 'required',
             'pickup_location' => 'required',
             'number_of_bikes' => 'required'
         ]);
@@ -121,6 +122,7 @@ class DashboardOrderController extends Controller
         $data['start_date'] = $request['start_date'];
         $data['end_date'] = $request['end_date'];
         $data['amount_paid'] = $request['amount_paid'];
+        $data['payment_method'] = $request['payment_method'];
         $data['order_status'] = 'Pending';
         $data['pickup_location'] = $request['pickup_location'];
         $data['number_of_bikes'] = $request['number_of_bikes'];
@@ -174,6 +176,7 @@ class DashboardOrderController extends Controller
             'start_date' =>'required',
             'end_date' => 'required',
             'amount_paid' => 'required',
+            'payment_method' => 'required',
             'order_status' => 'required',
             'pickup_location' => 'required',
             'number_of_bikes' => 'required'
@@ -186,6 +189,7 @@ class DashboardOrderController extends Controller
         $data['start_date'] = $request['start_date'];
         $data['end_date'] = $request['end_date'];
         $data['amount_paid'] = $request['amount_paid'];
+        $data['payment_method'] = $request['payment_method'];
         $data['order_status'] = $request['order_status'];
         $data['pickup_location'] = $request['pickup_location'];
         $data['number_of_bikes'] = $request['number_of_bikes'];

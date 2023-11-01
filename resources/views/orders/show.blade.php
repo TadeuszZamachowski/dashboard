@@ -17,6 +17,7 @@
         <p>Pickup Location: {{$order->pickup_location}}</p>
         <p>Number of Bikes: {{$order->number_of_bikes}}</p>
         <p>Status: {{$order->order_status}}</p>
+        <p>Payment method: {{$order->payment_method}}</p>
     </div>
     @if($archive == true)
         <div class="right-side">

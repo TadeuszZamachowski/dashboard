@@ -24,6 +24,7 @@ class DashboardOrder extends Model
         'start_date',
         'end_date',
         'amount_paid',
+        'payment_method',
         'order_status',
         'pickup_location',
         'number_of_bikes',
