@@ -3,15 +3,16 @@
 <table id="orders-table" class="orders-table">
     <thead>
     <tr>
-        <th>Order ID</th>
-        <th>Name</th>
-        <th>Phone number</th>
-        <th>Start Date</th>
-        <th>Duration</th>
-        <th>Amount</th>
-        <th>Status</th>
-        <th>Pickup</th>
-        <th style="padding-right: 10px">Bikes</th>
+        {{-- sortTable(n, isStatus, isLink, isDate, isNum) --}}
+        <th onclick="sortTable(0,0,1,0,1)">Order ID</th>
+        <th onclick="sortTable(1,0,0,0,0)">Name</th>
+        <th onclick="sortTable(2,0,0,0,1)">Phone number</th>
+        <th onclick="sortTable(3,0,0,1,0)">Start Date</th>
+        <th onclick="sortTable(4,0,0,0,1)">Duration</th>
+        <th onclick="sortTable(5,0,0,0,1)">$</th>
+        <th onclick="sortTable(6,0,0,0,0)">Status</th>
+        <th onclick="sortTable(7,0,0,0,0)">Pickup</th>
+        <th onclick="sortTable(8,0,0,0,1)" style="padding-right: 10px">Bikes</th>
     </tr>
     </thead>
 @php
@@ -36,7 +37,7 @@
         <td>{{$order->mobile}}</td>
         <td nowrap>{{$frmtStartDate}}</td>
         <td nowrap>{{$duration}} days</td>
-        <td>{{"$".$order->amount_paid}}</td>
+        <td>{{$order->amount_paid}}</td>
         <td>{{$order->order_status}}</td>
 
         <td>{{$order->pickup_location}}</td>

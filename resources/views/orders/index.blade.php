@@ -30,6 +30,7 @@
 <table id="orders-table" class="orders-table">
     <thead>
     <tr>
+        {{-- sortTable(n, isStatus, isLink, isDate, isNum) --}}
         <th onclick="sortTable(0,0,1,0,1)">Order ID</th>
         <th onclick="sortTable(1,0,0,0,0)">Name</th>
         <th onclick="sortTable(2,0,0,0,1)">Phone number</th>
@@ -107,7 +108,7 @@
                 <span class="tooltiptext">
                     @if(count($order->bikes) > 0)
                         @foreach ($order->bikes as $bike)
-                            Rack {{$bike->rack}} | Code: {{$bike->code}}
+                            Rack {{$bike->rack}} | Code: {{$bike->code}} <br>
                         @endforeach 
                     @endif
                 </span>
@@ -140,35 +141,5 @@
 </div>
 <a href="/orders/add" class="btn">Add Order</a>
 
-<style>
-    /* Tooltip container */
-    .tooltip {
-      position: relative;
-      display: inline-block;
-    }
-    
-    /* Tooltip text */
-    .tooltip .tooltiptext {
-      visibility: hidden;
-      background-color: black;
-      width: 150px;
-      color: #fff;
-      text-align: center;
-      padding: 5px 0;
-      border-radius: 6px;
-      bottom: 100%;
-      left: 50%;
-      margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
-     
-      /* Position the tooltip text - see examples below! */
-      position: absolute;
-      z-index: 1;
-    }
-    
-    /* Show the tooltip text when you mouse over the tooltip container */
-    .tooltip:hover .tooltiptext {
-      visibility: visible;
-    }
-    </style>
 @endsection
 
