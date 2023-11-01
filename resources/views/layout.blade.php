@@ -39,7 +39,7 @@
     </div>
   </nav>
   <script src="\js\app.js"></script>
-
+  <script src="\js\sortTable.js"></script>
   <div id="main">
     <x-flash-message />
     @yield('content')

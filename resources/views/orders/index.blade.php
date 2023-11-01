@@ -30,16 +30,16 @@
 <table id="orders-table" class="orders-table">
     <thead>
     <tr>
-        <th onclick="sortTable(0,0)">Order ID</th>
-        <th onclick="sortTable(1,0)">Name</th>
-        <th onclick="sortTable(2,0)">Phone number</th>
-        <th onclick="sortTable(3,0)">Start Date</th>
-        <th onclick="sortTable(4,0)">Duration</th>
-        <th onclick="sortTable(5,0)">Amount</th>
-        <th onclick="sortTable(6,0)">End Date</th>
-        <th onclick="sortTable(7,1)">Status</th>
-        <th onclick="sortTable(8,0)">Pickup</th>
-        <th onclick="sortTable(9)" style="padding-right: 10px">Bikes</th>
+        <th onclick="sortTable(0,0,1,0,1)">Order ID</th>
+        <th onclick="sortTable(1,0,0,0,0)">Name</th>
+        <th onclick="sortTable(2,0,0,0,1)">Phone number</th>
+        <th onclick="sortTable(3,0,0,1,0)">Start Date</th>
+        <th onclick="sortTable(4,0,0,0,1)">Duration (Days)</th>
+        <th onclick="sortTable(5,0,0,0,1)">$</th>
+        <th onclick="sortTable(6,0,0,1,0)">End Date</th>
+        <th onclick="sortTable(7,1,0,0,0)">Status</th>
+        <th onclick="sortTable(8,0,0,0,0)">Pickup</th>
+        <th onclick="sortTable(9,0,0,0,1)" style="padding-right: 10px">Bikes</th>
         <th></th>
         <th></th>
         <th></th>
@@ -67,8 +67,8 @@
         <td>{{$order->first_name}} {{$order->last_name}}</td>
         <td>{{$order->mobile}}</td>
         <td nowrap>{{$frmtStartDate}}</td>
-        <td nowrap>{{$duration}} days</td>
-        <td>{{"$".$order->amount_paid}}</td>
+        <td nowrap>{{$duration}}</td>
+        <td>{{$order->amount_paid}}</td>
         <td nowrap>{{$frmtEndDate}}</td>
         <td>
             <div class="status-selector">
@@ -121,71 +121,6 @@
     @endphp
 @endforeach
 </table>
-<script>
-    function sortTable(n, isStatus) {
-      var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-      table = document.getElementById("orders-table");
-      switching = true;
-      // Set the sorting direction to ascending:
-      dir = "asc";
-      /* Make a loop that will continue until
-      no switching has been done: */
-      while (switching) {
-        // Start by saying: no switching is done:
-        switching = false;
-        rows = table.rows;
-        /* Loop through all table rows (except the
-        first, which contains table headers): */
-        for (i = 1; i < (rows.length - 1); i++) {
-          // Start by saying there should be no switching:
-          shouldSwitch = false;
-          /* Get the two elements you want to compare,
-          one from current row and one from the next: */
-          if(isStatus == 1) {
-            x = rows[i].getElementsByTagName("option")[0];
-            console.log(x);
-            y = rows[i + 1].getElementsByTagName("option")[0];
-          } else {
-            x = rows[i].getElementsByTagName("TD")[n];
-            console.log(x);
-            y = rows[i + 1].getElementsByTagName("TD")[n];
-          }
-          /* Check if the two rows should switch place,
-          based on the direction, asc or desc: */
-          if (dir == "asc") {
-            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-              // If so, mark as a switch and break the loop:
-              shouldSwitch = true;
-              break;
-            }
-          } else if (dir == "desc") {
-            if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-              // If so, mark as a switch and break the loop:
-              shouldSwitch = true;
-              break;
-            }
-          }
-        }
-        if (shouldSwitch) {
-          /* If a switch has been marked, make the switch
-          and mark that a switch has been done: */
-          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-          switching = true;
-          // Each time a switch is done, increase this count by 1:
-          switchcount ++;
-        } else {
-          /* If no switching has been done AND the direction is "asc",
-          set the direction to "desc" and run the while loop again. */
-          if (switchcount == 0 && dir == "asc") {
-            dir = "desc";
-            switching = true;
-          }
-        }
-      }
-    }
-</script>
-
-
 <div class="pagination">
     {{ $orders->onEachSide(1)->links() }}
 </div>
