@@ -1,8 +1,8 @@
 @extends('layout')
 @section('content')
 @php
-    $frmtStartDate = date('d-m-Y',strtotime($order->start_date));
-    $frmtEndDate = date('d-m-Y',strtotime($order->end_date));
+    $frmtStartDate = date('d-m-Y H:i',strtotime($order->start_date));
+    $frmtEndDate = date('d-m-Y H:i',strtotime($order->end_date));
 @endphp
 <div class="show-order">
     <div class="left-side">

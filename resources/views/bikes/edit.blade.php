@@ -16,7 +16,7 @@
         <div class="left-side">
             <label for="color">Color:</label><br>
             <select name="color" id="color">
-                <option value="{{$bike->color}}" disabled selected>{{$bike->color}}</option>
+                <option value="{{$bike->color}}">{{$bike->color}}</option>
                 @foreach ($colors as $color)
                     <option value={{$color->value}}>{{$color->value}}</option>
                 @endforeach
@@ -82,7 +82,7 @@
 
             <label for="rack">Rack:</label><br>
             <select name="rack" id="rack">
-                <option value="{{$bike->rack}}" disabled selected>{{$bike->rack}}</option>
+                <option value="{{$bike->rack}}">{{$bike->rack}}</option>
                 @foreach ($racks as $rack)
                     <option value={{$rack->value}}>{{$rack->value}}</option>
                 @endforeach

@@ -64,7 +64,17 @@
         'even' => $even == true,
         'due-date' => ($order->order_status == 'Processing') && (date('Y-m-d H:i:s', strtotime($order->end_date)) < date('Y-m-d H:i:s'))
     ])>
-        <td><a href="/orders/{{$order->dashboard_order_id}}">{{$order->dashboard_order_id}}</a></td>
+        <td>
+            <div class="tooltip">
+                <a href="/orders/{{$order->dashboard_order_id}}">{{$order->dashboard_order_id}}</a>
+                <span class="tooltiptext" style="width: 250px">
+                    Start/End Time: {{date('H:i',strtotime($order->start_date))}}<br>
+                    Email: {{$order->email}}<br>
+                    Address: {{$order->address}}<br>
+                    Payment Method: {{$order->payment_method}}
+                </span>
+            </div>
+        </td>
         <td>{{$order->first_name}} {{$order->last_name}}</td>
         <td>{{$order->mobile}}</td>
         <td nowrap>{{$frmtStartDate}}</td>
