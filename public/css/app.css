@@ -96,6 +96,7 @@ input[type="text"], input[type="date"] {
 }
 
 .navbar-bottom {
+  display: block;
   background: var(--dark-pink);
   padding: 20px;
   position: fixed;
@@ -114,8 +115,30 @@ input[type="text"], input[type="date"] {
 }
 
 @media (max-width: 670px) {
+  .navbar-top {
+    margin-left: 0px;
+    padding: 0px;
+  }
+
+  .navbar-top .main-menu {
+    margin-left: 0px;
+  }
+
   .navbar-bottom {
+    padding: 0px;
+    left: -100%;
+    position: fixed;
+    height: 100%;
+    width: 90px;
+  }
+
+  .navbar-bottom .logo-container {
     display: none; /* Hide the main menu on smaller screens */
+  }
+
+  .main {
+    margin-left: 0;
+    padding: 0;
   }
 }
 

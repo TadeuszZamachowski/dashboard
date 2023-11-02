@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="\css\app.css" >
 </head>
 <body>
-  <nav class="navbar-bottom">
+  <nav id="navbar-bottom" class="navbar-bottom">
     <div class="logo-container">
       <div class="logo">
         <a href="/"><img src="\images\RGB-LOGO-BYRON-BAY-BIKES.png" alt="Logo" width="150px"></a>
@@ -25,7 +25,7 @@
         </ul>
       </div>
     </div> 
-  </nav> 
+  </nav>
 
   <nav class="navbar-top">
     <div class="container">
@@ -40,7 +40,10 @@
   </nav>
   <script src="\js\app.js"></script>
   <script src="\js\sortTable.js"></script>
-  <div id="main">
+  <div class="hamburger">
+    <button id="hamburger" onclick="showSidebar()"><i class="fa fa-bars"></i></button>
+  </div>
+  <div id="main" class="main">
     <x-flash-message />
     @yield('content')
   </div>

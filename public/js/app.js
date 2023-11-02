@@ -10,12 +10,15 @@ navLinkElements.forEach(navLinkEl => {
    }
 });
 
-document.addEventListener('DOMContentLoaded', function ( ) {
-    const hamburgerButton = document.getElementById('hamburger-button');
-    const mobileMenu = document.querySelector('.mobile-menu');
+function showSidebar() {
+  var x = document.getElementById("navbar-bottom");
   
-    hamburgerButton.addEventListener('click', () =>
-      mobileMenu.classList.toggle('active')
-    );
-  });
+  if (x.style.left === "-100%") {
+    x.style.left = "0";
+  } else {
+    x.style.left = "-100%";
+  }
+  console.log(x);
+}
+
 
