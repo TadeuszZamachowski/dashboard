@@ -27,6 +27,7 @@ class DashboardOrder extends Model
         'payment_method',
         'order_status',
         'pickup_location',
+        'address',
         'number_of_bikes',
         'is_woo',
         'event_id',

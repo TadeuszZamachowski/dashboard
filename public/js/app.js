@@ -10,3 +10,12 @@ navLinkElements.forEach(navLinkEl => {
    }
 });
 
+document.addEventListener('DOMContentLoaded', function ( ) {
+    const hamburgerButton = document.getElementById('hamburger-button');
+    const mobileMenu = document.querySelector('.mobile-menu');
+  
+    hamburgerButton.addEventListener('click', () =>
+      mobileMenu.classList.toggle('active')
+    );
+  });
+

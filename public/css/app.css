@@ -113,6 +113,12 @@ input[type="text"], input[type="date"] {
   padding-bottom: 15px;
 }
 
+@media (max-width: 670px) {
+  .navbar-bottom {
+    display: none; /* Hide the main menu on smaller screens */
+  }
+}
+
 #main {
   margin-left: 11.54%;
   padding: 60px; 

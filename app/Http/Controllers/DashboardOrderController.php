@@ -91,8 +91,8 @@ class DashboardOrderController extends Controller
             return -1;
         }
 
-        $event->name = $name;
-        $event->description = $description;
+        $event->name = "(Return ". date('d F',strtotime($endDate)) .")  ".   $name;
+        $event->description =$description;
         $event->startDateTime = $startDate;
         $event->endDateTime = $endDate;
 
@@ -111,6 +111,7 @@ class DashboardOrderController extends Controller
             'amount_paid' => 'required',
             'payment_method' => 'required',
             'pickup_location' => 'required',
+            'address' => 'required',
             'number_of_bikes' => 'required'
         ]);
 
@@ -125,6 +126,7 @@ class DashboardOrderController extends Controller
         $data['payment_method'] = $request['payment_method'];
         $data['order_status'] = 'Pending';
         $data['pickup_location'] = $request['pickup_location'];
+        $data['address'] = $request['address'];
         $data['number_of_bikes'] = $request['number_of_bikes'];
         $event = $this->createEvent($data['first_name'],$data['dashboard_order_id'], Carbon::parse($data['start_date']), Carbon::parse($data['end_date']));
         $data['event_id'] = $event->id;
@@ -179,6 +181,7 @@ class DashboardOrderController extends Controller
             'payment_method' => 'required',
             'order_status' => 'required',
             'pickup_location' => 'required',
+            'address' => 'required',
             'number_of_bikes' => 'required'
         ]);
 
@@ -192,6 +195,7 @@ class DashboardOrderController extends Controller
         $data['payment_method'] = $request['payment_method'];
         $data['order_status'] = $request['order_status'];
         $data['pickup_location'] = $request['pickup_location'];
+        $data['address'] = $request['address'];
         $data['number_of_bikes'] = $request['number_of_bikes'];
 
         

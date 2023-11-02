@@ -73,6 +73,12 @@
                 <p>{{$message}}</p>
             @enderror
 
+            <label for="address">Address:</label><br>
+            <input type="text" id="address" name="address" value="{{old('address')}}"><br>
+            @error('address')
+                <p>{{$message}}</p>
+            @enderror
+
             <label for="number_of_bikes">Number of Bikes:</label><br>
             <input type="text" id="number_of_bikes" name="number_of_bikes" value="{{old('number_of_bikes')}}"><br>
             @error('number_of_bikes')

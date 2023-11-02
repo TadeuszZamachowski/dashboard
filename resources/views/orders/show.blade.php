@@ -15,6 +15,7 @@
         <p>Email: {{$order->email}}</p>
         <p>Mobile: {{$order->mobile}}</p>
         <p>Pickup Location: {{$order->pickup_location}}</p>
+        <p>Address: {{$order->address}}</p>
         <p>Number of Bikes: {{$order->number_of_bikes}}</p>
         <p>Status: {{$order->order_status}}</p>
         <p>Payment method: {{$order->payment_method}}</p>
