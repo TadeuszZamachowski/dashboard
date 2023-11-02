@@ -168,12 +168,16 @@ td {
   
 }
 
+.bikes-table .bike-in {
+  background-color: rgba(255, 0, 0, 0.15);
+}
+
 .bikes-table .bike-out {
-  color: red;
+  color: black;
 }
 
 .bikes-table .bike-free {
-  background-color: rgba(255, 0, 0, 0.15);
+  background-color: rgb(216, 216, 216);
 }
 
 .even {
