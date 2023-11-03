@@ -235,23 +235,40 @@ td {
 }
 
 .order-create .left-side {
-  text-align: center;
+  text-align: left;
   letter-spacing: 1px;
   padding-left: 30%;
+  margin-right: 40px;
 }
 .order-create .right-side {
   margin-left: auto;
-  text-align: center;
+  text-align: left;
   letter-spacing: 1px;
   padding-right: 30%;
 }
 
+.order-create .input-section {
+  display: flex;
+  justify-content: left; 
+  align-items: center;
+}
+
 .order-create select {
+  padding: 0px 0px;
   margin-bottom: 30px;
-  width: 100%;
+  width: 90px;
   height: 7%;
   text-align: center;
 }
+
+.order-create input {
+  padding: 0px 0px;
+  margin-bottom: 30px;
+  width: 90px;
+  height: 7%;
+  text-align: center;
+}
+
 
 .form-btn {
   margin-left: 40%;

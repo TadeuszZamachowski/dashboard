@@ -13,91 +13,125 @@
     @method('PUT')
     <div class="order-create">
         <div class="left-side">
-            <label for="first_name">First Name:</label><br>
-            <input type="text" id="first_name" name="first_name" value="{{$order->first_name}}"><br>
-            @error('first_name')
-                <p>{{$message}}</p>
-            @enderror
+            <div class="input-section">
+                <label for="first_name">First Name:</label>
+                <input type="text" id="first_name" name="first_name" value="{{$order->first_name}}">
+                @error('first_name')
+                    <p>{{$message}}</p>
+                @enderror
+            </div>
+            <br>
 
-            <label for="last_name">Last Name:</label><br>
-            <input type="text" id="last_name" name="last_name" value="{{$order->last_name}}"><br>
-            @error('last_name')
-                <p>{{$message}}</p>
-            @enderror
+            <div class="input-section">
+                <label for="last_name">Last Name:</label>
+                <input type="text" id="last_name" name="last_name" value="{{$order->last_name}}">
+                @error('last_name')
+                    <p>{{$message}}</p>
+                @enderror
+            </div>
+            <br>
 
-            <label for="email">Email:</label><br>
-            <input type="text" id="email" name="email" value="{{$order->email}}"><br>
-            @error('email')
-                <p>{{$message}}</p>
-            @enderror
+            <div class="input-section">
+                <label for="email">Email:</label>
+                <input type="text" id="email" name="email" value="{{$order->email}}">
+                @error('email')
+                    <p>{{$message}}</p>
+                @enderror
+            </div>
+            <br>
 
-            <label for="mobile">Phone number:</label><br>
-            <input type="text" id="mobile" name="mobile" value="{{$order->mobile}}"><br>
-            @error('mobile')
-                <p>{{$message}}</p>
-            @enderror
+            <div class="input-section">
+                <label for="mobile">Phone number:</label>
+                <input type="text" id="mobile" name="mobile" value="{{$order->mobile}}">
+                @error('mobile')
+                    <p>{{$message}}</p>
+                @enderror
+            </div>
         </div>
         <div class="right-side">
-            <label for="start_date">Start Date:</label><br>
-            <input type="datetime-local" id="start_date" name="start_date" value="{{strftime('%Y-%m-%dT%H:%M:%S', strtotime($order->start_date))}}"><br>
-            @error('start_date')
-                <p>{{$message}}</p>
-            @enderror
+            <div class="input-section">
+                <label for="start_date">Start Date:</label>
+                <input type="datetime-local" id="start_date" name="start_date" value="{{strftime('%Y-%m-%dT%H:%M:%S', strtotime($order->start_date))}}">
+                @error('start_date')
+                    <p>{{$message}}</p>
+                @enderror
+            </div>
+            <br>
 
-            <label for="end_date">End Date:</label><br>
-            <input type="datetime-local" id="end_date" name="end_date" value="{{strftime('%Y-%m-%dT%H:%M:%S', strtotime($order->end_date))}}"><br>
-            @error('end_date')
-                <p>{{$message}}</p>
-            @enderror
+            <div class="input-section">
+                <label for="end_date">End Date:</label>
+                <input type="datetime-local" id="end_date" name="end_date" value="{{strftime('%Y-%m-%dT%H:%M:%S', strtotime($order->end_date))}}">
+                @error('end_date')
+                    <p>{{$message}}</p>
+                @enderror
+            </div>
+            <br>
 
-            <label for="amount_paid">Amount Paid:</label><br>
-            <input type="text" id="amount_paid" name="amount_paid" value="{{$order->amount_paid}}"><br>
-            @error('amount_paid')
-                <p>{{$message}}</p>
-            @enderror
+            <div class="input-section">
+                <label for="amount_paid">Amount Paid:</label>
+                <input type="text" id="amount_paid" name="amount_paid" value="{{$order->amount_paid}}">
+                @error('amount_paid')
+                    <p>{{$message}}</p>
+                @enderror
+            </div>
+            <br>
 
-            <label for="payment_method">Payment Method:</label><br>
-            <select name="payment_method" id="payment_method">
-                <option value="{{$order->payment_method}}" disabled selected>{{$order->payment_method}}</option>
-                <option value="bacs">Bank Transfer</option>
-                <option value="cc">Credit Card</option>
-                <option value="pp">PayPal</option>
-                <option value="ap">AfterPay</option>
-            </select><br>
-            @error('payment_method')
-                <p>{{$message}}</p>
-            @enderror
+            <div class="input-section">
+                <label for="payment_method">Payment Method:</label>
+                <select name="payment_method" id="payment_method">
+                    <option value="{{$order->payment_method}}" disabled selected>{{$order->payment_method}}</option>
+                    <option value="bacs">Bank Transfer</option>
+                    <option value="cc">Credit Card</option>
+                    <option value="pp">PayPal</option>
+                    <option value="ap">AfterPay</option>
+                </select>
+                @error('payment_method')
+                    <p>{{$message}}</p>
+                @enderror
+            </div>
+            <br>
 
 
-            <label for="order_status">Status:</label><br>
-            <select name="order_status" id="order_status">
-                <option selected="selected">{{$order->order_status}}</option>
-                @foreach ($categories as $item)
-                    @if ($item == $order->order_status)
-                        {{-- Don't display duplicates --}}
-                    @else
-                        <option value={{$item}}>  {{$item}} </option>
-                    @endif
-                @endforeach
-            </select><br> 
+            <div class="input-section">
+                <label for="order_status">Status:</label>
+                <select name="order_status" id="order_status">
+                    <option selected="selected">{{$order->order_status}}</option>
+                    @foreach ($categories as $item)
+                        @if ($item == $order->order_status)
+                            {{-- Don't display duplicates --}}
+                        @else
+                            <option value={{$item}}>  {{$item}} </option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+            <br>
 
-            <label for="pickup_location">Pickup Location:</label><br>
-            <input type="text" id="pickup_location" name="pickup_location" value="{{$order->pickup_location}}"><br>
-            @error('pickup_location')
-                <p>{{$message}}</p>
-            @enderror
+            <div class="input-section">
+                <label for="pickup_location">Pickup Location:</label>
+                <input type="text" id="pickup_location" name="pickup_location" value="{{$order->pickup_location}}">
+                @error('pickup_location')
+                    <p>{{$message}}</p>
+                @enderror
+            </div>
+            <br>
 
-            <label for="address">Address:</label><br>
-            <input type="text" id="address" name="address" value="{{$order->address}}"><br>
-            @error('address')
-                <p>{{$message}}</p>
-            @enderror
+            <div class="input-section">
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address" value="{{$order->address}}">
+                @error('address')
+                    <p>{{$message}}</p>
+                @enderror
+            </div>
+            <br>
 
-            <label for="number_of_bikes">Number of Bikes:</label><br>
-            <input type="text" id="number_of_bikes" name="number_of_bikes" value="{{$order->number_of_bikes}}"><br>
-            @error('number_of_bikes')
-                <p>{{$message}}</p>
-            @enderror
+            <div class="input-section">
+                <label for="number_of_bikes">Number of Bikes:</label>
+                <input type="text" id="number_of_bikes" name="number_of_bikes" value="{{$order->number_of_bikes}}">
+                @error('number_of_bikes')
+                    <p>{{$message}}</p>
+                @enderror
+            </div>
         </div>
     </div>
     {{-- last_url for redirecting to the appropraite page after edit --}}

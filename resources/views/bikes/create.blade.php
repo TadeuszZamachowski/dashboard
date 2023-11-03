@@ -22,6 +22,7 @@
             @error('color')
                 <p>{{$message}}</p>
             @enderror
+            <br>
 
             <label for="type">Type:</label>
             <select name="type" id="type" >
@@ -33,6 +34,7 @@
             @error('type')
                 <p>{{$message}}</p>
             @enderror
+            <br>
 
             <label for="gear">Gear:</label>
             <select name="gear" id="gear">
@@ -43,6 +45,7 @@
             @error('gear')
                 <p>{{$message}}</p>
             @enderror
+            <br>
 
             <label for="accessory">Accessory:</label>
             <select name="accessory" id="accessory">
@@ -54,6 +57,7 @@
             @error('accessory')
                 <p>{{$message}}</p>
             @enderror
+            <br>
 
             <label for="helmet">Helmet:</label>
             <select name="helmet" id="helmet">
@@ -77,6 +81,7 @@
             @error('code')
                 <p>{{$message}}</p>
             @enderror
+            <br>
 
             <label for="location">Location:</label>
             <select name="location" id="location">
@@ -88,6 +93,7 @@
             @error('location')
                 <p>{{$message}}</p>
             @enderror
+            <br>
 
             <label for="rack">Rack:</label>
             <select name="rack" id="rack">
@@ -99,6 +105,7 @@
             @error('rack')
                 <p>{{$message}}</p>
             @enderror
+            <br>
 
             <label for="state">State:</label>
             <select name="state" id="state">
@@ -111,6 +118,7 @@
             @error('state')
                 <p>{{$message}}</p>
             @enderror
+            <br>
 
             <label for="status">Status:</label>
             <select name="status" id="status">
@@ -122,6 +130,7 @@
             @error('status')
                 <p>{{$message}}</p>
             @enderror
+            <br>
 
             <label for="notes">Notes:</label>
             <input type="text" id="notes" name="notes" value="{{old('notes')}}">

@@ -24,108 +24,117 @@
             @error('color')
                 <p>{{$message}}</p>
             @enderror
+            <br>
 
-            <label for="type">Type:</label><br>
+            <label for="type">Type:</label>
             <select name="type" id="type" >
                 <option value="{{$bike->type}}">{{$bike->type}}</option>
                 <option value="Cruiser">Cruiser</option>
                 <option value="Urban">Urban</option>
                 <option value="Kid">Kid</option>
-            </select><br>
+            </select>
             @error('type')
                 <p>{{$message}}</p>
             @enderror
+            <br>
 
-            <label for="gear">Gear:</label><br>
+            <label for="gear">Gear:</label>
             <select name="gear" id="gear">
                 <option value="{{$bike->gear}}">{{$bike->gear}}</option>
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
-            </select><br>
+            </select>
             @error('gear')
                 <p>{{$message}}</p>
             @enderror
+            <br>
 
-            <label for="accessory">Accessory:</label><br>
+            <label for="accessory">Accessory:</label>
             <select name="accessory" id="accessory">
                 <option value="{{$bike->accessory}}">{{$bike->accessory}}</option>
                 @foreach ($accessories as $acc)
                     <option value={{$acc->value}}>{{$acc->value}}</option>
                 @endforeach
-            </select><br>
+            </select>
             @error('accessory')
                 <p>{{$message}}</p>
             @enderror
+            <br>
 
-            <label for="helmet">Helmet:</label><br>
+            <label for="helmet">Helmet:</label>
             <select name="helmet" id="helmet">
                 <option value="{{$bike->helmet}}">{{$bike->helmet}}</option>
                 <option value="L">L</option>
                 <option value="M">M</option>
                 <option value="S">S</option>
-            </select><br>
+            </select>
             @error('helmet')
                 <p>{{$message}}</p>
             @enderror
         </div>
         <div class="right-side">
-            <label for="code">Code:</label><br>
+            <label for="code">Code:</label>
             <select name="code" id="code">
                 <option value="{{$bike->code}}">{{$bike->code}}</option>
                 @foreach ($codes as $code)
                     <option value={{$code->value}}>{{$code->value}}</option>
                 @endforeach
-            </select><br>
+            </select>
             @error('code')
                 <p>{{$message}}</p>
             @enderror
+            <br>
 
-            <label for="location">Location:</label><br>
+            <label for="location">Location:</label>
             <select name="location" id="location">
                 <option value="{{$bike->location}}">{{$bike->location}}</option>
                 @foreach ($locations as $loc)
                     <option value={{$loc->value}}>{{$loc->value}}</option>
                 @endforeach
-            </select><br>
+            </select>
             @error('location')
                 <p>{{$message}}</p>
             @enderror
+            <br>
 
-            <label for="rack">Rack:</label><br>
+            <label for="rack">Rack:</label>
             <select name="rack" id="rack">
                 <option value="{{$bike->rack}}">{{$bike->rack}}</option>
                 @foreach ($racks as $rack)
                     <option value={{$rack->value}}>{{$rack->value}}</option>
                 @endforeach
-            </select><br>
+            </select>
             @error('rack')
                 <p>{{$message}}</p>
             @enderror
+            <br>
 
-            <label for="state">State:</label><br>
+            <label for="state">State:</label>
             <select name="state" id="state">
                 <option value="{{$bike->state}}">{{$bike->state}}</option>
                 <option value="new">New</option>
                 <option value="as new">As New</option>
                 <option value="fair">Fair</option>
                 <option value="repair">Repair</option>
-            </select><br>
+            </select>
             @error('state')
                 <p>{{$message}}</p>
             @enderror
+            <br>
 
-            <label for="status">Status:</label><br>
+            <label for="status">Status:</label>
             <select name="status" id="status">
                 <option value="{{$bike->status}}">{{$bike->status}}</option>
                 <option value="in">in</option>
                 <option value="out">out</option>
                 <option value="free">free</option>
-            </select><br>
+            </select>
             @error('status')
                 <p>{{$message}}</p>
             @enderror
+            <br>
 
-            <label for="notes">Notes:</label><br>
+            <label for="notes">Notes:</label>
             <input type="text" id="notes" name="notes" value="{{$bike->notes}}"><br>
             @error('notes')
                 <p>{{$message}}</p>
