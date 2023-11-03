@@ -19,7 +19,6 @@
       <div class="main-menu">
         <ul>
           <li><a href="/orders/archive">Archive</a></li>
-          <li><a href="/history">History</a></li>
           <li><a href="/reports">Reports</a></li>
           <li><a href="/settings">Settings</a></li>
         </ul>

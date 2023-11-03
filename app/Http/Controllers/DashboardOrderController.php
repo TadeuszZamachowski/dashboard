@@ -21,22 +21,23 @@ class DashboardOrderController extends Controller
         'Processing',
         'Completed',
         'Cancelled',
-        'Failed'
+        'Failed',
+        'Archived'
     ];
 
     public function filterOrders($filter) {
         if($filter != null) {
-            $orders = DashboardOrder::where('order_status', '!=', 'Completed')->where('order_status',$filter)->orWhere('order_status','wc-'.strtolower($filter))
+            $orders = DashboardOrder::where('order_status', '!=', 'Archived')->where('order_status',$filter)->orWhere('order_status','wc-'.strtolower($filter))
         ->orderByDesc('dashboard_order_id')->with('bikes')->paginate($this::PAGINATION_NUMBER);
         } else {
-            $orders = DashboardOrder::where('order_status', '!=', 'Completed')->
+            $orders = DashboardOrder::where('order_status', '!=', 'Archived')->
             orderByDesc('dashboard_order_id')->with('bikes')->paginate($this::PAGINATION_NUMBER);
         }
         return $orders;
     }
 
     public function searchOrders($search) {
-        return DashboardOrder::where('order_status','!=','Completed')
+        return DashboardOrder::where('order_status','!=','Archived')
         ->where('first_name','LIKE', '%'.$search.'%')
         ->orWhere('last_name', 'LIKE', '%'.$search.'%')
         ->orWhere('email', 'LIKE', '%'.$search.'%')
@@ -229,7 +230,7 @@ class DashboardOrderController extends Controller
         if($order->order_status == 'Completed') {
             $this->freeBikes($order);
             $this->deleteEvent($order);
-            return redirect()->back()->with('success', 'Order '. $order->dashboard_order_id .' completed and moved to archive');
+            return redirect()->back()->with('success', 'Order '. $order->dashboard_order_id .' completed');
         } 
 
         return redirect()->back()->with('success', 'Status of '. $order->dashboard_order_id .' edited.');
@@ -283,9 +284,13 @@ class DashboardOrderController extends Controller
 
 
     public function archive() {
+        $history = BikesDashboardOrder::all();
+        $bikes = Bike::all();
         return view('orders.archive', [
-            'orders' => DashboardOrder::where('order_status', 'Completed')->orderByDesc('dashboard_order_id')
-            ->paginate($this::PAGINATION_NUMBER)
+            'orders' => DashboardOrder::where('order_status', 'Archived')->orderByDesc('dashboard_order_id')
+            ->paginate($this::PAGINATION_NUMBER),
+            'history' => $history,
+            'bikes' => $bikes
         ]);
     }
 }

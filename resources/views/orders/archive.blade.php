@@ -12,7 +12,7 @@
         <th onclick="sortTable(5,0,0,0,1)">$</th>
         <th onclick="sortTable(6,0,0,0,0)">Status</th>
         <th onclick="sortTable(7,0,0,0,0)">Pickup</th>
-        <th onclick="sortTable(8,0,0,0,1)" style="padding-right: 10px">Bikes</th>
+        <th onclick="sortTable(8,0,0,0,1)">Bikes</th>
     </tr>
     </thead>
 @php
@@ -41,7 +41,22 @@
         <td>{{$order->order_status}}</td>
 
         <td>{{$order->pickup_location}}</td>
-        <td>{{$order->number_of_bikes}}</td>
+        <td>
+            <div class="tooltip">
+                <i class="fa-solid fa-bicycle" style="color: green"></i>
+                <span class="tooltiptext">
+                    @foreach ($history as $entry)
+                        @if($entry->order_id == $order->dashboard_order_id)
+                            @foreach ($bikes as $bike)
+                            @if($bike->id == $entry->bike_id)
+                                Rack {{$bike->rack}} | Code: {{$bike->code}} <br>
+                            @endif
+                            @endforeach
+                        @endif
+                    @endforeach   
+                </span>
+            </div>
+        </td>
     </tr>
     </tbody>
     @php

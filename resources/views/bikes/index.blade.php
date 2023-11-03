@@ -40,16 +40,12 @@
         <th></th>
     </tr>
     </thead>
-@php
-    $even = false;
-@endphp
 @foreach ($bikes as $bike)
     <tbody>
         <tr @class([
             'bike-in' => ($bike['status'] == 'in' || $bike['status'] == 'In'),
             'bike-out' => ($bike['status'] == 'out' || $bike['status'] == 'Out'),
-            'bike-free' => $bike['status'] == 'free',
-            'even' => $even == true,
+            'bike-free' => $bike['status'] == 'free'
         ])>
             <td>{{$bike['rack']}}</td>
             <td>{{$bike['color']}}</td>
@@ -89,13 +85,6 @@
             </td>
         </tr>
     </tbody>
-    @php
-        if($even == true) {
-            $even = false;
-        } else {
-            $even = true;
-        }
-    @endphp
     {{-- Black stripe after rack 15 --}}
     @if($bike->rack == 15) 
         <tr style="background-color: black;">
