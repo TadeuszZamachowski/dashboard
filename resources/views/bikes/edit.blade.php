@@ -14,13 +14,13 @@
     @method('PUT')
     <div class="order-create">
         <div class="left-side">
-            <label for="color">Color:</label><br>
+            <label for="color">Color:</label>
             <select name="color" id="color">
                 <option value="{{$bike->color}}">{{$bike->color}}</option>
                 @foreach ($colors as $color)
                     <option value={{$color->value}}>{{$color->value}}</option>
                 @endforeach
-            </select><br>
+            </select>
             @error('color')
                 <p>{{$message}}</p>
             @enderror
@@ -54,6 +54,17 @@
                 @endforeach
             </select><br>
             @error('accessory')
+                <p>{{$message}}</p>
+            @enderror
+
+            <label for="helmet">Helmet:</label><br>
+            <select name="helmet" id="helmet">
+                <option value="{{$bike->helmet}}">{{$bike->helmet}}</option>
+                <option value="L">L</option>
+                <option value="M">M</option>
+                <option value="S">S</option>
+            </select><br>
+            @error('helmet')
                 <p>{{$message}}</p>
             @enderror
         </div>
@@ -91,6 +102,18 @@
                 <p>{{$message}}</p>
             @enderror
 
+            <label for="state">State:</label><br>
+            <select name="state" id="state">
+                <option value="{{$bike->state}}">{{$bike->state}}</option>
+                <option value="new">New</option>
+                <option value="as new">As New</option>
+                <option value="fair">Fair</option>
+                <option value="repair">Repair</option>
+            </select><br>
+            @error('state')
+                <p>{{$message}}</p>
+            @enderror
+
             <label for="status">Status:</label><br>
             <select name="status" id="status">
                 <option value="{{$bike->status}}">{{$bike->status}}</option>
@@ -99,6 +122,12 @@
                 <option value="free">free</option>
             </select><br>
             @error('status')
+                <p>{{$message}}</p>
+            @enderror
+
+            <label for="notes">Notes:</label><br>
+            <input type="text" id="notes" name="notes" value="{{$bike->notes}}"><br>
+            @error('notes')
                 <p>{{$message}}</p>
             @enderror
         </div>

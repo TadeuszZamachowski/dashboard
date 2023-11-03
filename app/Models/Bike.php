@@ -23,7 +23,10 @@ class Bike extends Model
         'code',
         'location',
         'rack',
+        'state',
         'status',
+        'helmet',
+        'notes',
         'dashboard_order_id'
     ];
     
