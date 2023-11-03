@@ -58,7 +58,9 @@
             <td><a href="/bikes/{{$bike['id']}}">{{$bike['code']}}</a></td>
             <td>{{$bike['location']}}</td>
             <td>{{$bike['status']}}</td>
-            <td>{{$bike['dashboard_order_id']}}</td>
+            <td>
+                <a href="orders/{{$bike['dashboard_order_id']}}">
+                    {{$bike['dashboard_order_id']}}</a></td>
             <td>{{optional($bike->dashboardOrder)->first_name}}</td>
             @php
                 $date = optional($bike->dashboardOrder)->end_date;
@@ -94,6 +96,14 @@
             $even = true;
         }
     @endphp
+    {{-- Black stripe after rack 15 --}}
+    @if($bike->rack == 15) 
+        <tr style="background-color: black;">
+            @for ($i = 13; $i > 0; $i--)
+                <td>.</td>
+            @endfor
+        </tr>
+    @endif
 @endforeach
 </table>
 <div class="container">
