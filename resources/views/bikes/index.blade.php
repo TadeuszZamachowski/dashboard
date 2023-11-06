@@ -2,6 +2,62 @@
 
 @section('content')
 
+<table style="margin-bottom: 20px">
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>In</th>
+            <th>Out</th>
+            <th>Free</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @php
+            $totalIn = 0;
+            $totalOut = 0;
+            $totalFree = 0;
+            $totalAll = 0;
+        @endphp
+        @foreach ($types as $bikeType)
+            <tr>
+                <td>{{$bikeType[0]->type}}</td>
+                @php
+                    $ins = 0;
+                    $outs = 0;
+                    $frees = 0;
+                    foreach ($bikeType as $bike) {
+                        if($bike->status == 'in') {
+                            $ins += 1;
+                        } else if($bike->status == 'out') {
+                            $outs += 1;
+                        } else if($bike->status == 'free') {
+                            $frees += 1;
+                        }
+                    }
+                @endphp
+                <td>{{$ins}}</td>
+                <td>{{$outs}}</td>
+                <td>{{$frees}}</td>
+                <td>{{count($bikeType)}}</td>
+            </tr>
+            @php
+                $totalIn += $ins;
+                $totalOut += $outs;
+                $totalFree += $frees;
+                $totalAll += count($bikeType);
+            @endphp
+        @endforeach
+        <tr>
+            <td>Total</td>
+            <td>{{$totalIn}}</td>
+            <td>{{$totalOut}}</td>
+            <td>{{$totalFree}}</td>
+            <td>{{$totalAll}}</td>
+        </tr>
+    </tbody>
+</table>
+
 <div class="sorting-section-bike">
     <div class="filter-selector">
         <form method="GET" action="/bikes">

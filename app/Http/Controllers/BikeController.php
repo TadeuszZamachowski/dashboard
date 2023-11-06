@@ -33,10 +33,16 @@ class BikeController extends Controller
             $request->filter = 'Mercato';
         }
         $bikes = $this->filterBikes($request->filter);
+
+        $cruisers = Bike::where('type', 'LIKE', 'Cruiser')->get();
+        $kids = Bike::where('type', 'LIKE', 'Kid')->get();
+        $urbans = Bike::where('type', 'LIKE', 'Urban')->get();
+        $types = array($cruisers, $kids, $urbans);
         return view('bikes.index', [
             'bikes' => $bikes,
             'categories' => $this::LOCATIONS,
-            'filter' => $request->filter
+            'filter' => $request->filter,
+            'types' => $types
         ]);
     }
 
