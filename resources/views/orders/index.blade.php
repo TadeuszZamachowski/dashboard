@@ -39,7 +39,7 @@
         <th onclick="sortTable(6,0,0,1,0)">End Date</th>
         <th onclick="sortTable(7,1,0,0,0)">Status</th>
         <th onclick="sortTable(8,0,0,0,0)">Pickup</th>
-        <th onclick="sortTable(9,0,0,0,1)" style="padding-right: 10px">Bikes</th>
+        <th onclick="sortTable(9,0,0,0,1)" style="padding-right: 10px">Racks</th>
         <th></th>
         <th></th>
         <th></th>
@@ -103,7 +103,11 @@
         </td>
 
         <td>{{$order->pickup_location}}</td>
-        <td>{{$order->number_of_bikes}}</td>
+        <td>
+            @foreach ($order->bikes as $bike)
+                |{{ $bike->rack }}|
+            @endforeach 
+        </td>
         <td>
             <div @class([
                 'tooltip' => count($order->bikes) > 0
