@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BikeController;
 use App\Http\Controllers\BikesDashboardOrderController;
+use App\Http\Controllers\DashboardIncidentController;
 use App\Http\Controllers\DashboardOrder;
 use App\Http\Controllers\DashboardOrderController;
 use App\Http\Controllers\LoginController;
@@ -173,12 +174,22 @@ Route::delete('/settings/racks/{rack}', [SettingsController::class, 'racksDestro
 
 
 
-//Learning and stuff
-Route::get('/tests/{no}', function ($no) {
-    //ddd($no); DUMP DIE DEBUG
-    return response("Test number". $no);
-})->where('no', '[0-9]+');
+//------------------Incidents-----------------------
+Route::get('/incidents', [DashboardIncidentController::class, 'index'])->middleware('auth');
 
-Route::get('/search', function (Request $request) {
-    return($request->name . " ". $request->state);
-});
+//show add incidents form
+Route::get('/incidents/add', [DashboardIncidentController::class, 'create'])->middleware('auth');
+
+//store incident
+Route::post('/incidents', [DashboardIncidentController::class, 'store'])->middleware('auth');
+
+//Show edit form
+Route::get('/incidents/{incident}/edit', [DashboardIncidentController::class, 'edit'])->middleware('auth');
+
+//Update incident
+Route::put('/incidents/{incident}', [DashboardIncidentController::class, 'update'])->middleware('auth');
+
+//Delete incident
+Route::delete('/incidents/{incident}', [DashboardIncidentController::class, 'destroy'])->middleware('auth');
+
+
