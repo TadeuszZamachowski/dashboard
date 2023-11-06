@@ -14,7 +14,7 @@
         <div class="left-side">
             <label for="color">Color:</label>
             <select name="color" id="color">
-                <option value="{{old('color')}}" disabled selected>{{old('color')}}</option>
+                <option value="{{old('color')}}">{{old('color')}}</option>
                 @foreach ($colors as $color)
                     <option value={{$color->value}}>{{$color->value}}</option>
                 @endforeach
@@ -26,7 +26,7 @@
 
             <label for="type">Type:</label>
             <select name="type" id="type" >
-                <option value="{{old('type')}}" disabled selected>{{old('type')}}</option>
+                <option value="{{old('type')}}">{{old('type')}}</option>
                 <option value="Cruiser">Cruiser</option>
                 <option value="Urban">Urban</option>
                 <option value="Kid">Kid</option>
@@ -38,7 +38,7 @@
 
             <label for="gear">Gear:</label>
             <select name="gear" id="gear">
-                <option value="{{old('gear')}}" disabled selected>{{old('gear')}}</option>
+                <option value="{{old('gear')}}">{{old('gear')}}</option>
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
             </select>
@@ -49,7 +49,7 @@
 
             <label for="accessory">Accessory:</label>
             <select name="accessory" id="accessory">
-                <option value="{{old('accessory')}}" disabled selected>{{old('accessory')}}</option>
+                <option value="{{old('accessory')}}">{{old('accessory')}}</option>
                 @foreach ($accessories as $acc)
                     <option value={{$acc->value}}>{{$acc->value}}</option>
                 @endforeach
@@ -61,7 +61,7 @@
 
             <label for="helmet">Helmet:</label>
             <select name="helmet" id="helmet">
-                <option value="{{old('helmet')}}" disabled selected>{{old('helmet')}}</option>
+                <option value="{{old('helmet')}}">{{old('helmet')}}</option>
                 <option value="L">L</option>
                 <option value="M">M</option>
                 <option value="S">S</option>
@@ -73,7 +73,7 @@
         <div class="right-side">
             <label for="code">Code:</label>
             <select name="code" id="code">
-                <option value="{{old('code')}}" disabled selected>{{old('code')}}</option>
+                <option value="{{old('code')}}">{{old('code')}}</option>
                 @foreach ($codes as $code)
                     <option value={{$code->value}}>{{$code->value}}</option>
                 @endforeach
@@ -85,7 +85,7 @@
 
             <label for="location">Location:</label>
             <select name="location" id="location">
-                <option value="{{old('location')}}" disabled selected>{{old('location')}}</option>
+                <option value="{{old('location')}}">{{old('location')}}</option>
                 @foreach ($locations as $loc)
                     <option value={{$loc->value}}>{{$loc->value}}</option>
                 @endforeach
@@ -97,7 +97,7 @@
 
             <label for="rack">Rack:</label>
             <select name="rack" id="rack">
-                <option value="{{old('rack')}}" disabled selected>{{old('rack')}}</option>
+                <option value="{{old('rack')}}">{{old('rack')}}</option>
                 @foreach ($racks as $rack)
                     <option value={{$rack->value}}>{{$rack->value}}</option>
                 @endforeach
@@ -109,7 +109,7 @@
 
             <label for="state">State:</label>
             <select name="state" id="state">
-                <option value="{{old('state')}}" disabled selected>{{old('state')}}</option>
+                <option value="{{old('state')}}">{{old('state')}}</option>
                 <option value="new">New</option>
                 <option value="as new">As New</option>
                 <option value="fair">Fair</option>
@@ -122,7 +122,7 @@
 
             <label for="status">Status:</label>
             <select name="status" id="status">
-                <option value="{{old('status')}}" disabled selected>{{old('status')}}</option>
+                <option value="{{old('status')}}">{{old('status')}}</option>
                 <option value="in">in</option>
                 <option value="out">out</option>
                 <option value="free">free</option>

@@ -5,7 +5,7 @@
 <div class="sorting-section">
     <div class="filter-selector">
         <form method="GET" action="/">
-            <select name="filter" id="filter">
+            <select onchange="this.form.submit()" name="filter" id="filter">
                 <option selected="selected">{{$filter}}</option>
                 @foreach ($categories as $item)
                     @if ($item == $filter || $item == 'Archived')
@@ -16,7 +16,6 @@
                 @endforeach
                 <option value="">None</option>
             </select>
-            <button type="submit">Go</button>
         </form>
     </div>
     <div class="search-bar">
@@ -52,7 +51,7 @@
 @foreach ($orders as $order)
     @php
         $frmtStartDate = date('d-m-Y',strtotime($order->start_date));
-        $frmtEndDate = date('d-m-Y',strtotime($order->end_date));
+        $frmtEndDate = date('d-m-Y (g A)',strtotime($order->end_date));
 
         $date1 = new DateTime($order->start_date);
         $date2 = new DateTime($order->end_date);

@@ -69,10 +69,10 @@ class BikeController extends Controller
             'code' =>'required',
             'location' => 'required',
             'rack' => 'required',
-            'state' => 'required',
+            'state' => '',
             'status' => 'required',
             'helmet' => 'required',
-            'notes' => 'required',
+            'notes' => '',
             'dashboard_order_id' => ''
         ]);
         
@@ -103,10 +103,10 @@ class BikeController extends Controller
             'code' =>'required',
             'location' => 'required',
             'rack' => 'required',
-            'state' => 'required',
+            'state' => '',
             'status' => 'required',
             'helmet' => 'required',
-            'notes' => 'required',
+            'notes' => '',
             'dashboard_order_id' => ''
         ]);
         

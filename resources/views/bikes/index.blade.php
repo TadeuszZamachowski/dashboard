@@ -5,7 +5,7 @@
 <div class="sorting-section-bike">
     <div class="filter-selector">
         <form method="GET" action="/bikes">
-            <select name="filter" id="filter">
+            <select onchange="this.form.submit()" name="filter" id="filter">
                 <option selected="selected">{{$filter}}</option>
                 @foreach ($categories as $item)
                     @if ($item == $filter)
@@ -16,7 +16,6 @@
                 @endforeach
                 <option value="None">None</option>
             </select>
-            <button type="submit">Go</button>
         </form>
     </div>
 </div>
