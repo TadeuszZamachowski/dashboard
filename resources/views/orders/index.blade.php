@@ -39,8 +39,7 @@
         <th onclick="sortTable(6,0,0,1,0)">End Date</th>
         <th onclick="sortTable(7,1,0,0,0)">Status</th>
         <th onclick="sortTable(8,0,0,0,0)">Pickup</th>
-        <th onclick="sortTable(9,0,0,0,1)">#</th>
-        <th onclick="sortTable(10,0,0,0,1)" style="padding-right: 10px">Racks</th>
+        <th onclick="sortTable(9,0,0,0,1)" style="padding-right: 10px">Racks</th>
         <th></th>
         <th></th>
         <th></th>
@@ -69,9 +68,9 @@
                 <a href="/orders/{{$order->dashboard_order_id}}">{{$order->dashboard_order_id}}</a>
                 <span class="tooltiptext" style="width: 250px">
                     Start/End Time: {{date('H:i',strtotime($order->start_date))}}<br>
-                    Email: {{$order->email}}<br>
+                    Bikes: {{$order->number_of_bikes}}<br>
                     Address: {{$order->address}}<br>
-                    Payment Method: {{$order->payment_method}}
+                    Accessories: TODO
                 </span>
             </div>
         </td>
@@ -104,7 +103,6 @@
         </td>
 
         <td>{{$order->pickup_location}}</td>
-        <td>{{$order->number_of_bikes}}</td>
         <td>
             @foreach ($order->bikes as $bike)
                 |{{ $bike->rack }}|

@@ -339,8 +339,8 @@ td {
   display: flex;
 }
 
-.show-order div:last-child {
-  margin-left: 200px;
+.show-order .element {
+  padding: 0px 80px;
 }
 
 /* Tooltip container */

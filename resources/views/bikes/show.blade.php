@@ -4,7 +4,7 @@
 
 
 <div class="show-order">
-    <div class="left-side">
+    <div class="element">
         <h2> {{$bike['color']}} {{$bike['type']}}</h2>
         <p>Gear: {{$bike['gear']}}</p>
         <p>Accessory: {{$bike['accessory']}}</p>
@@ -16,7 +16,10 @@
         <p>Helmet: {{$bike['helmet']}}</p>
         <p>Notes: {{$bike['notes']}}</p>
     </div>
-    <div class="right-side">
+    <div class="element">
+        @php
+            $salesTotal = 0;
+        @endphp
         <h2>Order History</h2>
         <h4>Number of rentals: {{count($history)}}</h4>
         @foreach ($history as $entry)
@@ -31,13 +34,18 @@
                 } else {
                     $link = "/orders/".$entry->order_id;
                 }
+                $salesTotal += $order->amount_paid;
             @endphp
             <p>Order: <a href={{$link}}>{{$entry->order_id}}</a> {{$order->first_name}}</p>
             <p>Start Date: {{date('d-m-Y',strtotime($entry->start_date))}}</p>
             <p>End Date: {{date('d-m-Y',strtotime($entry->end_date))}}</p>
             <p>Duration: {{$duration}} days</p>
+            <p>Total: ${{$order->amount_paid}}</p>
             <br>
         @endforeach
+    </div>
+    <div class="element">
+        <h2>Sales Total: ${{$salesTotal}}</h2>
     </div>
 </div>
 

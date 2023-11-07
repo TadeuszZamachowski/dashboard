@@ -5,7 +5,7 @@
     $frmtEndDate = date('d-m-Y H:i',strtotime($order->end_date));
 @endphp
 <div class="show-order">
-    <div class="left-side">
+    <div class="element">
         <h2> {{$order->dashboard_order_id}}</h2>
         <h3>Start Date: {{$frmtStartDate}}</h3>
         <h3>End Date: {{$frmtEndDate}}</h3>
@@ -21,7 +21,7 @@
         <p>Payment method: {{$order->payment_method}}</p>
     </div>
     @if($archive == true)
-        <div class="right-side">
+        <div class="element">
             <h2>{{count($bikes)}} Bikes:</h2>
             @foreach($bikes as $bike)
                 <p>{{$bike->color}} {{$bike->type}}</p>
