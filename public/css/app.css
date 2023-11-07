@@ -60,6 +60,8 @@ input[type="text"], input[type="date"] {
   background: var(--dark-color);
   padding: 15px;
   margin-left: 13.54%;
+  position: fixed;
+  width: 100%;
    
 }
 
@@ -207,6 +209,14 @@ td {
 
 .bikes-table .bike-free {
   background-color: rgb(216, 216, 216);
+}
+
+.bikes-table .bike-repair {
+  background-color: yellow;
+}
+
+.bike-figures-table {
+  display: none;
 }
 
 .even {

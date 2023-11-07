@@ -36,17 +36,18 @@
             @enderror
             <br>
 
-            <label for="gear">Gear:</label>
-            <select name="gear" id="gear">
-                <option value="{{old('gear')}}">{{old('gear')}}</option>
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-            </select>
-            @error('gear')
-                <p>{{$message}}</p>
-            @enderror
+            <div class="gear-div">
+                <label for="gear">Gear:</label>
+                <select name="gear" id="gear">
+                    <option value="{{old('gear')}}">{{old('gear')}}</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+                @error('gear')
+                    <p>{{$message}}</p>
+                @enderror
+            </div>
             <br>
-
             <label for="accessory">Accessory:</label>
             <select name="accessory" id="accessory">
                 <option value="{{old('accessory')}}">{{old('accessory')}}</option>

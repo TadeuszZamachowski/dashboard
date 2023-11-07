@@ -12,13 +12,20 @@ navLinkElements.forEach(navLinkEl => {
 
 function showSidebar() {
   var x = document.getElementById("navbar-bottom");
-  
-  if (x.style.left === "-100%") {
+
+  if (window.getComputedStyle(x).left === "-100%") {
     x.style.left = "0";
   } else {
     x.style.left = "-100%";
   }
-  console.log(x);
 }
 
-
+function showBikeFigures() {
+  table = document.getElementById("bike-figures-table");
+  
+  if (window.getComputedStyle(table).display === "none") {
+    table.style.display = "table";
+  } else {
+    table.style.display = "none";
+  }
+}

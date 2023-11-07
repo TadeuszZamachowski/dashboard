@@ -2,7 +2,7 @@
 
 @section('content')
 
-<table style="margin-bottom: 20px">
+<table id="bike-figures-table" class="bike-figures-table" style="margin-bottom: 20px">
     <thead>
         <tr>
             <th>Type</th>
@@ -48,7 +48,7 @@
                 $totalAll += count($bikeType);
             @endphp
         @endforeach
-        <tr>
+        <tr style="font-weight: bold">
             <td>Total</td>
             <td>{{$totalIn}}</td>
             <td>{{$totalOut}}</td>
@@ -58,7 +58,7 @@
     </tbody>
 </table>
 
-<div class="sorting-section-bike">
+<div class="sorting-section" style="margin-bottom: 20px">
     <div class="filter-selector">
         <form method="GET" action="/bikes">
             <select onchange="this.form.submit()" name="filter" id="filter">
@@ -73,6 +73,9 @@
                 <option value="None">None</option>
             </select>
         </form>
+    </div>
+    <div class="search-bar">
+        <button onclick="showBikeFigures()" class="btn">Inventory</button>
     </div>
 </div>
 
@@ -100,7 +103,8 @@
         <tr @class([
             'bike-in' => ($bike['status'] == 'in' || $bike['status'] == 'In'),
             'bike-out' => ($bike['status'] == 'out' || $bike['status'] == 'Out'),
-            'bike-free' => $bike['status'] == 'free'
+            'bike-free' => $bike['status'] == 'free',
+            'bike-repair' => $bike['state'] == 'repair' || $bike['status'] == 'Repair'
         ])>
             <td>{{$bike['rack']}}</td>
             <td>{{$bike['color']}}</td>
