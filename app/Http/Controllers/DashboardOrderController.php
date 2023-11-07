@@ -293,4 +293,47 @@ class DashboardOrderController extends Controller
             'bikes' => $bikes
         ]);
     }
+
+    public function home() {
+        
+        $allIn = Bike::where('status', 'LIKE', 'in')->count();
+        $allOut = Bike::where('status', 'LIKE', 'out')->count();
+        $all = Bike::count();
+
+        $mercatoIn = Bike::where('location', 'LIKE', 'Mercato')->where('status', 'LIKE', 'in')->count();
+        $mercatoOut = Bike::where('location', 'LIKE', 'Mercato')->where('status', 'LIKE', 'out')->count();
+        $mercato = $mercatoIn + $mercatoOut;
+
+        $suffolkIn = Bike::where('location', 'LIKE', 'Suffolk')->where('status', 'LIKE', 'in')->count();
+        $suffolkOut = Bike::where('location', 'LIKE', 'Suffolk')->where('status', 'LIKE', 'out')->count();
+        $suffolk = $suffolkIn + $suffolkOut;
+
+        $airbnbIn = Bike::where('location', 'LIKE', 'Airbnb')->where('status', 'LIKE', 'in')->count();
+        $airbnbOut = Bike::where('location', 'LIKE', 'Airbnb')->where('status', 'LIKE', 'out')->count();
+        $airbnb = $airbnbIn + $airbnbOut;
+
+        $totalSales = 0;
+        foreach(DashboardOrder::all() as $order) {
+            $totalSales += $order->amount_paid;
+        }
+        return view('home',[
+            'all' => $all,
+            'allIn' => $allIn,
+            'allOut' => $allOut,
+
+            'mercato' => $mercato,
+            'mercatoIn' => $mercatoIn,
+            'mercatoOut' => $mercatoOut,
+
+            'suffolk' => $suffolk,
+            'suffolkIn' => $suffolkIn,
+            'suffolkOut' => $suffolkOut,
+
+            'airbnb' => $airbnb,
+            'airbnbIn' => $airbnbIn,
+            'airbnbOut' => $airbnbOut,
+
+            'totalSales'=> $totalSales
+        ]);
+    }
 }

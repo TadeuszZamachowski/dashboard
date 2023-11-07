@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BikeController;
 use App\Http\Controllers\BikesDashboardOrderController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\DashboardIncidentController;
 use App\Http\Controllers\DashboardOrder;
 use App\Http\Controllers\DashboardOrderController;
@@ -29,6 +30,10 @@ Route::get('/login',  [LoginController::class, 'login'])->name('login');
 
 //verify login
 Route::post('/login', [LoginController::class, 'doLogin'])->name('login');
+
+
+//---------------------> HOME
+Route::get('/', [DashboardOrderController::class,'home'])->middleware('auth');
 
 
 
