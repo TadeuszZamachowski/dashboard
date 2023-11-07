@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Accessory;
 use App\Models\BikeColor;
 use App\Models\BikeRack;
+use App\Models\BikesDashboardOrder;
 use App\Models\Code;
 use App\Models\DashboardOrder;
 use App\Models\Location;
@@ -55,8 +56,10 @@ class BikeController extends Controller
 
     //show single bike
     public function show(Bike $bike) {
+        $history = BikesDashboardOrder::where('bike_id', $bike->id)->get();
         return view('bikes.show', [
-            'bike' => $bike
+            'bike' => $bike,
+            'history' => $history
         ]);
     }
 

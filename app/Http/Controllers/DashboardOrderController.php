@@ -63,7 +63,7 @@ class DashboardOrderController extends Controller
     public function show(DashboardOrder $order) {
         return view('orders.show', [
             'order' => $order,
-            'archive' => false
+            'archive' => $order->order_status == 'Archived'
         ]);
     }
 
@@ -76,7 +76,7 @@ class DashboardOrderController extends Controller
         
         return view('orders.show', [
             'order' => $order,
-            'archive' => true,
+            'archive' => $order->order_status == 'Archived',
             'bikes' => $bikes
         ]);
     }
