@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 class BikeController extends Controller
 {
     const LOCATIONS = ['Mercato', 'Airbnb', 'Suffolk'];
+    const TYPES = ['Cruiser', 'Urban', 'Kid'];
 
     public function filterBikes($filter) {
         if($filter != 'None') {
@@ -34,10 +35,16 @@ class BikeController extends Controller
         }
         $bikes = $this->filterBikes($request->filter);
 
-        $cruisers = Bike::where('type', 'LIKE', 'Cruiser')->get();
-        $kids = Bike::where('type', 'LIKE', 'Kid')->get();
-        $urbans = Bike::where('type', 'LIKE', 'Urban')->get();
-        $types = array($cruisers, $kids, $urbans);
+        $types = array();
+        foreach($this::TYPES as $type) {
+            foreach(BikeColor::all() as $color) {
+                $bikeFigures = Bike::where('type', 'LIKE', $type)->where('color','LIKE',$color['value'])->get();
+                if(count($bikeFigures) > 0) {
+                    $types[] = $bikeFigures;
+                }
+            }
+        }
+
         return view('bikes.index', [
             'bikes' => $bikes,
             'categories' => $this::LOCATIONS,

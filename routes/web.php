@@ -34,13 +34,13 @@ Route::post('/login', [LoginController::class, 'doLogin'])->name('login');
 
 //---------------------> ORDERS
 //All orders
-Route::get('/', [DashboardOrderController::class, 'index'])->middleware('auth');
+Route::get('/orders', [DashboardOrderController::class, 'index'])->middleware('auth');
 
 //Show create form
 Route::get('/orders/add', [DashboardOrderController::class, 'create'])->middleware('auth');
 
 //Store order data
-Route::post('/', [DashboardOrderController::class, 'store'])->middleware('auth');
+Route::post('/orders', [DashboardOrderController::class, 'store'])->middleware('auth');
 
 //Show edit form
 Route::get('/orders/{order}/edit', [DashboardOrderController::class, 'edit'])->middleware('auth');

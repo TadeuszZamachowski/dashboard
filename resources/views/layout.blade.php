@@ -31,7 +31,8 @@
     <div class="container">
       <div class="main-menu">
         <ul>
-          <li><a class="nav-link" href="/">ORDERS</a></li>
+          <li><a class ="nav-link" href="/">HOME</a></li>
+          <li><a class="nav-link" href="/orders">ORDERS</a></li>
           <li><a class="nav-link" href="/bikes">BIKES</a></li>
           <li><a class="nav-link" href="/schedule">SCHEDULE</a></li>
         </ul>

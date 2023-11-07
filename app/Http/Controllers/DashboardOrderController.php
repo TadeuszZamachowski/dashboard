@@ -134,7 +134,7 @@ class DashboardOrderController extends Controller
         
         DashboardOrder::create($data);
 
-        return redirect('/')->with('success', 'Order succesfully added.');
+        return redirect('/orders')->with('success', 'Order succesfully added.');
     }
 
     public function edit(DashboardOrder $order) {

@@ -21,7 +21,7 @@
         @endphp
         @foreach ($types as $bikeType)
             <tr>
-                <td>{{$bikeType[0]->type}}</td>
+                <td>{{$bikeType[0]->color}} {{$bikeType[0]->type}}</td>
                 @php
                     $ins = 0;
                     $outs = 0;
@@ -57,7 +57,6 @@
         </tr>
     </tbody>
 </table>
-
 <div class="sorting-section" style="margin-bottom: 20px">
     <div class="filter-selector">
         <form method="GET" action="/bikes">
