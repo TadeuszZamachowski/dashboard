@@ -31,10 +31,14 @@ function sortTable(n, isStatus, isLink, isDate, isNum) {
           x = parseFloat(x);
           y = parseFloat(y);
         } else if (isDate == 1) {
-          arr1 = x.split("-");
+          arr1 = x.split("-"); // [24, 12, 2023 (12 PM)]
           arr2 = y.split("-");
-          x = arr1[2].concat("-", arr1[1], "-", arr1[0]);
-          y = arr2[2].concat("-", arr2[1], "-", arr2[0]);
+          
+          //beacuse of end date containing time
+          year = arr1[2].split(" "); //[2023, (12, PM)]
+          
+          x = year[0].concat("-", arr1[1], "-", arr1[0]); //
+          y = year[0].concat("-", arr2[1], "-", arr2[0]);
           x = new Date(x);
           y = new Date(y);
         } else {
