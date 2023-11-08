@@ -340,7 +340,9 @@ td {
 }
 
 .show-order .element {
-  padding: 0px 80px;
+  padding: 0px 40px;
+  width: 100%;
+  white-space: nowrap;
 }
 
 /* Tooltip container */

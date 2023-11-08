@@ -95,6 +95,7 @@
         <th></th>
         <th></th>
         <th></th>
+        <th></th>
     </tr>
     </thead>
 @foreach ($bikes as $bike)
@@ -141,13 +142,19 @@
                     <button onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa-solid fa-trash" style="color: #000000;"></i></button>
                 </form>
             </td>
+            <td>
+                <form method="POST" action="/bikes/check/{{$bike->id}}">
+                    @csrf
+                    <button><i class="fa-solid fa-check"></i></button>
+                </form>
+            </td>
         </tr>
     </tbody>
     {{-- Black stripe after rack 15 --}}
     @if($bike->rack == 15) 
         <tr style="background-color: black;">
-            @for ($i = 13; $i > 0; $i--)
-                <td>.</td>
+            @for ($i = 14; $i > 0; $i--)
+                <td style="padding: 30px"></td>
             @endfor
         </tr>
     @endif

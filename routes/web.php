@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BikeController;
+use App\Http\Controllers\BikesCheckController;
 use App\Http\Controllers\BikesDashboardOrderController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\DashboardIncidentController;
@@ -92,6 +93,11 @@ Route::delete('/bikes/{bike}', [BikeController::class, 'destroy'])->middleware('
 
 //Show single bike
 Route::get('/bikes/{bike}', [BikeController::class, 'show'])->middleware('auth');
+
+
+
+//Store bike check
+Route::post('/bikes/check/{bike}', [BikesCheckController::class, 'store'])->middleware('auth');
 
 
 //Schedule

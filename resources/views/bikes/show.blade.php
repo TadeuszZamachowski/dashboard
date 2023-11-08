@@ -19,6 +19,8 @@
     <div class="element">
         @php
             $salesTotal = 0;
+            $durationTotal = 0;
+            $checkCount = 0;
         @endphp
         <h2>Order History</h2>
         <h4>Number of rentals: {{count($history)}}</h4>
@@ -35,6 +37,7 @@
                     $link = "/orders/".$entry->order_id;
                 }
                 $salesTotal += $order->amount_paid;
+                $durationTotal += $duration;
             @endphp
             <p>Order: <a href={{$link}}>{{$entry->order_id}}</a> {{$order->first_name}}</p>
             <p>Start Date: {{date('d-m-Y',strtotime($entry->start_date))}}</p>
@@ -45,7 +48,17 @@
         @endforeach
     </div>
     <div class="element">
+        <h2>Check History</h2>
+        @foreach ($checks as $check)
+            @php
+                $checkCount += 1;
+            @endphp
+            <p>{{$checkCount}}.  {{$check->created_at}}</p>
+        @endforeach
+    </div>
+    <div class="element">
         <h2>Sales Total: ${{$salesTotal}}</h2>
+        <h2>Duration Total: {{$durationTotal}} days</h2>
     </div>
 </div>
 
