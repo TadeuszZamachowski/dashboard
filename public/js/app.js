@@ -29,3 +29,14 @@ function showBikeFigures() {
     table.style.display = "none";
   }
 }
+
+function showGear(val) {
+  var gearVal = "";
+  if (val == 'Urban') {
+      gearVal = "Yes";
+  } else {
+      gearVal = "No";
+  }
+
+  document.getElementById('gear').value = gearVal;
+}

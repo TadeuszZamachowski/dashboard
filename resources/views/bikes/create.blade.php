@@ -25,7 +25,7 @@
             <br>
 
             <label for="type">Type:</label>
-            <select name="type" id="type" >
+            <select name="type" id="type" onchange="showGear(this.value)">
                 <option value="{{old('type')}}">{{old('type')}}</option>
                 <option value="Cruiser">Cruiser</option>
                 <option value="Urban">Urban</option>
