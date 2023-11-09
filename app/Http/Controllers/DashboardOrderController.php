@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Bike;
 use App\Models\BikesDashboardOrder;
 use App\Models\DashboardOrder;
+use App\Models\Location;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -28,10 +29,10 @@ class DashboardOrderController extends Controller
     public function filterOrders($filter) {
         if($filter != null) {
             $orders = DashboardOrder::where('order_status', '!=', 'Archived')->where('order_status',$filter)->orWhere('order_status','wc-'.strtolower($filter))
-        ->orderByDesc('dashboard_order_id')->with('bikes')->paginate($this::PAGINATION_NUMBER);
+        ->orderByDesc('dashboard_order_id')->with('history')->paginate($this::PAGINATION_NUMBER);
         } else {
             $orders = DashboardOrder::where('order_status', '!=', 'Archived')->
-            orderByDesc('dashboard_order_id')->with('bikes')->paginate($this::PAGINATION_NUMBER);
+            orderByDesc('dashboard_order_id')->with('history')->paginate($this::PAGINATION_NUMBER);
         }
         return $orders;
     }
@@ -44,7 +45,7 @@ class DashboardOrderController extends Controller
         ->orWhere('mobile', 'LIKE', '%'.$search.'%')
         ->orWhere('amount_paid', 'LIKE', '%'.$search.'%')
         ->orWhere('pickup_location', 'LIKE', '%'.$search.'%')
-        ->orderByDesc('dashboard_order_id')->with('bikes')->paginate($this::PAGINATION_NUMBER);
+        ->orderByDesc('dashboard_order_id')->with('history')->paginate($this::PAGINATION_NUMBER);
     }
     public function index(Request $request) {
         $orders = $this->filterOrders($request->filter);
@@ -208,7 +209,14 @@ class DashboardOrderController extends Controller
         if($order->order_status == 'Completed') {
             $this->freeBikes($order);
             $this->deleteEvent($order);
-            return redirect()->to($request->last_url)->with('success', 'Order '. $order->dashboard_order_id .' completed and moved to archive');
+        } else if ($order->order_status == 'Cancelled') {
+            $this->freeBikes($order);
+            $this->deleteEvent($order);
+
+            $history = BikesDashboardOrder::where('order_id', $order->dashboard_order_id)->get();
+            foreach($history as $entry) {
+                $entry->delete();
+            }
         }
 
         return redirect()->to($request->last_url)->with('success', 'Order '. $order->dashboard_order_id .' edited.');
@@ -230,8 +238,15 @@ class DashboardOrderController extends Controller
         if($order->order_status == 'Completed') {
             $this->freeBikes($order);
             $this->deleteEvent($order);
-            return redirect()->back()->with('success', 'Order '. $order->dashboard_order_id .' completed');
-        } 
+        } else if ($order->order_status == 'Cancelled') {
+            $this->freeBikes($order);
+            $this->deleteEvent($order);
+
+            $history = BikesDashboardOrder::where('order_id', $order->dashboard_order_id)->get();
+            foreach($history as $entry) {
+                $entry->delete();
+            }
+        }
 
         return redirect()->back()->with('success', 'Status of '. $order->dashboard_order_id .' edited.');
     }
@@ -295,45 +310,54 @@ class DashboardOrderController extends Controller
     }
 
     public function home() {
+        $todaySales = UtilController::getTodaysSales();
+        $weekSales = UtilController::getWeekSales();
+        $monthSales = UtilController::getMonthSales();
+        $yearSales = UtilController::getYearSales();
+        $totalSales = UtilController::getTotalSales();
         
         $allIn = Bike::where('status', 'LIKE', 'in')->count();
         $allOut = Bike::where('status', 'LIKE', 'out')->count();
         $all = Bike::count();
 
-        $mercatoIn = Bike::where('location', 'LIKE', 'Mercato')->where('status', 'LIKE', 'in')->count();
-        $mercatoOut = Bike::where('location', 'LIKE', 'Mercato')->where('status', 'LIKE', 'out')->count();
-        $mercato = $mercatoIn + $mercatoOut;
+        $bikesInLocations = UtilController::getBikeStats(Location::all());
 
-        $suffolkIn = Bike::where('location', 'LIKE', 'Suffolk')->where('status', 'LIKE', 'in')->count();
-        $suffolkOut = Bike::where('location', 'LIKE', 'Suffolk')->where('status', 'LIKE', 'out')->count();
-        $suffolk = $suffolkIn + $suffolkOut;
+        // $mercatoIn = Bike::where('location', 'LIKE', 'Mercato')->where('status', 'LIKE', 'in')->count();
+        // $mercatoOut = Bike::where('location', 'LIKE', 'Mercato')->where('status', 'LIKE', 'out')->count();
+        // $mercato = $mercatoIn + $mercatoOut;
 
-        $airbnbIn = Bike::where('location', 'LIKE', 'Airbnb')->where('status', 'LIKE', 'in')->count();
-        $airbnbOut = Bike::where('location', 'LIKE', 'Airbnb')->where('status', 'LIKE', 'out')->count();
-        $airbnb = $airbnbIn + $airbnbOut;
+        // $suffolkIn = Bike::where('location', 'LIKE', 'Suffolk')->where('status', 'LIKE', 'in')->count();
+        // $suffolkOut = Bike::where('location', 'LIKE', 'Suffolk')->where('status', 'LIKE', 'out')->count();
+        // $suffolk = $suffolkIn + $suffolkOut;
 
-        $totalSales = 0;
-        foreach(DashboardOrder::all() as $order) {
-            $totalSales += $order->amount_paid;
-        }
+        // $airbnbIn = Bike::where('location', 'LIKE', 'Airbnb')->where('status', 'LIKE', 'in')->count();
+        // $airbnbOut = Bike::where('location', 'LIKE', 'Airbnb')->where('status', 'LIKE', 'out')->count();
+        // $airbnb = $airbnbIn + $airbnbOut;
+
         return view('home',[
+            'todaySales' => $todaySales,
+            'weekSales' => $weekSales,
+            'monthSales' => $monthSales,
+            'yearSales' => $yearSales,
+            'totalSales'=> $totalSales,
+
             'all' => $all,
             'allIn' => $allIn,
             'allOut' => $allOut,
 
-            'mercato' => $mercato,
-            'mercatoIn' => $mercatoIn,
-            'mercatoOut' => $mercatoOut,
+            'bikes' => $bikesInLocations
 
-            'suffolk' => $suffolk,
-            'suffolkIn' => $suffolkIn,
-            'suffolkOut' => $suffolkOut,
+            // 'mercato' => $mercato,
+            // 'mercatoIn' => $mercatoIn,
+            // 'mercatoOut' => $mercatoOut,
 
-            'airbnb' => $airbnb,
-            'airbnbIn' => $airbnbIn,
-            'airbnbOut' => $airbnbOut,
+            // 'suffolk' => $suffolk,
+            // 'suffolkIn' => $suffolkIn,
+            // 'suffolkOut' => $suffolkOut,
 
-            'totalSales'=> $totalSales
+            // 'airbnb' => $airbnb,
+            // 'airbnbIn' => $airbnbIn,
+            // 'airbnbOut' => $airbnbOut
         ]);
     }
 }

@@ -22,6 +22,7 @@
           <li><a href="/orders/archive">Archive</a></li>
           <li><a href="/reports">Reports</a></li>
           <li><a href="/settings">Settings</a></li>
+          <li><a class ="nav-link" href="/">Statistics</a></li>
         </ul>
       </div>
     </div> 
@@ -31,7 +32,6 @@
     <div class="container">
       <div class="main-menu">
         <ul>
-          <li><a class ="nav-link" href="/">HOME</a></li>
           <li><a class="nav-link" href="/orders">ORDERS</a></li>
           <li><a class="nav-link" href="/bikes">BIKES</a></li>
           <li><a class="nav-link" href="/schedule">SCHEDULE</a></li>

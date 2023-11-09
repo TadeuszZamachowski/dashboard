@@ -2,36 +2,46 @@
 @section('content')
 
 <h1>DASHBOARD</h1>
-<div class="total-bikes">
-    <p>Total bikes: {{$all}}</p>
-    <p>In: {{$allIn}}</p>
-    <p>Out: {{$allOut}}</p>
-</div>
-<br>
 
-<div class="mercato-bikes">
-    <p>Mercato bikes: {{$mercato}}</p>
-    <p>In: {{$mercatoIn}}</p>
-    <p>Out: {{$mercatoOut}}</p>
+<div class="show-order">
+    <div class="element">
+        <table>
+            <thead> <h2>Bikes</h2>
+                <th>Location</th>
+                <th>In</th>
+                <th>Out</th>
+                <th>Total</th>
+            </thead>
+            <tbody>
+                @foreach ($bikes as $bikesInLocation)
+                <tr>
+                    @foreach ($bikesInLocation as $bikeStat)
+                        <td>{{$bikeStat}}</td>
+                    @endforeach
+                </tr>
+                @endforeach
+                <tr style="font-weight: bold">
+                    <td>Total</td>
+                    <td>{{$allIn}}</td>
+                    <td>{{$allOut}}</td>
+                    <td>{{$all}}</td>
+                </tr>
+            </tbody>
+        </table>
+        
+    </div>
+    <div class="element">
+        <h2>Sales</h2>
+        <p>Today's sales: ${{$todaySales}}</p>
+        <p>Week sales: ${{$weekSales}}</p>
+        <p>Month's sales: ${{$monthSales}}</p>
+        <p>Year sales: ${{$yearSales}}</p>
+        <p>Total sales: ${{$totalSales}}</p>
+        {{-- @foreach ($orders as $order)
+            {{$order->first_name}}
+        @endforeach
+        {{count($orders)}} --}}
+        
+    </div>
 </div>
-<br>
-
-<div class="suffolk-bikes">
-    <p>Suffolk bikes: {{$suffolk}}</p>
-    <p>In: {{$suffolkIn}}</p>
-    <p>Out: {{$suffolkOut}}</p>
-</div>
-<br>
-
-<div class="airbnb-bikes">
-    <p>Airbnb bikes: {{$airbnb}}</p>
-    <p>In: {{$airbnbIn}}</p>
-    <p>Out: {{$airbnbOut}}</p>
-</div>
-<br>
-
-<div class="sales">
-    <p>Total sales: ${{$totalSales}}</p>
-</div>
-
 @endsection

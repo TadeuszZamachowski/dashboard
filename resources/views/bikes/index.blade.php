@@ -83,10 +83,10 @@
     <tr>
         {{-- sortTable(n, isStatus, isLink, isDate, isNum) --}}
         <th onclick="sortTable(0,0,0,0,1)">Rack</th>
-        <th onclick="sortTable(1,0,0,0,0)">Color</th>
-        <th onclick="sortTable(2,0,0,0,0)">Type</th>
-        <th onclick="sortTable(3,0,0,0,0)">Accessory</th>
-        <th onclick="sortTable(4,0,1,0,1)">Code</th>
+        <th onclick="sortTable(1,0,1,0,1)">Code</th>
+        <th onclick="sortTable(2,0,0,0,0)">Color</th>
+        <th onclick="sortTable(3,0,0,0,0)">Type</th>
+        <th onclick="sortTable(4,0,0,0,0)">Accessory</th>
         <th onclick="sortTable(5,0,0,0,0)">Location</th>
         <th onclick="sortTable(6,0,0,0,0)">Status</th>
         <th onclick="sortTable(7,0,0,0,1)">Order ID</th>
@@ -107,10 +107,10 @@
             'bike-repair' => $bike['state'] == 'repair' || $bike['status'] == 'Repair'
         ])>
             <td>{{$bike['rack']}}</td>
+            <td><a href="/bikes/{{$bike['id']}}">{{$bike['code']}}</a></td>
             <td>{{$bike['color']}}</td>
             <td>{{$bike['type']}}</td>
             <td>{{$bike['accessory']}}</td>
-            <td><a href="/bikes/{{$bike['id']}}">{{$bike['code']}}</a></td>
             <td>{{$bike['location']}}</td>
             <td>{{$bike['status']}}</td>
             <td>

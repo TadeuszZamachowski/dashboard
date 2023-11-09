@@ -104,13 +104,16 @@
 
         <td>{{$order->pickup_location}}</td>
         <td>
-            @foreach ($order->bikes as $bike)
+            @foreach ($order->history as $entry)
+                @php
+                    $bike = App\Models\Bike::where('id', $entry->bike_id)->first();
+                @endphp
                 |{{ $bike->rack }}|
             @endforeach 
         </td>
         <td>
             <div @class([
-                'tooltip' => count($order->bikes) > 0
+                'tooltip' => count($order->history) > 0
                 ])>
                 <a href="/orders/{{$order->dashboard_order_id}}/assign">
                     <i @class([
@@ -119,8 +122,11 @@
                     </i>
                 </a>
                 <span class="tooltiptext">
-                    @if(count($order->bikes) > 0)
-                        @foreach ($order->bikes as $bike)
+                    @if(count($order->history) > 0)
+                        @foreach ($order->history as $entry)
+                            @php
+                                $bike = App\Models\Bike::where('id', $entry->bike_id)->first();
+                            @endphp
                             Rack {{$bike->rack}} | Code: {{$bike->code}} <br>
                         @endforeach 
                     @endif

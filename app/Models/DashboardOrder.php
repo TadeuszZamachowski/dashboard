@@ -38,4 +38,9 @@ class DashboardOrder extends Model
     {
         return $this->hasMany('App\Models\Bike', 'dashboard_order_id', 'dashboard_order_id');
     }
+
+    public function history(): HasMany 
+    {
+        return $this->hasMany('App\Models\BikesDashboardOrder', 'order_id', 'dashboard_order_id');
+    }
 }
