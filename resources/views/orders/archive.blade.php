@@ -8,11 +8,12 @@
         <th onclick="sortTable(1,0,0,0,0)">Name</th>
         <th onclick="sortTable(2,0,0,0,1)">Phone number</th>
         <th onclick="sortTable(3,0,0,1,0)">Start Date</th>
-        <th onclick="sortTable(4,0,0,0,1)">Duration</th>
+        <th onclick="sortTable(4,0,0,0,1)">Duration (Days)</th>
         <th onclick="sortTable(5,0,0,0,1)">$</th>
-        <th onclick="sortTable(6,0,0,0,0)">Status</th>
-        <th onclick="sortTable(7,0,0,0,0)">Pickup</th>
-        <th onclick="sortTable(8,0,0,0,1)">Bikes</th>
+        <th onclick="sortTable(6,0,0,1,0)">End Date</th>
+        <th onclick="sortTable(8,0,0,0,0)">Pickup</th>
+        <th onclick="sortTable(9,0,0,0,1)">Bikes</th>
+        <th></th>
     </tr>
     </thead>
 @php
@@ -36,27 +37,21 @@
         <td>{{$order->first_name}} {{$order->last_name}}</td>
         <td>{{$order->mobile}}</td>
         <td nowrap>{{$frmtStartDate}}</td>
-        <td nowrap>{{$duration}} days</td>
+        <td nowrap>{{$duration}}</td>
         <td>{{$order->amount_paid}}</td>
-        <td>{{$order->order_status}}</td>
+        <td nowrap>{{$frmtEndDate}}</td>
 
         <td>{{$order->pickup_location}}</td>
-        <td>
-            <div class="tooltip">
-                <i class="fa-solid fa-bicycle" style="color: green"></i>
-                <span class="tooltiptext">
-                    @foreach ($history as $entry)
-                        @if($entry->order_id == $order->dashboard_order_id)
-                            @foreach ($bikes as $bike)
-                            @if($bike->id == $entry->bike_id)
-                                Rack {{$bike->rack}} | Code: {{$bike->code}} <br>
-                            @endif
-                            @endforeach
-                        @endif
-                    @endforeach   
-                </span>
-            </div>
+        <td nowrap>       
+            @foreach ($order->history as $entry)
+                @php
+                    $bike = App\Models\Bike::where('id', $entry->bike_id)->first();
+                @endphp
+                    Rack {{$bike->rack}} | Code: {{$bike->code}}
+                    <br>
+            @endforeach           
         </td>
+        <td><a href="/orders/{{$order->dashboard_order_id}}/edit"><i class="fas fa-edit"></i></a></td>
     </tr>
     </tbody>
     @php

@@ -91,13 +91,16 @@
             </div>
             <br>
 
-            <div class="input-section">
-                <label for="pickup_location">Pickup Location:</label>
-                <input type="text" id="pickup_location" name="pickup_location" value="{{old('pickup_location')}}">
-                @error('pickup_location')
-                    <p>{{$message}}</p>
-                @enderror
-            </div>
+            <label for="pickup_location">Location:</label>
+            <select name="pickup_location" id="pickup_location">
+                <option value="{{old('pickup_location')}}">{{old('pickup_location')}}</option>
+                @foreach ($locations as $loc)
+                    <option value={{$loc->value}}>{{$loc->value}}</option>
+                @endforeach
+            </select>
+            @error('pickup_location')
+                <p>{{$message}}</p>
+            @enderror
             <br>
 
             <div class="input-section">

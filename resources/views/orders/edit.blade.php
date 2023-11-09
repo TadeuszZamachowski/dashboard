@@ -8,7 +8,7 @@
     }
 </style>
 <h1>Edit Order</h1>
-@if ($order->bikes_assigned == 1 && $order->order_status != "Completed")
+@if ($order->bikes_assigned == 1 && ($order->order_status != "Completed" && $order->order_status != 'Archived'))
 <div class="reassign" style="padding-top: 20px">
     <a class="btn" href="/orders/{{$order->dashboard_order_id}}/assign">Reassign bikes</a>
 </div>
@@ -84,7 +84,7 @@
             <div class="input-section">
                 <label for="payment_method">Payment Method:</label>
                 <select name="payment_method" id="payment_method">
-                    <option value="{{$order->payment_method}}" disabled selected>{{$order->payment_method}}</option>
+                    <option value="{{$order->payment_method}}">{{$order->payment_method}}</option>
                     <option value="bacs">Bank Transfer</option>
                     <option value="cc">Credit Card</option>
                     <option value="pp">PayPal</option>

@@ -83,7 +83,9 @@ class DashboardOrderController extends Controller
     }
 
     public function create() {
-        return view('orders.create');
+        return view('orders.create', [
+            'locations' => Location::all()
+        ]);
     }
 
     public function createEvent($name, $description, $startDate, $endDate) {//google calendar
@@ -300,12 +302,9 @@ class DashboardOrderController extends Controller
 
     public function archive() {
         $history = BikesDashboardOrder::all();
-        $bikes = Bike::all();
         return view('orders.archive', [
-            'orders' => DashboardOrder::where('order_status', 'Archived')->orderByDesc('dashboard_order_id')
-            ->paginate($this::PAGINATION_NUMBER),
-            'history' => $history,
-            'bikes' => $bikes
+            'orders' => DashboardOrder::where('order_status', 'Archived')->with('history')->orderByDesc('dashboard_order_id')
+            ->paginate($this::PAGINATION_NUMBER)
         ]);
     }
 
@@ -322,18 +321,6 @@ class DashboardOrderController extends Controller
 
         $bikesInLocations = UtilController::getBikeStats(Location::all());
 
-        // $mercatoIn = Bike::where('location', 'LIKE', 'Mercato')->where('status', 'LIKE', 'in')->count();
-        // $mercatoOut = Bike::where('location', 'LIKE', 'Mercato')->where('status', 'LIKE', 'out')->count();
-        // $mercato = $mercatoIn + $mercatoOut;
-
-        // $suffolkIn = Bike::where('location', 'LIKE', 'Suffolk')->where('status', 'LIKE', 'in')->count();
-        // $suffolkOut = Bike::where('location', 'LIKE', 'Suffolk')->where('status', 'LIKE', 'out')->count();
-        // $suffolk = $suffolkIn + $suffolkOut;
-
-        // $airbnbIn = Bike::where('location', 'LIKE', 'Airbnb')->where('status', 'LIKE', 'in')->count();
-        // $airbnbOut = Bike::where('location', 'LIKE', 'Airbnb')->where('status', 'LIKE', 'out')->count();
-        // $airbnb = $airbnbIn + $airbnbOut;
-
         return view('home',[
             'todaySales' => $todaySales,
             'weekSales' => $weekSales,
@@ -346,18 +333,6 @@ class DashboardOrderController extends Controller
             'allOut' => $allOut,
 
             'bikes' => $bikesInLocations
-
-            // 'mercato' => $mercato,
-            // 'mercatoIn' => $mercatoIn,
-            // 'mercatoOut' => $mercatoOut,
-
-            // 'suffolk' => $suffolk,
-            // 'suffolkIn' => $suffolkIn,
-            // 'suffolkOut' => $suffolkOut,
-
-            // 'airbnb' => $airbnb,
-            // 'airbnbIn' => $airbnbIn,
-            // 'airbnbOut' => $airbnbOut
         ]);
     }
 }
