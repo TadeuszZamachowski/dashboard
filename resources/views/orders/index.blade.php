@@ -39,8 +39,7 @@
         <th onclick="sortTable(6,0,0,1,0)">End Date</th>
         <th onclick="sortTable(7,1,0,0,0)">Status</th>
         <th onclick="sortTable(8,0,0,0,0)">Pickup</th>
-        <th onclick="sortTable(9,0,0,0,1)" style="padding-right: 10px">Racks</th>
-        <th></th>
+        <th nowrap onclick="sortTable(9,0,0,0,1)" style="padding-right: 10px">Rack | Code</th>
         <th></th>
         <th></th>
     </tr>
@@ -103,35 +102,23 @@
         </td>
 
         <td>{{$order->pickup_location}}</td>
-        <td>
-            @foreach ($order->history as $entry)
-                @php
-                    $bike = App\Models\Bike::where('id', $entry->bike_id)->first();
-                @endphp
-                |{{ $bike->rack }}|
-            @endforeach 
-        </td>
-        <td>
-            <div @class([
-                'tooltip' => count($order->history) > 0
-                ])>
+        <td nowrap>
+            {{-- If order assigned display bike info, else display icon --}}
+            @if (count($order->history) <= 0)
                 <a href="/orders/{{$order->dashboard_order_id}}/assign">
                     <i @class([
                         'fa-solid fa-bicycle bikes-assigned' => $order->bikes_assigned == 1,
                         'fa-solid fa-bicycle' => $order->bikes_assigned != 1])>
                     </i>
-                </a>
-                <span class="tooltiptext">
-                    @if(count($order->history) > 0)
-                        @foreach ($order->history as $entry)
-                            @php
-                                $bike = App\Models\Bike::where('id', $entry->bike_id)->first();
-                            @endphp
-                            Rack {{$bike->rack}} | Code: {{$bike->code}} <br>
-                        @endforeach 
-                    @endif
-                </span>
-            </div>
+                </a>               
+            @else
+                @foreach ($order->history as $entry)
+                    @php
+                        $bike = App\Models\Bike::where('id', $entry->bike_id)->first();
+                    @endphp
+                    {{ $bike->rack }} | {{ $bike->code }} <br>
+                @endforeach 
+            @endif
         </td>
         <td>
             <a href="/orders/{{$order->dashboard_order_id}}/edit"><i class="fas fa-edit"></i></a>

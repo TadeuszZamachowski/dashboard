@@ -5,7 +5,7 @@
 
 <div class="show-order">
     <div class="element">
-        <table>
+        <table class="clean-table">
             <thead> <h2>Bikes</h2>
                 <th>Location</th>
                 <th>In</th>
@@ -37,10 +37,6 @@
         <p>Month's sales: ${{$monthSales}}</p>
         <p>Year sales: ${{$yearSales}}</p>
         <p>Total sales: ${{$totalSales}}</p>
-        {{-- @foreach ($orders as $order)
-            {{$order->first_name}}
-        @endforeach
-        {{count($orders)}} --}}
         
     </div>
 </div>

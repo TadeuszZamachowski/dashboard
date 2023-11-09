@@ -8,6 +8,11 @@
     }
 </style>
 <h1>Edit Order</h1>
+@if ($order->bikes_assigned == 1 && $order->order_status != "Completed")
+<div class="reassign" style="padding-top: 20px">
+    <a class="btn" href="/orders/{{$order->dashboard_order_id}}/assign">Reassign bikes</a>
+</div>
+@endif
 <form method="POST" action="/orders/{{$order->dashboard_order_id}}">
     @csrf
     @method('PUT')
