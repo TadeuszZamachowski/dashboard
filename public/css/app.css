@@ -93,9 +93,11 @@ input[type="text"], input[type="date"] {
   background-color: #454545;
 }
 
-.navbar-top ul li a.active{
+ ul li a.active{
   color: var(--light-pink);
 }
+
+
 
 .navbar-bottom {
   display: block;

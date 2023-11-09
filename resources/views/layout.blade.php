@@ -18,11 +18,11 @@
     <div class="container">
       <div class="main-menu">
         <ul>
-          <li><a href="/incidents">Incidents</a></li>
-          <li><a href="/orders/archive">Archive</a></li>
-          <li><a href="/reports">Reports</a></li>
-          <li><a href="/settings">Settings</a></li>
-          <li><a class ="nav-link" href="/">Statistics</a></li>
+          <li><a class="nav-link" href="/incidents">Incidents</a></li>
+          <li><a class="nav-link" href="/orders/archive">Archive</a></li>
+          <li><a class="nav-link" href="/reports">Reports</a></li>
+          <li><a class="nav-link" href="/settings">Settings</a></li>
+          <li><a class="nav-link" href="/">Statistics</a></li>
         </ul>
       </div>
     </div> 

@@ -8,6 +8,7 @@ use App\Http\Controllers\DashboardIncidentController;
 use App\Http\Controllers\DashboardOrder;
 use App\Http\Controllers\DashboardOrderController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ use Illuminate\Http\Request;
 |
 | Here is where you can register web routes for your application. These
 | routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
+| be assigned to the "web" middleware group
 |
 */
 
@@ -71,7 +72,7 @@ Route::get('/orders/archive/{order}', [DashboardOrderController::class, 'showArc
 
 
 
-//----------------------> BIKES 
+//---------------------> BIKES 
 
 //All bikes
 Route::get('/bikes', [BikeController::class, 'index'])->middleware('auth');
@@ -94,17 +95,17 @@ Route::delete('/bikes/{bike}', [BikeController::class, 'destroy'])->middleware('
 //Show single bike
 Route::get('/bikes/{bike}', [BikeController::class, 'show'])->middleware('auth');
 
-
-
 //Store bike check
 Route::post('/bikes/check/{bike}', [BikesCheckController::class, 'store'])->middleware('auth');
 
 
-//Schedule
+//---------------------> SCHEDULE
 Route::get('/schedule',[DashboardOrderController::class, 'showSchedule'])->middleware('auth');
 
 Route::get('/schedule/update',[DashboardOrderController::class, 'updateSchedule'])->middleware('auth');
 
+
+//---------------------> HISTORY
 //Show Assign bike to order form
 Route::get('/orders/{order}/assign', [BikesDashboardOrderController::class, 'show'])->middleware('auth');
 
@@ -124,7 +125,7 @@ Route::delete('/bikes/assign/{bike}', [BikesDashboardOrderController::class, 'de
 Route::get('/history', [BikesDashboardOrderController::class, 'index'])->middleware('auth');
 
 
-//-------------------------------------SETTINGS
+//---------------------> SETTINGS
 //show settings
 Route::get('/settings', [SettingsController::class, 'index'])->middleware('auth');
 
@@ -184,7 +185,7 @@ Route::delete('/settings/racks/{rack}', [SettingsController::class, 'racksDestro
 
 
 
-//------------------Incidents-----------------------
+//---------------------> INCIDENTS
 Route::get('/incidents', [DashboardIncidentController::class, 'index'])->middleware('auth');
 
 //show add incidents form
@@ -201,5 +202,15 @@ Route::put('/incidents/{incident}', [DashboardIncidentController::class, 'update
 
 //Delete incident
 Route::delete('/incidents/{incident}', [DashboardIncidentController::class, 'destroy'])->middleware('auth');
+
+
+
+
+//---------------------> REPORTS
+Route::get('/reports', [ReportsController::class,'index'])->middleware('auth');
+
+Route::get('/reports/salesByLocation', [ReportsController::class, 'salesByLocation'])->middleware('auth');
+
+Route::get('/reports/salesByLocation/result', [ReportsController::class,'process'])->middleware('auth');
 
 
