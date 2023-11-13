@@ -10,7 +10,7 @@
   --light-pink: #feb1df;
   --dark-pink: #522733;
   --dark-color: #333;
-  --complete-color: rgb(11, 224, 11);
+  --complete-color: rgba(11, 224, 11, 0.7);
 }
 
 body {
@@ -252,6 +252,11 @@ td {
 
 .orders-table .due-date {
   background-color: rgba(255, 0, 0, 0.5);
+  
+}
+
+.orders-table .completed {
+  background-color: var(--complete-color);
   
 }
 

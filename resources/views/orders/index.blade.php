@@ -61,7 +61,8 @@
     <tbody>
     <tr @class([
         'even' => $even == true,
-        'due-date' => ($order->order_status == 'Processing') && (date('Y-m-d H:i:s', strtotime($order->end_date)) < date('Y-m-d H:i:s'))
+        'due-date' => ($order->order_status == 'Processing') && (date('Y-m-d H:i:s', strtotime($order->end_date)) < date('Y-m-d H:i:s')),
+        'completed' => $order->order_status == 'Completed'
     ])>
         <td>
             <div class="tooltip">
@@ -87,8 +88,7 @@
                     @csrf
                     @method('PUT')
                     <select onchange="this.form.submit()" name="order_status" id="order_status" @class([
-                        'select-order-complete' => ($order->order_status == 'Completed' || $order->order_status == 'completed' || $order->order_status == 'wc-complete'),
-                        'select-order-processing' => ($order->order_status == 'Processing' || $order->order_status == 'processing' || $order->order_status == 'wc-processing')
+                        'select-order-processing' => ($order->order_status == 'Processing' || $order->order_status == 'Completed')
                     ])>
                         <option id="status_option" selected="selected">{{$order->order_status}}</option>
                         @foreach ($categories as $item)

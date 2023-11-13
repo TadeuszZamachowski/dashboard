@@ -17,7 +17,7 @@ class DashboardIncidentController extends Controller
 
     public function create() {
         return view('incidents.create', [
-            'orders' => DashboardOrder::all()->sortByDesc('dashboard_order_id'),
+            'orders' => DashboardOrder::where('order_status', 'NOT LIKE', 'Archived')->get()->sortByDesc('dashboard_order_id'),
             'bikes' => Bike::all()->sortBy('rack')
         ]);
     }
