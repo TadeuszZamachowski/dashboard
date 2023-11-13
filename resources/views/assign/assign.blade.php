@@ -14,7 +14,7 @@
             @for($i = 0; $i < $order->number_of_bikes; $i++)
             <select name="bike_ids[]" id="bike_ids">
                 @for($j = $counter; $j < count($bikes); $j++)
-                    <option value="{{$bikes[$j]->id}}">{{$bikes[$j]->color}}, Code - {{$bikes[$j]->code}}, Rack - {{$bikes[$j]->rack}}</option>
+                    <option value="{{$bikes[$j]->id}}">{{$bikes[$j]->color}} {{$bikes[$j]->type}}, Code - {{$bikes[$j]->code}}, Rack - {{$bikes[$j]->rack}}</option>
                 @endfor
             </select>
             <br>
