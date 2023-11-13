@@ -185,6 +185,17 @@ Route::delete('/settings/racks/{rack}', [SettingsController::class, 'racksDestro
 
 
 
+//show accommodations
+Route::get('/settings/accommodations', [SettingsController::class, 'accommodations'])->middleware('auth');
+
+//add accommodations
+Route::post('/settings/accommodations', [SettingsController::class, 'accommodationsStore'])->middleware('auth');
+
+//delete accommodations
+Route::delete('/settings/accommodations/{accommodation}', [SettingsController::class, 'accommodationsDestroy'])->middleware('auth');
+
+
+
 //---------------------> INCIDENTS
 Route::get('/incidents', [DashboardIncidentController::class, 'index'])->middleware('auth');
 

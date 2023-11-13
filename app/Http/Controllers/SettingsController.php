@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Accessory;
+use App\Models\Accommodation;
 use App\Models\BikeColor;
 use App\Models\BikeRack;
 use App\Models\Code;
@@ -118,5 +119,26 @@ class SettingsController extends Controller
     public function racksDestroy(BikeRack $rack) {
         $rack->delete();
         return redirect('/settings/racks')->with('success', 'Rack deleted succesfully');
+    }
+
+    public function accommodations() {
+        return view('settings.accommodations', [
+            'accommodations' => Accommodation::all()
+        ]);
+    }
+
+    public function accommodationsStore(Request $request) {
+        $validation = $request->validate([
+            'value' => 'required'
+        ]);
+        
+        Accommodation::create($validation);
+
+        return redirect('/settings/accommodations')->with('success', 'Accommodation succesfully added.');
+    }
+
+    public function accommodationsDestroy(Accommodation $accommodation) {
+        $accommodation->delete();
+        return redirect('/settings/accommodations')->with('success', 'Accommodation deleted succesfully');
     }
 }
