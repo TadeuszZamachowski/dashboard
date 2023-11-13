@@ -33,13 +33,14 @@
         <th onclick="sortTable(0,0,1,0,1)">Order ID</th>
         <th onclick="sortTable(1,0,0,0,0)">Name</th>
         <th onclick="sortTable(2,0,0,0,1)">Phone number</th>
-        <th onclick="sortTable(3,0,0,1,0)">Start Date</th>
-        <th onclick="sortTable(4,0,0,0,1)">Duration (Days)</th>
-        <th onclick="sortTable(5,0,0,0,1)">$</th>
-        <th onclick="sortTable(6,0,0,1,0)">End Date</th>
-        <th onclick="sortTable(7,1,0,0,0)">Status</th>
-        <th onclick="sortTable(8,0,0,0,0)">Pickup</th>
-        <th nowrap onclick="sortTable(9,0,0,0,1)" style="padding-right: 10px">Rack | Code</th>
+        <th onclick="sortTable(3,0,0,0,0)">Accommodation</th>
+        <th onclick="sortTable(4,0,0,1,0)">Start Date</th>
+        <th onclick="sortTable(5,0,0,0,1)">Duration (Days)</th>
+        <th onclick="sortTable(6,0,0,0,1)">$</th>
+        <th onclick="sortTable(7,0,0,1,0)">End Date</th>
+        <th onclick="sortTable(8,1,0,0,0)">Status</th>
+        <th onclick="sortTable(9,0,0,0,0)">Pickup</th>
+        <th nowrap onclick="sortTable(10,0,0,0,1)" style="padding-right: 10px">Rack | Code</th>
         <th></th>
         <th></th>
     </tr>
@@ -75,6 +76,7 @@
         </td>
         <td>{{$order->first_name}} {{$order->last_name}}</td>
         <td>{{$order->mobile}}</td>
+        <td>{{$order->accommodation}}</td>
         <td nowrap>{{$frmtStartDate}}</td>
         <td nowrap>{{$duration}}</td>
         <td>{{$order->amount_paid}}</td>

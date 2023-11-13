@@ -46,6 +46,19 @@
                     <p>{{$message}}</p>
                 @enderror
             </div>
+
+            <div class="input-section">
+                <label for="accommodation">Accommodation:</label>
+                <select name="accommodation" id="accommodation">
+                    <option selected="selected">{{old('accommodation')}}</option>
+                    @foreach ($accommodations as $acc)
+                        <option value={{$acc->value}}>{{$acc->value}} </option>
+                    @endforeach
+                </select>
+                @error('accommodation')
+                    <p>{{$message}}</p>
+                @enderror
+            </div>
         </div>
         <div class="right-side">
 

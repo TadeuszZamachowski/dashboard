@@ -21,6 +21,7 @@ class DashboardOrder extends Model
         'last_name',
         'email',
         'mobile',
+        'accommodation',
         'start_date',
         'end_date',
         'amount_paid',

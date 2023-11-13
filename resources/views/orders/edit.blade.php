@@ -52,6 +52,23 @@
                     <p>{{$message}}</p>
                 @enderror
             </div>
+
+            <div class="input-section">
+                <label for="accommodation">Accommodation:</label>
+                <select name="accommodation" id="accommodation">
+                    <option selected="selected">{{$order->accommodation}}</option>
+                    @foreach ($accommodations as $acc)
+                        @if ($acc->value == $order->accommodation)
+                        {{-- Don't display duplicates --}}
+                        @else
+                            <option value={{$acc->value}}>{{$acc->value}} </option>
+                        @endif
+                    @endforeach
+                </select>
+                @error('accommodation')
+                    <p>{{$message}}</p>
+                @enderror
+            </div>
         </div>
         <div class="right-side">
             <div class="input-section">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Accommodation;
 use App\Models\Bike;
 use App\Models\BikesDashboardOrder;
 use App\Models\DashboardOrder;
@@ -84,7 +85,8 @@ class DashboardOrderController extends Controller
 
     public function create() {
         return view('orders.create', [
-            'locations' => Location::all()
+            'locations' => Location::all(),
+            'accommodations' => Accommodation::all(),
         ]);
     }
 
@@ -110,6 +112,7 @@ class DashboardOrderController extends Controller
             'last_name' => 'required',
             'email' => 'required|email',
             'mobile' => 'required',
+            'accommodation' => '',
             'start_date' =>'required',
             'end_date' => 'required',
             'amount_paid' => 'required',
@@ -124,6 +127,7 @@ class DashboardOrderController extends Controller
         $data['last_name'] = $request['last_name'];
         $data['email'] = $request['email'];
         $data['mobile'] = $request['mobile'];
+        $data['accommodation'] = $request['accommodation'];
         $data['start_date'] = $request['start_date'];
         $data['end_date'] = $request['end_date'];
         $data['amount_paid'] = $request['amount_paid'];
@@ -145,7 +149,8 @@ class DashboardOrderController extends Controller
         return view('orders.edit', [
             'order' => $order,
             'categories' => $categories,
-            'locations' => Location::all()
+            'locations' => Location::all(),
+            'accommodations' => Accommodation::all()
         ]
         );
     }
@@ -187,6 +192,7 @@ class DashboardOrderController extends Controller
             'last_name' => 'required',
             'email' => 'required|email',
             'mobile' => 'required',
+            'accommodation' => '',
             'start_date' =>'required',
             'end_date' => 'required',
             'amount_paid' => 'required',
@@ -201,6 +207,7 @@ class DashboardOrderController extends Controller
         $data['last_name'] = $request['last_name'];
         $data['email'] = $request['email'];
         $data['mobile'] = $request['mobile'];
+        $data['accommodation'] = $request['accommodation'];
         $data['start_date'] = $request['start_date'];
         $data['end_date'] = $request['end_date'];
         $data['amount_paid'] = $request['amount_paid'];
@@ -210,8 +217,6 @@ class DashboardOrderController extends Controller
         $data['address'] = $request['address'];
         $data['number_of_bikes'] = $request['number_of_bikes'];
 
-        
-        
         $order->update($data);
         if($order->is_woo == 1) {
             $this->updateWooOrder($order);
