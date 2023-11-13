@@ -113,11 +113,17 @@
             <br>
 
             <div class="input-section">
-                <label for="pickup_location">Pickup Location:</label>
-                <input type="text" id="pickup_location" name="pickup_location" value="{{$order->pickup_location}}">
+                <label for="pickup_location">Location:</label>
+                <select name="pickup_location" id="pickup_location">
+                    <option value="{{$order->pickup_location}}">{{$order->pickup_location}}</option>
+                    @foreach ($locations as $loc)
+                        <option value={{$loc->value}}>{{$loc->value}}</option>
+                    @endforeach
+                </select>
                 @error('pickup_location')
                     <p>{{$message}}</p>
                 @enderror
+                <br>
             </div>
             <br>
 

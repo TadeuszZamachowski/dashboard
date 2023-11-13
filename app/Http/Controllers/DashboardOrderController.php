@@ -142,12 +142,20 @@ class DashboardOrderController extends Controller
 
     public function edit(DashboardOrder $order) {
         $categories = $this::CATEGORIES;
-        return view('orders.edit', compact('order','categories')
+        return view('orders.edit', [
+            'order' => $order,
+            'categories' => $categories,
+            'locations' => Location::all()
+        ]
         );
     }
 
     public function updateWooOrder($order) {
-        Post::where('ID', '=', $order->dashboard_order_id)->update(array('post_status' => 'wc-'.strtolower($order->order_status)));
+        if($order->order_status == 'Archived') {
+            Post::where('ID', '=', $order->dashboard_order_id)->update(array('post_status' => 'wc-completed'));
+        } else {
+            Post::where('ID', '=', $order->dashboard_order_id)->update(array('post_status' => 'wc-'.strtolower($order->order_status)));
+        }
         
     }
 

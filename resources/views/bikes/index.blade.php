@@ -104,7 +104,8 @@
             'bike-in' => ($bike['status'] == 'in' || $bike['status'] == 'In'),
             'bike-out' => ($bike['status'] == 'out' || $bike['status'] == 'Out'),
             'bike-free' => $bike['status'] == 'free',
-            'bike-repair' => $bike['state'] == 'repair' || $bike['status'] == 'Repair'
+            'bike-repair' => $bike['state'] == 'repair' || $bike['status'] == 'Repair',
+            'bike-sell' => $bike['status'] == 'sell'
         ])>
             <td>{{$bike['rack']}}</td>
             <td><a href="/bikes/{{$bike['id']}}">{{$bike['code']}}</a></td>

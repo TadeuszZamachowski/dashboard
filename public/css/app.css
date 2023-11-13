@@ -215,14 +215,19 @@ td {
 
 .bikes-table .bike-out {
   color: black;
+  background-color: rgba(0, 203, 0, 0.3);
 }
 
 .bikes-table .bike-free {
-  background-color: rgb(216, 216, 216);
+  background-color: rgb(255, 255, 255);
 }
 
 .bikes-table .bike-repair {
   background-color: yellow;
+}
+
+.bikes-table .bike-sell {
+  background-color: rgba(156, 87, 98, 1);
 }
 
 .bike-figures-table {

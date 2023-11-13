@@ -128,6 +128,7 @@
                 <option value="in">in</option>
                 <option value="out">out</option>
                 <option value="free">free</option>
+                <option value="sell">sell</option>
             </select>
             @error('status')
                 <p>{{$message}}</p>
