@@ -10,6 +10,7 @@ use App\Http\Controllers\DashboardOrderController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\SmsController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
