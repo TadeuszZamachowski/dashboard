@@ -34,4 +34,9 @@ class Bike extends Model
     {
         return $this->belongsTo('App\Models\DashboardOrder','dashboard_order_id', 'dashboard_order_id');
     }
+
+    public function rack(): BelongsTo
+    {
+        return $this->belongsTo('App\Models\BikeRack','id', 'bike_id');
+    }
 }

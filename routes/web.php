@@ -99,6 +99,15 @@ Route::get('/bikes/{bike}', [BikeController::class, 'show'])->middleware('auth')
 //Store bike check
 Route::post('/bikes/check/{bike}', [BikesCheckController::class, 'store'])->middleware('auth');
 
+//Show bound to rack form
+Route::get('/bikes/boundToRack/{rack}', [BikeController::class, 'boundToRack'])->middleware('auth');
+
+//Store connection
+Route::post('/bikes/boundToRack/{rack}', [BikeController::class, 'boundToRackStore'])->middleware('auth');
+
+//Free rack
+Route::get('/bikes/freeRack/{rack}', [BikeController::class, 'freeRack'])->middleware('auth');
+
 
 //---------------------> SCHEDULE
 Route::get('/schedule',[DashboardOrderController::class, 'showSchedule'])->middleware('auth');

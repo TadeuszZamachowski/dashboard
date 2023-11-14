@@ -36,8 +36,8 @@ class BikeController extends Controller
         if($request->filter == null) {
             $request->filter = 'Mercato';
         }
-        $bikes = $this->filterBikes($request->filter);
-
+        //$bikes = $this->filterBikes($request->filter);
+        $bikes = Bike::with('rack')->get();
         $types = array();
         foreach($this::TYPES as $type) {
             foreach(BikeColor::all() as $color) {
@@ -48,13 +48,38 @@ class BikeController extends Controller
             }
         }
 
-        return view('bikes.index', [
-            'bikes' => $bikes,
+        $racks = BikeRack::with('bike')->get()->sortBy('value');
+        
+        return view('bikes.testindex', [
+            'racks' => $racks,
             'categories' => $this::LOCATIONS,
             'filter' => $request->filter,
             'types' => $types
         ]);
     }
+    // public function index(Request $request) {
+    //     if($request->filter == null) {
+    //         $request->filter = 'Mercato';
+    //     }
+    //     $bikes = $this->filterBikes($request->filter);
+
+    //     $types = array();
+    //     foreach($this::TYPES as $type) {
+    //         foreach(BikeColor::all() as $color) {
+    //             $bikeFigures = Bike::where('type', 'LIKE', $type)->where('color','LIKE',$color['value'])->get();
+    //             if(count($bikeFigures) > 0) {
+    //                 $types[] = $bikeFigures;
+    //             }
+    //         }
+    //     }
+
+    //     return view('bikes.index', [
+    //         'bikes' => $bikes,
+    //         'categories' => $this::LOCATIONS,
+    //         'filter' => $request->filter,
+    //         'types' => $types
+    //     ]);
+    // }
 
     //show single bike
     public function show(Bike $bike) {
@@ -139,5 +164,26 @@ class BikeController extends Controller
     public function destroy(Bike $bike) {
         $bike->delete();
         return redirect('/bikes')->with('success', 'Bike deleted succesfully');
+    }
+
+    public function boundToRack(BikeRack $rack) {
+        return view('bikes.bikeToRack', [
+            'rack' => $rack,
+            'bikes' => Bike::all()
+        ]);
+    }
+
+    public function boundToRackStore(Request $request, BikeRack $rack) {
+        $rack->bike_id = $request->bike_id;
+        $rack->save();
+
+        return redirect('/bikes')->with('success', 'Bike bounded to rack.');
+    }
+
+    public function freeRack(BikeRack $rack) {
+        $rack->bike_id = null;
+        $rack->save();
+
+        return redirect('/bikes')->with('success', 'Rack freed');
     }
 }
