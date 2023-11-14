@@ -32,15 +32,17 @@
         {{-- sortTable(n, isStatus, isLink, isDate, isNum) --}}
         <th onclick="sortTable(0,0,1,0,1)">Order ID</th>
         <th onclick="sortTable(1,0,0,0,0)">Name</th>
-        <th onclick="sortTable(2,0,0,0,1)">Phone number</th>
-        <th onclick="sortTable(3,0,0,0,0)">Accommodation</th>
-        <th onclick="sortTable(4,0,0,1,0)">Start Date</th>
-        <th onclick="sortTable(5,0,0,0,1)">Duration (Days)</th>
-        <th onclick="sortTable(6,0,0,0,1)">$</th>
-        <th onclick="sortTable(7,0,0,1,0)">End Date</th>
-        <th onclick="sortTable(8,1,0,0,0)">Status</th>
-        <th onclick="sortTable(9,0,0,0,0)">Pickup</th>
-        <th nowrap onclick="sortTable(10,0,0,0,1)" style="padding-right: 10px">Rack | Code</th>
+        <th onclick="sortTable(2,1,0,0,0)">Status</th>
+        <th nowrap onclick="sortTable(3,0,0,0,1)" style="padding-right: 10px">Rack | Code</th>
+        <th onclick="sortTable(4,0,0,0,1)">Phone number</th>
+        <th onclick="sortTable(5,0,0,0,0)">Accommodation</th>
+        <th onclick="sortTable(6,0,0,1,0)">Start Date</th>
+        <th onclick="sortTable(7,0,0,0,1)">Duration (Days)</th>
+        <th onclick="sortTable(8,0,0,0,1)">$</th>
+        <th onclick="sortTable(9,0,0,1,0)">End Date</th>
+    
+        <th onclick="sortTable(10,0,0,0,0)">Pickup</th>
+        
         <th></th>
         <th></th>
     </tr>
@@ -50,7 +52,7 @@
 @endphp
 @foreach ($orders as $order)
     @php
-        $frmtStartDate = date('d-m-Y',strtotime($order->start_date));
+        $frmtStartDate = date('d-m-Y (g A)',strtotime($order->start_date));
         $frmtEndDate = date('d-m-Y (g A)',strtotime($order->end_date));
 
         $date1 = new DateTime($order->start_date);
@@ -76,12 +78,6 @@
             </div>
         </td>
         <td>{{$order->first_name}} {{$order->last_name}}</td>
-        <td>{{$order->mobile}}</td>
-        <td>{{$order->accommodation}}</td>
-        <td nowrap>{{$frmtStartDate}}</td>
-        <td nowrap>{{$duration}}</td>
-        <td>{{$order->amount_paid}}</td>
-        <td nowrap>{{$frmtEndDate}}</td>
         <td>
             <div class="status-selector">
                 <form method="POST" action="orders/status/{{$order->dashboard_order_id}}">
@@ -102,8 +98,6 @@
                 </form>
             </div>
         </td>
-
-        <td>{{$order->pickup_location}}</td>
         <td nowrap>
             {{-- If order assigned display bike info, else display icon --}}
             @if (count($order->history) <= 0)
@@ -122,6 +116,15 @@
                 @endforeach 
             @endif
         </td>
+        <td>{{$order->mobile}}</td>
+        <td>{{$order->accommodation}}</td>
+        <td nowrap>{{$frmtStartDate}}</td>
+        <td nowrap>{{$duration}}</td>
+        <td>{{$order->amount_paid}}</td>
+        <td nowrap>{{$frmtEndDate}}</td>
+        
+
+        <td>{{$order->pickup_location}}</td>
         <td>
             <a href="/orders/{{$order->dashboard_order_id}}/edit"><i class="fas fa-edit"></i></a>
         </td>
