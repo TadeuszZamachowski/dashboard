@@ -59,14 +59,14 @@
 </table>
 <div class="sorting-section" style="margin-bottom: 20px">
     <div class="filter-selector">
-        <form method="GET" action="/bikes">
+        <form method="GET" action="/">
             <select onchange="this.form.submit()" name="filter" id="filter">
                 <option selected="selected">{{$filter}}</option>
                 @foreach ($categories as $item)
-                    @if ($item == $filter)
+                    @if ($item->value == $filter)
                         {{-- Don't display duplicates --}}
                     @else
-                        <option value={{$item}}>{{$item}} </option>
+                        <option value={{$item->value}}>{{$item->value}} </option>
                     @endif
                 @endforeach
                 <option value="None">None</option>
@@ -104,7 +104,6 @@
     @foreach ($racks as $rack)
         @php
             $bike = optional($rack->bike);
-            //dd($bike->color);
         @endphp
         <tbody>
             <tr @class([

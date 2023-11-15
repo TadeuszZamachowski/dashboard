@@ -35,7 +35,7 @@ Route::post('/login', [LoginController::class, 'doLogin'])->name('login');
 
 
 //---------------------> HOME
-Route::get('/', [DashboardOrderController::class,'home'])->middleware('auth');
+Route::get('/dashboard', [DashboardOrderController::class,'home'])->middleware('auth');
 
 
 
@@ -76,7 +76,7 @@ Route::get('/orders/archive/{order}', [DashboardOrderController::class, 'showArc
 //---------------------> BIKES 
 
 //All bikes
-Route::get('/bikes', [BikeController::class, 'index'])->middleware('auth');
+Route::get('/', [BikeController::class, 'index'])->middleware('auth');
 
 //Show create form
 Route::get('/bikes/add', [BikeController::class, 'create'])->middleware('auth');

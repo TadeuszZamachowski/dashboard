@@ -52,7 +52,9 @@ class BikesDashboardOrderController extends Controller
         return view('assign.assign-bike', [
             'bike' => $bike,
             'orders' => DashboardOrder::where('order_status', '!=', 'Completed')->where('order_status', '!=', 'Cancelled')
-                        ->where('order_status', '!=', 'Failed')->orderByDesc('dashboard_order_id')->get()
+                        ->where('order_status', '!=', 'Failed')
+                        ->where('order_status', '!=', 'Archived')
+                        ->orderByDesc('dashboard_order_id')->get()
         ]);
     }
 

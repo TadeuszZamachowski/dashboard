@@ -18,11 +18,11 @@
     <div class="container">
       <div class="main-menu">
         <ul>
+          <li><a class="nav-link" href="/dashboard">Dashboard</a></li>
           <li><a class="nav-link" href="/incidents">Incidents</a></li>
           <li><a class="nav-link" href="/orders/archive">Archive</a></li>
           <li><a class="nav-link" href="/reports">Reports</a></li>
           <li><a class="nav-link" href="/settings">Settings</a></li>
-          <li><a class="nav-link" href="/">Statistics</a></li>
         </ul>
       </div>
     </div> 
@@ -32,8 +32,8 @@
     <div class="container">
       <div class="main-menu">
         <ul>
+          <li><a class="nav-link" href="/">BIKES</a></li>
           <li><a class="nav-link" href="/orders">ORDERS</a></li>
-          <li><a class="nav-link" href="/bikes">BIKES</a></li>
           <li><a class="nav-link" href="/schedule">SCHEDULE</a></li>
         </ul>
       </div>

@@ -52,14 +52,14 @@ class BikeController extends Controller
         if($request->filter == 'Mercato') {
             return view('bikes.mercato-index', [
                 'racks' => $racks,
-                'categories' => $this::LOCATIONS,
+                'categories' => Location::all(),
                 'filter' => $request->filter,
                 'types' => $types
             ]);
         } else {
             return view('bikes.index', [
                 'bikes' => $bikes,
-                'categories' => $this::LOCATIONS,
+                'categories' => Location::all(),
                 'filter' => $request->filter,
                 'types' => $types
             ]);
@@ -108,7 +108,7 @@ class BikeController extends Controller
         
         Bike::create($validation);
 
-        return redirect('/bikes')->with('success', 'Bike succesfully added.');
+        return redirect('/')->with('success', 'Bike succesfully added.');
     }
 
     //show edit form'
@@ -142,13 +142,13 @@ class BikeController extends Controller
         
         $bike->update($formFields);
 
-        return redirect('/bikes')->with('success', 'Bike ' . $bike->id . ' succesfully updated.');
+        return redirect('/')->with('success', 'Bike ' . $bike->id . ' succesfully updated.');
     }
 
     //delete bike
     public function destroy(Bike $bike) {
         $bike->delete();
-        return redirect('/bikes')->with('success', 'Bike deleted succesfully');
+        return redirect('/')->with('success', 'Bike deleted succesfully');
     }
 
     public function boundToRack(BikeRack $rack) {
@@ -162,14 +162,14 @@ class BikeController extends Controller
         $rack->bike_id = $request->bike_id;
         $rack->save();
 
-        return redirect('/bikes')->with('success', 'Bike bounded to rack.');
+        return redirect('/')->with('success', 'Bike bounded to rack.');
     }
 
     public function freeRack(BikeRack $rack) {
         $rack->bike_id = null;
         $rack->save();
 
-        return redirect('/bikes')->with('success', 'Rack freed');
+        return redirect('/')->with('success', 'Rack freed');
     }
 
     public function mapBikes() {
@@ -183,6 +183,6 @@ class BikeController extends Controller
                 }
             }
         }
-        return redirect('/bikes')->with('success','Bikes mapped');
+        return redirect('/')->with('success','Bikes mapped');
     }
 }
