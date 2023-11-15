@@ -105,7 +105,10 @@
             'bike-out' => ($bike['status'] == 'out' || $bike['status'] == 'Out'),
             'bike-free' => $bike['status'] == 'free',
             'bike-repair' => $bike['state'] == 'repair' || $bike['status'] == 'Repair',
-            'bike-sell' => $bike['status'] == 'sell'
+            'bike-sell' => $bike['status'] == 'sell',
+            'due-date' => (optional($bike->dashboardOrder)->order_status == 'Assigned') && 
+                            (date('Y-m-d H:i:s', strtotime(optional($bike->dashboardOrder)->end_date)) < date('Y-m-d H:i:s')),
+            
         ])>
             <td>{{$bike['rack']}}</td>
             <td><a href="/bikes/{{$bike['id']}}">{{$bike['code']}}</a></td>
@@ -151,14 +154,7 @@
             </td>
         </tr>
     </tbody>
-    {{-- Black stripe after rack 15 --}}
-    @if($bike->rack == 15) 
-        <tr style="background-color: black;">
-            @for ($i = 14; $i > 0; $i--)
-                <td style="padding: 30px"></td>
-            @endfor
-        </tr>
-    @endif
+    
 @endforeach
 </table>
 <div class="container">

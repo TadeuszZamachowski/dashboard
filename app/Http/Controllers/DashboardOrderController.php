@@ -19,11 +19,9 @@ class DashboardOrderController extends Controller
     const PAGINATION_NUMBER = 20;
     const CATEGORIES = [
         'Pending',
-        'On-hold',
         'Processing',
+        'Assigned',
         'Completed',
-        'Cancelled',
-        'Failed',
         'Archived'
     ];
 

@@ -10,7 +10,12 @@
   --light-pink: #feb1df;
   --dark-pink: #522733;
   --dark-color: #333;
-  --complete-color: rgba(11, 224, 11, 0.7);
+
+  --bike-in: rgba(255, 0, 0, 0.15);
+  --bike-out: rgba(0, 203, 0, 0.3);
+  --due-date: rgba(255, 0, 0, 0.7);
+  --processing: rgba(253, 253, 6, 0.3);
+  --complete: rgba(0, 255, 0, 0.3);
 }
 
 body {
@@ -204,18 +209,19 @@ tr:hover {
 }
 
 td {
+  font-size: 15px;
   text-align: center;
-  padding: 15px 15px;
+  padding: 15px 7px;
   
 }
 
 .bikes-table .bike-in {
-  background-color: rgba(255, 0, 0, 0.15);
+  background-color: var(--bike-in);
 }
 
 .bikes-table .bike-out {
   color: black;
-  background-color: rgba(0, 203, 0, 0.3);
+  background-color: var(--bike-out);
 }
 
 .bikes-table .bike-free {
@@ -227,7 +233,7 @@ td {
 }
 
 .bikes-table .bike-sell {
-  background-color: rgba(156, 87, 98, 1);
+  background-color: rgba(4, 0, 255,0.2);
 }
 
 .bike-figures-table {
@@ -240,25 +246,39 @@ td {
 
 .orders-table .select-order-complete {
   text-align: center;
-  background-color: var(--complete-color);
   
 }
 
 .orders-table .select-order-processing {
   text-align: center;
-  background-color: rgb(253, 253, 6);
   
+}
+
+
+.orders-table .assigned {
+  background-color: var(--bike-in);
 }
 
 .orders-table .due-date {
-  background-color: rgba(255, 0, 0, 0.5);
-  
+  background-color: var(--due-date);
+}
+
+.bikes-table .due-date {
+  background-color: var(--due-date);
 }
 
 .orders-table .completed {
-  background-color: var(--complete-color);
-  
+  background-color: var(--complete);
 }
+
+.orders-table .pending {
+  background-color: none;
+}
+
+.orders-table .processing {
+  background-color: var(--processing);
+}
+
 
 .order-create {
   display: flex;
@@ -330,7 +350,7 @@ td {
 }
 
 .orders-table .bikes-assigned{
-  color: var(--complete-color);
+  color: var(--bike-in);
 }
 
 .sorting-section {

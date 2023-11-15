@@ -88,7 +88,7 @@ class BikesDashboardOrderController extends Controller
         }
 
         if($result == 1) {
-            $status = 'Processing';
+            $status = 'Assigned';
             $order->update(array(
                 'order_status' => $status,
                 'bikes_assigned' => 1

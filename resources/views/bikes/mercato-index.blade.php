@@ -109,7 +109,9 @@
                 'bike-out' => $bike->status == 'out',
                 'bike-free' => $bike->status == 'free',
                 'bike-repair' => $bike->status == 'repair',
-                'bike-sell' => $bike->status == 'sell'
+                'bike-sell' => $bike->status == 'sell',
+                'due-date' => (optional($bike->dashboardOrder)->order_status == 'Assigned') && 
+                            (date('Y-m-d H:i:s', strtotime(optional($bike->dashboardOrder)->end_date)) < date('Y-m-d H:i:s')),
             ])>
                 @if ($bike->color == null)
                     <td style="border-right: solid 1px; ">
@@ -168,7 +170,7 @@
         {{-- Black stripe after rack 15 --}}
         @if($rack->value == 17) 
             <tr style="background-color: black;">
-                @for ($i = 14; $i > 0; $i--)
+                @for ($i = 15; $i > 0; $i--)
                     <td style="padding: 30px"></td>
                 @endfor
             </tr>

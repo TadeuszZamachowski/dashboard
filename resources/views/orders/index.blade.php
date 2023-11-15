@@ -35,7 +35,7 @@
         <th onclick="sortTable(2,1,0,0,0)">Status</th>
         <th nowrap onclick="sortTable(3,0,0,0,1)" style="padding-right: 10px">Rack | Code</th>
         <th onclick="sortTable(4,0,0,0,1)">Phone number</th>
-        <th onclick="sortTable(5,0,0,0,0)">Accommodation</th>
+        <th onclick="sortTable(5,0,0,0,0)">Acc</th>
         <th onclick="sortTable(6,0,0,1,0)">Start Date</th>
         <th onclick="sortTable(7,0,0,0,1)">Duration (Days)</th>
         <th onclick="sortTable(8,0,0,0,1)">$</th>
@@ -47,9 +47,6 @@
         <th></th>
     </tr>
     </thead>
-@php
-    $even = false;
-@endphp
 @foreach ($orders as $order)
     @php
         $frmtStartDate = date('d-m-Y (g A)',strtotime($order->start_date));
@@ -62,9 +59,11 @@
     @endphp
     <tbody>
     <tr @class([
-        'even' => $even == true,
-        'due-date' => ($order->order_status == 'Processing') && (date('Y-m-d H:i:s', strtotime($order->end_date)) < date('Y-m-d H:i:s')),
-        'completed' => $order->order_status == 'Completed'
+        'assigned' => $order->order_status == 'Assigned',
+        'due-date' => ($order->order_status == 'Assigned') && (date('Y-m-d H:i:s', strtotime($order->end_date)) < date('Y-m-d H:i:s')),
+        'completed' => $order->order_status == 'Completed',
+        'pending' => $order->order_status == 'Pending',
+        'processing' => $order->order_status == 'Processing',
     ])>
         <td>
             <div class="tooltip">
@@ -84,7 +83,12 @@
                     @csrf
                     @method('PUT')
                     <select onchange="this.form.submit()" name="order_status" id="order_status" @class([
-                        'select-order-processing' => ($order->order_status == 'Processing' || $order->order_status == 'Completed')
+                        //'select-order-processing' => ($order->order_status == 'Processing' || $order->order_status == 'Completed')
+                        'processing' => $order->order_status == 'Processing',
+                        'due-date' => ($order->order_status == 'Processing') && (date('Y-m-d H:i:s', strtotime($order->end_date)) < date('Y-m-d H:i:s')),
+                        'completed' => $order->order_status == 'Completed',
+                        'assigned' => $order->order_status == 'Assigned',
+                        'pending' => $order->order_status == 'Pending'
                     ])>
                         <option id="status_option" selected="selected">{{$order->order_status}}</option>
                         @foreach ($categories as $item)
@@ -138,13 +142,6 @@
         
     </tr>
     </tbody>
-    @php
-        if($even == true) {
-            $even = false;
-        } else {
-            $even = true;
-        }
-    @endphp
 @endforeach
 </table>
 <div class="pagination">
