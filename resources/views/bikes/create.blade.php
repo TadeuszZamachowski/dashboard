@@ -96,18 +96,6 @@
             @enderror
             <br>
 
-            <label for="rack">Rack:</label>
-            <select name="rack" id="rack">
-                <option value="{{old('rack')}}">{{old('rack')}}</option>
-                @foreach ($racks as $rack)
-                    <option value={{$rack->value}}>{{$rack->value}}</option>
-                @endforeach
-            </select>
-            @error('rack')
-                <p>{{$message}}</p>
-            @enderror
-            <br>
-
             <label for="state">State:</label>
             <select name="state" id="state">
                 <option value="{{old('state')}}">{{old('state')}}</option>

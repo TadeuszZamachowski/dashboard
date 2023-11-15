@@ -78,8 +78,6 @@
     </div>
 </div>
 
-<a href="/mapBikes" class="btn">Map Bikes</a>
-
 <table id="orders-table" class="bikes-table">
     <thead>
     <tr>
