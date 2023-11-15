@@ -154,18 +154,26 @@ class BikeController extends Controller
     public function boundToRack(BikeRack $rack) {
         return view('bikes.bikeToRack', [
             'rack' => $rack,
-            'bikes' => Bike::where('location', 'LIKE', 'Mercato')->get()
+            'bikes' => Bike::where('location', 'LIKE', 'Mercato')->where('rack', '0')->get()
         ]);
     }
 
     public function boundToRackStore(Request $request, BikeRack $rack) {
         $rack->bike_id = $request->bike_id;
+
+        $bike = Bike::where('id', $request->bike_id)->first();
+        $bike->rack = $rack->value;
+        $bike->save();
         $rack->save();
 
         return redirect('/')->with('success', 'Bike bounded to rack.');
     }
 
     public function freeRack(BikeRack $rack) {
+        $bike = Bike::where('id', $rack->bike_id)->first();
+        $bike->rack = 0;
+        $bike->save();
+
         $rack->bike_id = null;
         $rack->save();
 

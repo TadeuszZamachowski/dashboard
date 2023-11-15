@@ -7,7 +7,7 @@
         <label for="bike_id">Bikes:</label><br>
         <select name="bike_id" id="bike_id">
             @foreach ($bikes as $bike)
-                <option value="{{$bike->id}}">Rack - {{$bike->rack}} | Code - {{$bike->code}} | {{$bike->color}} {{$bike->type}}</option>
+                <option value="{{$bike->id}}">ID - {{$bike->id}} | Code - {{$bike->code}} | {{$bike->color}} {{$bike->type}}</option>
             @endforeach
         </select>
     </div>
