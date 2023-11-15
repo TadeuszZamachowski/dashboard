@@ -36,8 +36,7 @@ class BikeController extends Controller
         if($request->filter == null) {
             $request->filter = 'Mercato';
         }
-        //$bikes = $this->filterBikes($request->filter);
-        $bikes = Bike::with('rack')->get();
+        $bikes = $this->filterBikes($request->filter);
         $types = array();
         foreach($this::TYPES as $type) {
             foreach(BikeColor::all() as $color) {
@@ -50,36 +49,22 @@ class BikeController extends Controller
 
         $racks = BikeRack::with('bike')->get()->sortBy('value');
         
-        return view('bikes.testindex', [
-            'racks' => $racks,
-            'categories' => $this::LOCATIONS,
-            'filter' => $request->filter,
-            'types' => $types
-        ]);
+        if($request->filter == 'Mercato') {
+            return view('bikes.mercato-index', [
+                'racks' => $racks,
+                'categories' => $this::LOCATIONS,
+                'filter' => $request->filter,
+                'types' => $types
+            ]);
+        } else {
+            return view('bikes.index', [
+                'bikes' => $bikes,
+                'categories' => $this::LOCATIONS,
+                'filter' => $request->filter,
+                'types' => $types
+            ]);
+        }
     }
-    // public function index(Request $request) {
-    //     if($request->filter == null) {
-    //         $request->filter = 'Mercato';
-    //     }
-    //     $bikes = $this->filterBikes($request->filter);
-
-    //     $types = array();
-    //     foreach($this::TYPES as $type) {
-    //         foreach(BikeColor::all() as $color) {
-    //             $bikeFigures = Bike::where('type', 'LIKE', $type)->where('color','LIKE',$color['value'])->get();
-    //             if(count($bikeFigures) > 0) {
-    //                 $types[] = $bikeFigures;
-    //             }
-    //         }
-    //     }
-
-    //     return view('bikes.index', [
-    //         'bikes' => $bikes,
-    //         'categories' => $this::LOCATIONS,
-    //         'filter' => $request->filter,
-    //         'types' => $types
-    //     ]);
-    // }
 
     //show single bike
     public function show(Bike $bike) {
@@ -169,7 +154,7 @@ class BikeController extends Controller
     public function boundToRack(BikeRack $rack) {
         return view('bikes.bikeToRack', [
             'rack' => $rack,
-            'bikes' => Bike::all()
+            'bikes' => Bike::where('location', 'LIKE', 'Mercato')->get()
         ]);
     }
 
@@ -185,5 +170,19 @@ class BikeController extends Controller
         $rack->save();
 
         return redirect('/bikes')->with('success', 'Rack freed');
+    }
+
+    public function mapBikes() {
+        $bikes = Bike::where('location', 'LIKE', 'Mercato')->get();
+        $racks = BikeRack::all();
+        foreach($bikes as $bike) {
+            foreach($racks as $rack) {
+                if($bike->rack == $rack->value) {
+                    $rack->bike_id = $bike->id;
+                    $rack->save();
+                }
+            }
+        }
+        return redirect('/bikes')->with('success','Bikes mapped');
     }
 }
