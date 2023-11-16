@@ -62,6 +62,8 @@
         $date2 = new DateTime($order->end_date);
         $interval = $date1->diff($date2);
         $duration = $interval->days;
+
+        $accessories = App\Models\DashboardOrderAccessory::where('order_id', $order->dashboard_order_id)->get();
     @endphp
     <tbody>
     <tr @class([
@@ -78,7 +80,14 @@
                     Start/End Time: {{date('H:i',strtotime($order->start_date))}}<br>
                     Bikes: {{$order->number_of_bikes}}<br>
                     Address: {{$order->address}}<br>
-                    Accessories: TODO
+                    Accessories:
+                    @if (count($accessories) > 0)
+                        @foreach ($accessories as $acc)
+                            {{$acc->quantity}} {{$acc->name}} <br>
+                        @endforeach
+                    @else
+                        None
+                    @endif
                 </span>
             </div>
         </td>

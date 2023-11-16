@@ -6,6 +6,7 @@ use App\Models\Accommodation;
 use App\Models\Bike;
 use App\Models\BikesDashboardOrder;
 use App\Models\DashboardOrder;
+use App\Models\DashboardOrderAccessory;
 use App\Models\Location;
 use App\Models\Post;
 use Illuminate\Http\Request;
