@@ -54,6 +54,8 @@ class DashboardOrderController extends Controller
 
         return view('orders.index', [
             'orders' => $orders,
+            'processing' => DashboardOrder::where('order_status', 'LIKE', 'Processing')->count(),
+            'assigned' => DashboardOrder::where('order_status', 'LIKE', 'Assigned')->count(),
             'categories' =>  $this::CATEGORIES,
             'filter' => $request->filter,
             'search' => $request->search

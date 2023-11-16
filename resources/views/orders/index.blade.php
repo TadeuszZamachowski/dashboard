@@ -19,6 +19,12 @@
         </form>
     </div>
     <div class="search-bar">
+        <div class="process" style="padding-right: 20px">
+            Processing = {{$processing}}
+        </div>
+        <div class="ass" style="padding-right: 20px">
+            Assigned = {{$assigned}}
+        </div>
         <form method="GET" action="/orders">
             <input name="search" type="text" placeholder="Search.." value="{{$search}}">
             <button type="submit"><i class="fas fa-search"></i></button>
