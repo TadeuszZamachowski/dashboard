@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Bike;
 use App\Models\BikesDashboardOrder;
 use App\Models\DashboardOrder;
+use App\Services\TwilioService;
 use Illuminate\Http\Request;
 
 class BikesDashboardOrderController extends Controller
@@ -67,38 +68,35 @@ class BikesDashboardOrderController extends Controller
         $data['start_date'] = $order->start_date;
         $data['end_date'] = $order->end_date;
 
-        $result = 0;
-
+        $assignedBikes = array();
         for($i = 0; $i < count($request->bike_ids); $i++) {
             $data['bike_id'] = $request->bike_ids[$i];
 
             $bike = Bike::find($request->bike_ids[$i]);
             if ($bike) {
+                $assignedBikes[] = $bike;
                 if($bike->dashboard_order_id == null) {
                     $bike->status = 'out';
                     $bike->dashboard_order_id = $order->dashboard_order_id;
                     $bike->save();
     
                     BikesDashboardOrder::create($data);
-                    $result = 1;
-                } else {
-                    $result = 2;
-                }
+                } 
             }
         }
+        
+        $order->update(array(
+            'order_status' => 'Assigned',
+            'bikes_assigned' => 1
+        ));
 
-        if($result == 1) {
-            $status = 'Assigned';
-            $order->update(array(
-                'order_status' => $status,
-                'bikes_assigned' => 1
-            ));
-            return redirect()->to($request->last_url)->with('success', 'Bike succesfully assigned.');
-        } elseif($result == 2) {
-            return redirect('/')->with('error', 'Bike already assigned to order!');
-        } else {
-            return redirect('/')->with('error', 'Bike with the specified id doesnt exist!');
+        $response = "";
+        if($order->pickup_location == "Mercato") {
+            $sms = new SmsController(new TwilioService());
+            $response = $sms->sendSMS($order->mobile, $this::getMessage($assignedBikes));
         }
+        return redirect()->to($request->last_url)->with('success', 'Bike succesfully assigned. '.$response);
+         
     }
 
     public function storeBikeSide(Request $request, Bike $bike) {
@@ -138,5 +136,23 @@ class BikesDashboardOrderController extends Controller
         $history->delete();
 
         return redirect()->to($request->last_url)->with('success', 'Bike succesfully freed.');
+    }
+
+    public static function getMessage($assignedBikes) {
+        $message = 'Here are your rack numbers and codes: '. "\r\n";
+        foreach($assignedBikes as $bike) {
+            $message .= '=> Rack: '. $bike->rack .' | Code: '.$bike->code . "\r\n";
+        }
+        $message .= 'Please take a photo of the bike when picking it up and send it to +61 418 883 631. Upon return, hang the bike on the same bike rack. Attach the bike with the same lock code and send us a photo again.';
+        return $message;   
+        
+        
+        
+        
+        
+        
+        
+        
+        
     }
  }

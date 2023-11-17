@@ -13,19 +13,14 @@ class SmsController extends Controller
         $this->twilioService = $twilioService;
     }
 
-    // public function sendSMS(Request $request)
-    public function sendSMS()
+    public function sendSMS($to, $message)
     {
-        // $this->validate($request, [
-        //     'phone' => 'required',
-        //     'message' => 'required',
-        // ]);
-        $response = $this->twilioService->sendSMS('+610493754103', 'Filip mi płaci mało pieniędzy');
+        $response = $this->twilioService->sendSMS($to, $message);
         if ($response->sid) {
-            return redirect('/')->with('success','Sms sent!');
+            return 'Sms sent!';
         } else {
  
-            return redirect('/')->with('error','Sms notsent!');
+            return 'Error sending sms';
         }
     }
 

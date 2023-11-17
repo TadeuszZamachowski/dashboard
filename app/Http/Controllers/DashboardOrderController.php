@@ -7,6 +7,7 @@ use App\Models\Bike;
 use App\Models\BikesDashboardOrder;
 use App\Models\DashboardOrder;
 use App\Models\DashboardOrderAccessory;
+use App\Services\TwilioService;
 use App\Models\Location;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -222,9 +223,12 @@ class DashboardOrderController extends Controller
         if($order->is_woo == 1) {
             $this->updateWooOrder($order);
         }
+        $response = "";
         if($order->order_status == 'Completed') {
             $this->freeBikes($order);
             $this->deleteEvent($order);
+            $sms = new SmsController(new TwilioService());
+            $response = $sms->sendSMS($order->mobile, $this::getMessage());
         } else if ($order->order_status == 'Cancelled') {
             $this->freeBikes($order);
             $this->deleteEvent($order);
@@ -235,7 +239,7 @@ class DashboardOrderController extends Controller
             }
         }
 
-        return redirect()->to($request->last_url)->with('success', 'Order '. $order->dashboard_order_id .' edited.');
+        return redirect()->to($request->last_url)->with('success', 'Order '. $order->dashboard_order_id .' edited. '.$response);
     }
 
     public function updateStatusOnly(Request $request, DashboardOrder $order) {
@@ -251,9 +255,12 @@ class DashboardOrderController extends Controller
             $this->updateWooOrder($order);
         }
 
+        $response = "";
         if($order->order_status == 'Completed') {
             $this->freeBikes($order);
             $this->deleteEvent($order);
+            $sms = new SmsController(new TwilioService());
+            $response = $sms->sendSMS($order->mobile, $this::getMessage());
         } else if ($order->order_status == 'Cancelled') {
             $this->freeBikes($order);
             $this->deleteEvent($order);
@@ -264,7 +271,7 @@ class DashboardOrderController extends Controller
             }
         }
 
-        return redirect()->back()->with('success', 'Status of '. $order->dashboard_order_id .' edited.');
+        return redirect()->back()->with('success', 'Status of '. $order->dashboard_order_id .' edited. '.$response);
     }
 
 
@@ -348,5 +355,9 @@ class DashboardOrderController extends Controller
 
             'bikes' => $bikesInLocations
         ]);
+    }
+
+    public static function getMessage() {
+        return "Greetings! Appreciate the return of the bikes. Feel free to share images from your journey; we'd love to showcase them in our weekly social media post. Also, kindly leave a review here: https://g.page/r/CbxYagpHSIZxEAI/review 😉🙏";
     }
 }
