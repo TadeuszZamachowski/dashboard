@@ -32,7 +32,9 @@ class DashboardOrder extends Model
         'number_of_bikes',
         'is_woo',
         'event_id',
-        'bikes_assigned'
+        'bikes_assigned',
+        'start_date_sms',
+        'end_date_sms'
       ];
 
       public function bikes(): HasMany

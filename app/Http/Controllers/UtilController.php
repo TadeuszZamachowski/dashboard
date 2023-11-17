@@ -61,4 +61,13 @@ class UtilController extends Controller
         }
         return $container;
     }
+
+    public static function getHours($date1, $date2) {//get number of hours between two dates
+        $timestamp1 = strtotime($date1);
+        $timestamp2 = strtotime($date2);
+        
+        $hour = ($timestamp2 - $timestamp1)/(60*60);
+        return $hour;
+        
+    }
 }
