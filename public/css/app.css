@@ -12,10 +12,10 @@
   --dark-color: #333;
 
   --bike-in: rgba(255, 0, 0, 0.15);
-  --bike-out: rgba(0, 203, 0, 0.3);
+  --bike-out: rgba(31, 255, 1, 0.63);
   --due-date: rgba(255, 0, 0, 0.7);
-  --processing: rgba(253, 253, 6, 0.3);
-  --complete: rgba(0, 255, 0, 0.3);
+  --processing: rgb(255, 255, 255);
+  --complete: rgba(255, 0, 0, 0.15);
 }
 
 body {
@@ -177,6 +177,16 @@ input[type="text"], input[type="date"] {
   color: var(--light-pink);
 }
 
+.slct-btn {
+  background-color: var(--dark-color);
+  color: #ffffff;
+  font-weight: bold;
+  text-align: center;
+  padding: 5px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
 table {
   width: 100%;
   border-collapse: collapse; 
@@ -258,7 +268,7 @@ td {
 
 
 .orders-table .assigned {
-  background-color: var(--bike-in);
+  background-color: var(--bike-out);
 }
 
 .orders-table .due-date {

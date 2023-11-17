@@ -78,6 +78,7 @@
     </div>
 </div>
 
+<a class="btn" href="/bikes/add">Add Bike</a>
 <table id="orders-table" class="bikes-table">
     <thead>
     <tr>
@@ -157,7 +158,4 @@
     
 @endforeach
 </table>
-<div class="container">
-    <a class="btn" href="/bikes/add">Add Bike</a>
-</div>
 @endsection

@@ -32,6 +32,7 @@
     </div>
 </div>
 
+<a href="/orders/add" class="btn">Add Order</a>
 <table id="orders-table" class="orders-table">
     <thead>
     <tr>
@@ -97,14 +98,7 @@
                 <form method="POST" action="orders/status/{{$order->dashboard_order_id}}">
                     @csrf
                     @method('PUT')
-                    <select onchange="this.form.submit()" name="order_status" id="order_status" @class([
-                        //'select-order-processing' => ($order->order_status == 'Processing' || $order->order_status == 'Completed')
-                        'processing' => $order->order_status == 'Processing',
-                        'due-date' => ($order->order_status == 'Processing') && (date('Y-m-d H:i:s', strtotime($order->end_date)) < date('Y-m-d H:i:s')),
-                        'completed' => $order->order_status == 'Completed',
-                        'assigned' => $order->order_status == 'Assigned',
-                        'pending' => $order->order_status == 'Pending'
-                    ])>
+                    <select onchange="this.form.submit()" name="order_status" id="order_status" class="slct-btn">
                         <option id="status_option" selected="selected">{{$order->order_status}}</option>
                         @foreach ($categories as $item)
                             @if ($item == $order->order_status)
@@ -121,6 +115,7 @@
             {{-- If order assigned display bike info, else display icon --}}
             @if (count($order->history) <= 0)
                 <a href="/orders/{{$order->dashboard_order_id}}/assign">
+                    <span style="color: black">{{$order->number_of_bikes}}</span>
                     <i @class([
                         'fa-solid fa-bicycle bikes-assigned' => $order->bikes_assigned == 1,
                         'fa-solid fa-bicycle' => $order->bikes_assigned != 1])>
@@ -162,7 +157,6 @@
 <div class="pagination">
     {{ $orders->onEachSide(1)->links() }}
 </div>
-<a href="/orders/add" class="btn">Add Order</a>
 
 @endsection
 
