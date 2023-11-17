@@ -28,10 +28,11 @@
     </div> 
   </nav>
 
-  <nav class="navbar-top">
+  <nav id="navbar-top" class="navbar-top">
     <div class="container">
       <div class="main-menu">
         <ul>
+          <li><button id="hamburger" onclick="showSidebar()"><i class="fa fa-bars btn"></i></button></li>
           <li><a class="nav-link" href="/">BIKES</a></li>
           <li><a class="nav-link" href="/orders">ORDERS</a></li>
           <li><a class="nav-link" href="/schedule">SCHEDULE</a></li>
@@ -42,7 +43,7 @@
   <script src="\js\app.js"></script>
   <script src="\js\sortTable.js"></script>
   <div class="hamburger">
-    <button id="hamburger" onclick="showSidebar()"><i class="fa fa-bars"></i></button>
+    <button id="thisisbrokenbutwithoutthisitlooksugly">"<i class="fa fa-bars"></i></button>
   </div>
   <div id="main" class="main">
     <x-flash-message />

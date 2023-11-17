@@ -64,8 +64,8 @@ input[type="text"], input[type="date"] {
 .navbar-top {
   background: var(--dark-color);
   padding: 15px;
-  margin-left: 13.54%;
-  position: fixed;
+  margin-left: 0%;
+  position: fixed; 
   width: 100%;
    
 }
@@ -93,7 +93,7 @@ input[type="text"], input[type="date"] {
   transition: 0.5s;
 }
 
-.navbar-top ul li a:hover, .navbar-bottom ul li a:hover {
+.navbar-top ul li a:hover, .navbar-bottom ul li a:hover,  .navbar-top ul li button:hover{
   color: var(--light-pink);
   background-color: #454545;
 }
@@ -105,7 +105,7 @@ input[type="text"], input[type="date"] {
 
 
 .navbar-bottom {
-  display: block;
+  display: none;
   background: var(--dark-pink);
   padding: 20px;
   position: fixed;
@@ -154,8 +154,8 @@ input[type="text"], input[type="date"] {
 }
 
 #main {
-  margin-left: 11.54%;
-  padding: 60px; 
+  margin-left: 0%;
+  padding: 60px;
 }
 
 #main .container {

@@ -5,19 +5,28 @@ const windowPathname = window.location.pathname;
 
 navLinkElements.forEach(navLinkEl => {
     const navLinkPathname = new URL(navLinkEl.href).pathname;
+    console.log(navLinkPathname);
     if (windowPathname === navLinkPathname) {
         navLinkEl.classList.add('active');
    }
 });
 
 function showSidebar() {
-  var x = document.getElementById("navbar-bottom");
+  //margin-left: 11.54%;
+  var sideMenu = document.getElementById("navbar-bottom");
+  var topMenu = document.getElementById("navbar-top");
+  var main = document.getElementById("main");
 
-  if (window.getComputedStyle(x).left === "-100%") {
-    x.style.left = "0";
+  if (window.getComputedStyle(sideMenu).display == "block") {
+    sideMenu.style.display = "none";
+    main.style.marginLeft = "0%";
+    topMenu.style.marginLeft = "0%";
   } else {
-    x.style.left = "-100%";
+    sideMenu.style.display = "block";
+    main.style.marginLeft = "11.54%";
+    topMenu.style.marginLeft = "13.54%";
   }
+  console.log(window.getComputedStyle(topMenu).marginLeft);
 }
 
 function showBikeFigures() {
