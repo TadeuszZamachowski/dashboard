@@ -18,6 +18,8 @@ use Carbon\Carbon;
 class DashboardOrderController extends Controller
 {
     public static $COLOR = 0;
+    const ENABLE_SMS = false;
+    const ENABLE_CALLENDAR = false;
     const PAGINATION_NUMBER = 20;
     const CATEGORIES = [
         'Pending',
@@ -138,8 +140,10 @@ class DashboardOrderController extends Controller
         $data['pickup_location'] = $request['pickup_location'];
         $data['address'] = $request['address'];
         $data['number_of_bikes'] = $request['number_of_bikes'];
-        $event = $this->createEvent($data['first_name'],$data['dashboard_order_id'], Carbon::parse($data['start_date']), Carbon::parse($data['end_date']));
-        $data['event_id'] = $event->id;
+        if($this::ENABLE_CALLENDAR) {
+            $event = $this->createEvent($data['first_name'],$data['dashboard_order_id'], Carbon::parse($data['start_date']), Carbon::parse($data['end_date']));
+            $data['event_id'] = $event->id;
+        }
         
         DashboardOrder::create($data);
 
@@ -227,8 +231,10 @@ class DashboardOrderController extends Controller
         if($order->order_status == 'Completed') {
             $this->freeBikes($order);
             $this->deleteEvent($order);
-            $sms = new SmsController(new TwilioService());
-            $response = $sms->sendSMS($order->mobile, $this::getMessage());
+            if($this::ENABLE_SMS) {
+                $sms = new SmsController(new TwilioService());
+                $response = $sms->sendSMS($order->mobile, $this::getMessage());
+            }
         } else if ($order->order_status == 'Cancelled') {
             $this->freeBikes($order);
             $this->deleteEvent($order);
@@ -260,8 +266,10 @@ class DashboardOrderController extends Controller
             $this->freeBikes($order);
             $this->deleteEvent($order);
             
-            $sms = new SmsController(new TwilioService());
-            $response = $sms->sendSMS($order->mobile, $this::getMessage());
+            if($this::ENABLE_SMS) {
+                $sms = new SmsController(new TwilioService());
+                $response = $sms->sendSMS($order->mobile, $this::getMessage());
+            }
         } else if ($order->order_status == 'Cancelled') {
             $this->freeBikes($order);
             $this->deleteEvent($order);
