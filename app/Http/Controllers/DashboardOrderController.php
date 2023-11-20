@@ -32,10 +32,10 @@ class DashboardOrderController extends Controller
     public function filterOrders($filter) {
         if($filter != null) {
             $orders = DashboardOrder::where('order_status', '!=', 'Archived')->where('order_status',$filter)->orWhere('order_status','wc-'.strtolower($filter))
-        ->orderByDesc('start_date')->with('history')->paginate($this::PAGINATION_NUMBER);
+        ->orderByDesc('dashboard_order_id')->with('history')->paginate($this::PAGINATION_NUMBER);
         } else {
             $orders = DashboardOrder::where('order_status', '!=', 'Archived')->
-            orderByDesc('start_date')->with('history')->paginate($this::PAGINATION_NUMBER);
+            orderByDesc('dashboard_order_id')->with('history')->paginate($this::PAGINATION_NUMBER);
         }
         return $orders;
     }
@@ -48,7 +48,7 @@ class DashboardOrderController extends Controller
         ->orWhere('mobile', 'LIKE', '%'.$search.'%')
         ->orWhere('amount_paid', 'LIKE', '%'.$search.'%')
         ->orWhere('pickup_location', 'LIKE', '%'.$search.'%')
-        ->orderByDesc('start_date')->with('history')->paginate($this::PAGINATION_NUMBER);
+        ->orderByDesc('dashboard_order_id')->with('history')->paginate($this::PAGINATION_NUMBER);
     }
     public function index(Request $request) {
         $orders = $this->filterOrders($request->filter);
@@ -231,6 +231,7 @@ class DashboardOrderController extends Controller
         if($order->order_status == 'Completed') {
             $this->freeBikes($order);
             $this->deleteEvent($order);
+        } else if($order->order_status == 'Archived') {
             if($this::ENABLE_SMS) {
                 $sms = new SmsController(new TwilioService());
                 $response = $sms->sendSMS($order->mobile, $this::getMessage());
@@ -265,7 +266,7 @@ class DashboardOrderController extends Controller
         if($order->order_status == 'Completed') {
             $this->freeBikes($order);
             $this->deleteEvent($order);
-            
+        } else if($order->order_status == 'Archived'){
             if($this::ENABLE_SMS) {
                 $sms = new SmsController(new TwilioService());
                 $response = $sms->sendSMS($order->mobile, $this::getMessage());

@@ -40,18 +40,19 @@
         <th onclick="sortTable(0,0,1,0,1)">Order ID</th>
         <th onclick="sortTable(1,0,0,0,0)">Name</th>
         <th onclick="sortTable(2,1,0,0,0)">Status</th>
-        <th nowrap onclick="sortTable(3,0,0,0,1)" style="padding-right: 10px">Rack | Code</th>
+        <th onclick="sortTable(3,0,0,0,1)" style="padding-right: 10px" nowrap >Rack | Code</th>
         <th onclick="sortTable(4,0,0,0,1)">Phone number</th>
         <th onclick="sortTable(5,0,0,0,0)">Acc</th>
         <th onclick="sortTable(6,0,0,1,0)">Start Date</th>
-        <th onclick="sortTable(7,0,0,0,1)">Duration (Days)</th>
-        <th onclick="sortTable(8,0,0,0,1)">$</th>
-        <th onclick="sortTable(9,0,0,1,0)">End Date</th>
-    
-        <th onclick="sortTable(10,0,0,0,0)">Pickup</th>
-        
+        <th onclick="sortTable(7,0,0,0,1)">Duration</th>
+        <th onclick="sortTable(8,0,0,1,0)">End Date</th>
+        <th onclick="sortTable(9,0,0,0,1)"># Bikes</th>
+        <th onclick="sortTable(10,0,0,0,1)">$</th>
+        <th onclick="sortTable(11,0,0,0,0)">Pickup</th>
         <th></th>
         <th></th>
+        <th>Pre-Pickup SMS</th>
+        <th>Reminder SMS</th>
     </tr>
     </thead>
 @foreach ($orders as $order)
@@ -115,7 +116,6 @@
             {{-- If order assigned display bike info, else display icon --}}
             @if (count($order->history) <= 0)
                 <a href="/orders/{{$order->dashboard_order_id}}/assign">
-                    <span style="color: black">{{$order->number_of_bikes}}</span>
                     <i @class([
                         'fa-solid fa-bicycle bikes-assigned' => $order->bikes_assigned == 1,
                         'fa-solid fa-bicycle' => $order->bikes_assigned != 1])>
@@ -134,8 +134,9 @@
         <td>{{$order->accommodation}}</td>
         <td nowrap>{{$frmtStartDate}}</td>
         <td nowrap>{{$duration}}</td>
-        <td>{{$order->amount_paid}}</td>
         <td nowrap>{{$frmtEndDate}}</td>
+        <td>{{$order->number_of_bikes}}</td>
+        <td>{{$order->amount_paid}}</td>
         
 
         <td>{{$order->pickup_location}}</td>
@@ -149,6 +150,9 @@
                 <button onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa-solid fa-trash" style="color: #000000;"></i></button>
             </form>
         </td>
+        <td><i class="fa-solid fa-envelope"></i></td>
+
+        <td><i class="fa-solid fa-envelope"></i></td>
         
     </tr>
     </tbody>
