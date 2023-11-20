@@ -17,7 +17,6 @@ use Carbon\Carbon;
 
 class DashboardOrderController extends Controller
 {
-    public static $COLOR = 0;
     const ENABLE_SMS = true;
     const ENABLE_CALLENDAR = false;
     const PAGINATION_NUMBER = 20;
