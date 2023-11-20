@@ -18,7 +18,7 @@ use Carbon\Carbon;
 class DashboardOrderController extends Controller
 {
     public static $COLOR = 0;
-    const ENABLE_SMS = false;
+    const ENABLE_SMS = true;
     const ENABLE_CALLENDAR = false;
     const PAGINATION_NUMBER = 20;
     const CATEGORIES = [
@@ -367,7 +367,39 @@ class DashboardOrderController extends Controller
         ]);
     }
 
+    public function prePickup(DashboardOrder $order) {
+        $response = "";
+        if($this::ENABLE_SMS) {
+            $sms = new SmsController(new TwilioService());
+            $response = $sms->sendSMS($order->mobile, $this::getPrePickupMessage());
+
+            $order->start_date_sms = 1;
+            $order->save();
+        }
+        return redirect('/orders')->with('success', $response);
+    }
+
+    public function reminder(DashboardOrder $order) {
+        $response = "";
+        if($this::ENABLE_SMS) {
+            $sms = new SmsController(new TwilioService());
+            $response = $sms->sendSMS($order->mobile, $this::getReminderMessage());
+
+            $order->end_date_sms = 1;
+            $order->save();
+        }
+        return redirect('/orders')->with('success', $response);
+    } 
+
     public static function getMessage() {
         return "Greetings! Appreciate the return of the bikes. Feel free to share images from your journey; we'd love to showcase them in our weekly social media post. Also, kindly leave a review here: https://g.page/r/CbxYagpHSIZxEAI/review 😉🙏";
+    }
+
+    public static function getPrePickupMessage() {
+        return "Greetings! Thank you for your order. If you haven't submitted the rental agreement yet, please do by clicking on this link https://form.jotform.com/233026632488862. Visit the Woolworth Underground Carpark, specifically the Bicycle Storage room next to the Public Toilets, and text us the rack numbers of the chosen bikes at +61 418 883 631. We'll promptly provide you with the unlock codes. Ensure that your bike selection includes any accessories as per your order. Feel free to call us if you require assistance with picking up the bikes.";
+    }
+
+    public static function getReminderMessage() {
+        return "Hello! I trust you had a fantastic bike riding experience! Just a friendly reminder: your bikes are scheduled to be returned in 1 hour. Feel free to share photos of your adventure with us! :)";
     }
 }

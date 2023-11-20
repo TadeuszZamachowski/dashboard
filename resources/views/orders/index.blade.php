@@ -150,9 +150,28 @@
                 <button onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa-solid fa-trash" style="color: #000000;"></i></button>
             </form>
         </td>
-        <td><i class="fa-solid fa-envelope"></i></td>
+        {{-- TEMP SMS SENDING BUTTONS --}}
+        <td>
+            @if ($order->start_date_sms != 1)
+                <form method="GET" action="/orders/pre-pickup/{{$order->dashboard_order_id}}">
+                    @csrf
+                    <button onclick="this.form.submit()"><i class="fa-solid fa-envelope"></i></button>
+                </form>
+            @else
+                <span style="color: green">Sms sent</span>
+            @endif
+        </td>
 
-        <td><i class="fa-solid fa-envelope"></i></td>
+        <td>
+            @if ($order->end_date_sms != 1)
+                <form method="GET" action="/orders/reminder/{{$order->dashboard_order_id}}">
+                    @csrf
+                    <button onclick="this.form.submit()"><i class="fa-solid fa-envelope"></i></button>
+                </form>
+            @else
+                <span style="color: green">Sms sent</span>
+            @endif
+        </td>
         
     </tr>
     </tbody>

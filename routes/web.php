@@ -239,3 +239,7 @@ Route::get('mapBikes', [BikeController::class, 'mapBikes'])->middleware('auth');
 
 
 
+//---------------------> TEMP SMS
+Route::get('/orders/pre-pickup/{order}', [DashboardOrderController::class, 'prePickup'])->middleware('auth');
+
+Route::get('/orders/reminder/{order}', [DashboardOrderController::class, 'reminder'])->middleware('auth');
