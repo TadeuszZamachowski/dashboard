@@ -130,7 +130,7 @@ class DashboardOrderController extends Controller
             'number_of_bikes' => 'required'
         ]);
 
-        $data['dashboard_order_id'] = DashboardOrder::max('dashboard_order_id') + 1;
+        $data['dashboard_order_id'] = floor(time()-999999999);
         $data['first_name'] = $request['first_name'];
         $data['last_name'] = $request['last_name'];
         $data['email'] = $request['email'];
@@ -159,7 +159,7 @@ class DashboardOrderController extends Controller
             'first_name' => 'required'
         ]);
 
-        $data['dashboard_order_id'] = DashboardOrder::max('dashboard_order_id') + 1;
+        $data['dashboard_order_id'] = floor(time()-999999999);
         $data['first_name'] = $request['first_name'];
         $data['last_name'] = "";
         $data['email'] = "";
