@@ -46,8 +46,14 @@ Route::get('/orders', [DashboardOrderController::class, 'index'])->middleware('a
 //Show create form
 Route::get('/orders/add', [DashboardOrderController::class, 'create'])->middleware('auth');
 
+//Show quick create form
+Route::get('orders/add-quick', [DashboardOrderController::class, 'createQuick'])->middleware('auth');
+
 //Store order data
 Route::post('/orders', [DashboardOrderController::class, 'store'])->middleware('auth');
+
+//Store quick order data
+Route::post('/orders/add-quick', [DashboardOrderController::class, 'storeQuick'])->middleware('auth');
 
 //Show edit form
 Route::get('/orders/{order}/edit', [DashboardOrderController::class, 'edit'])->middleware('auth');

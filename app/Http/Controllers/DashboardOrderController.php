@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Spatie\GoogleCalendar\Event;
 use Carbon\Carbon;
+use DateTime;
 
 class DashboardOrderController extends Controller
 {
@@ -93,6 +94,10 @@ class DashboardOrderController extends Controller
         ]);
     }
 
+    public function createQuick() {
+        return view('orders.create-quick');
+    }
+
     public function createEvent($name, $description, $startDate, $endDate) {//google calendar
         $event = new Event;
 
@@ -147,6 +152,31 @@ class DashboardOrderController extends Controller
         DashboardOrder::create($data);
 
         return redirect('/orders')->with('success', 'Order succesfully added.');
+    }
+
+    public function storeQuick(Request $request) {
+        $this->validate($request, [
+            'first_name' => 'required'
+        ]);
+
+        $data['dashboard_order_id'] = DashboardOrder::max('dashboard_order_id') + 1;
+        $data['first_name'] = $request['first_name'];
+        $data['last_name'] = "";
+        $data['email'] = "";
+        $data['mobile'] = "";
+        $data['accommodation'] = "";
+        $data['start_date'] = new DateTime();
+        $data['end_date'] = new DateTime();
+        $data['amount_paid'] = "";
+        $data['payment_method'] = "";
+        $data['order_status'] = 'Pending';
+        $data['pickup_location'] = "";
+        $data['address'] = "";
+        $data['number_of_bikes'] = 1;
+
+        DashboardOrder::create($data);
+
+        return redirect("/orders")->with('success', 'Quick order added');
     }
 
     public function edit(DashboardOrder $order) {

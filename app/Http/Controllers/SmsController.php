@@ -16,6 +16,7 @@ class SmsController extends Controller
         $this->twilioService = $twilioService;
     }
 
+    //Used in DashboardOrderController and BikesDashboardOrderController
     public function sendSMS($to, $message)
     {
         try {
