@@ -93,8 +93,13 @@ class BikesDashboardOrderController extends Controller
         $response = "";
         if($order->pickup_location == "Mercato") {
             $sms = new SmsController(new TwilioService());
-            $response = $sms->sendSMS($order->mobile, $this::getMessage($assignedBikes));
-        }
+            $result = $sms->sendSMS($order->mobile, $this::getMessage($assignedBikes));
+            if($result == 1) {
+                $response = "Sms sent!";
+            } else {
+                $response = "Couldn't send sms, Invalid phone number";
+            }
+    }
         return redirect()->to($request->last_url)->with('success', 'Bike succesfully assigned. '.$response);
          
     }

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\DashboardOrder;
 use App\Services\TwilioService;
+use Twilio\Exceptions\RestException;
+use Google\Service\BackupforGKE\Restore;
 use Illuminate\Http\Request;
 
 class SmsController extends Controller
@@ -16,13 +18,15 @@ class SmsController extends Controller
 
     public function sendSMS($to, $message)
     {
-        $response = $this->twilioService->sendSMS($to, $message);
-        if ($response->sid) {
-            return 'Sms sent!';
-        } else {
- 
-            return 'Error sending sms';
+        try {
+            $response = $this->twilioService->sendSMS($to, $message);
+            if ($response->sid) {
+                return 1;
+            }
+        } catch(RestException $e) {
+            return -1;
         }
+        
     }
 
     public static function checkOneHourBeforeStartDate() {

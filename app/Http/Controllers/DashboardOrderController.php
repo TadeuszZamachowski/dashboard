@@ -233,7 +233,13 @@ class DashboardOrderController extends Controller
         } else if($order->order_status == 'Archived') {
             if($this::ENABLE_SMS) {
                 $sms = new SmsController(new TwilioService());
-                $response = $sms->sendSMS($order->mobile, $this::getMessage());
+                $result = $sms->sendSMS($order->mobile, $this::getMessage());
+
+                if($result == 1) {
+                    $response = "Sms sent!";
+                } else {
+                    $response = "Couldn't send sms, Invalid phone number";
+                }
             }
         } else if ($order->order_status == 'Cancelled') {
             $this->freeBikes($order);
@@ -268,7 +274,13 @@ class DashboardOrderController extends Controller
         } else if($order->order_status == 'Archived'){
             if($this::ENABLE_SMS) {
                 $sms = new SmsController(new TwilioService());
-                $response = $sms->sendSMS($order->mobile, $this::getMessage());
+                $result = $sms->sendSMS($order->mobile, $this::getMessage());
+
+                if($result == 1) {
+                    $response = "Sms sent!";
+                } else {
+                    $response = "Couldn't send sms, Invalid phone number";
+                }
             }
         } else if ($order->order_status == 'Cancelled') {
             $this->freeBikes($order);
@@ -372,10 +384,15 @@ class DashboardOrderController extends Controller
             $sms = new SmsController(new TwilioService());
             $response = $sms->sendSMS($order->mobile, $this::getPrePickupMessage());
 
-            $order->start_date_sms = 1;
-            $order->save();
+            if($response == 1) {
+                $order->start_date_sms = 1;
+                $order->save();
+                return redirect('/orders')->with('success', 'Sms sent!');
+            } else {
+                return redirect('/orders')->with('error', "Couldn't send SMS, invalid phone number");
+            }
+            
         }
-        return redirect('/orders')->with('success', $response);
     }
 
     public function reminder(DashboardOrder $order) {
@@ -384,10 +401,14 @@ class DashboardOrderController extends Controller
             $sms = new SmsController(new TwilioService());
             $response = $sms->sendSMS($order->mobile, $this::getReminderMessage());
 
-            $order->end_date_sms = 1;
-            $order->save();
+            if($response == 1) {
+                $order->end_date_sms = 1;
+                $order->save();
+                return redirect('/orders')->with('success', 'Sms sent!');
+            } else {
+                return redirect('/orders')->with('error', "Couldn't send SMS, invalid phone number");
+            }
         }
-        return redirect('/orders')->with('success', $response);
     } 
 
     public static function getMessage() {

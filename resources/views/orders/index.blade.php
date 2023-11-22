@@ -64,7 +64,7 @@
         $startDateTime = new DateTime(date('d-m-Y',strtotime($order->start_date)));
         $difference = $today->diff($startDateTime);
 
-        if($difference->days >= 7) {
+        if($difference->days >= 7 && $startDateTime > $today) {
             $ordersWeekFromNow[] = $order;
             continue;
         }
