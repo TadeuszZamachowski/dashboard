@@ -169,7 +169,7 @@
             </tr>
         </tbody>
         {{-- Black stripe after rack 15 --}}
-        @if($rack->value == 17) 
+        @if($rack->value == 21) 
             <tr style="background-color: black;">
                 @for ($i = 15; $i > 0; $i--)
                     <td style="padding: 30px"></td>

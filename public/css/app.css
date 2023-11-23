@@ -45,6 +45,7 @@ button:hover {
 a {
   text-decoration: none;
   color: rgb(197, 72, 72);
+  z-index: 10;
 }
 
 ul {
@@ -62,6 +63,7 @@ input[type="text"], input[type="date"] {
 }
 
 .navbar-top {
+  z-index: 1;
   background: var(--dark-color);
   padding: 15px;
   margin-left: 0%;
@@ -190,7 +192,7 @@ input[type="text"], input[type="date"] {
 table {
   width: 100%;
   border-collapse: collapse; 
-  border: 1px dotted black;
+  border: 1px dotted black;  
 }
 
 .clean-table {
@@ -201,11 +203,15 @@ table {
   border-bottom: none;
 }
 
-th {
-  background-color: rgba(37, 30, 34, 0.7);
+thead th {
+  z-index: 1;
+  background-color: var(--dark-color);
   color: white;
   padding: 20px 0px;
   cursor: pointer;
+
+  position: sticky; 
+  top: 70px; 
 }
 
 th:hover {
