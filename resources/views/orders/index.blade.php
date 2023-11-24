@@ -196,9 +196,6 @@
     </tbody>
 @endforeach
 </table>
-<div class="pagination">
-    {{ $orders->onEachSide(1)->links() }}
-</div>
 
 
 

@@ -34,10 +34,10 @@ class DashboardOrderController extends Controller
     public function filterOrders($filter) {
         if($filter != null) {
             $orders = DashboardOrder::where('order_status', '!=', 'Archived')->where('order_status',$filter)->orWhere('order_status','wc-'.strtolower($filter))
-        ->orderByDesc('dashboard_order_id')->with('history')->paginate($this::PAGINATION_NUMBER);
+        ->orderByDesc('dashboard_order_id')->with('history')->get();
         } else {
             $orders = DashboardOrder::where('order_status', '!=', 'Archived')->
-            orderByDesc('dashboard_order_id')->with('history')->paginate($this::PAGINATION_NUMBER);
+            orderByDesc('dashboard_order_id')->with('history')->get();
         }
         return $orders;
     }
@@ -50,7 +50,7 @@ class DashboardOrderController extends Controller
         ->orWhere('mobile', 'LIKE', '%'.$search.'%')
         ->orWhere('amount_paid', 'LIKE', '%'.$search.'%')
         ->orWhere('pickup_location', 'LIKE', '%'.$search.'%')
-        ->orderByDesc('dashboard_order_id')->with('history')->paginate($this::PAGINATION_NUMBER);
+        ->orderByDesc('dashboard_order_id')->with('history')->get();
     }
     public function index(Request $request) {
         $orders = $this->filterOrders($request->filter);
