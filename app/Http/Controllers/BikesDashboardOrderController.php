@@ -123,7 +123,7 @@ class BikesDashboardOrderController extends Controller
         ));
 
         $order->update(array(
-            'order_status' => 'Processing',
+            'order_status' => 'Assigned',
             'bikes_assigned' => 1
         ));
 

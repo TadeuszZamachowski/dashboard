@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Accommodation;
 use App\Models\Bike;
+use App\Models\BikeColor;
 use App\Models\BikesDashboardOrder;
 use App\Models\DashboardOrder;
 use App\Models\DashboardOrderAccessory;
@@ -28,6 +29,7 @@ class DashboardOrderController extends Controller
         'Completed',
         'Archived'
     ];
+
 
     public function filterOrders($filter) {
         if($filter != null) {
@@ -193,6 +195,8 @@ class DashboardOrderController extends Controller
     public function updateWooOrder($order) {
         if($order->order_status == 'Archived') {
             Post::where('ID', '=', $order->dashboard_order_id)->update(array('post_status' => 'wc-completed'));
+        } else if ($order->order_status == 'Assigned'){
+            Post::where('ID', '=', $order->dashboard_order_id)->update(array('post_status' => 'wc-processing'));
         } else {
             Post::where('ID', '=', $order->dashboard_order_id)->update(array('post_status' => 'wc-'.strtolower($order->order_status)));
         }
@@ -381,6 +385,17 @@ class DashboardOrderController extends Controller
     }
 
     public function home() {
+        $types = array();
+        $bikeTypes = ['Cruiser', 'Urban', 'Kid'];
+        foreach($bikeTypes as $type) {
+            foreach(BikeColor::all() as $color) {
+                $bikeFigures = Bike::where('type', 'LIKE', $type)->where('color','LIKE',$color['value'])->get();
+                if(count($bikeFigures) > 0) {
+                    $types[] = $bikeFigures;
+                }
+            }
+        }
+
         $todaySales = UtilController::getTodaysSales();
         $weekSales = UtilController::getWeekSales();
         $monthSales = UtilController::getMonthSales();
@@ -394,6 +409,8 @@ class DashboardOrderController extends Controller
         $bikesInLocations = UtilController::getBikeStats(Location::all());
 
         return view('home',[
+            'types' => $types,
+
             'todaySales' => $todaySales,
             'weekSales' => $weekSales,
             'monthSales' => $monthSales,
