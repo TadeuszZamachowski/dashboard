@@ -59,7 +59,7 @@
 </table>
 <div class="sorting-section" style="margin-bottom: 20px">
     <div class="filter-selector">
-        <form method="GET" action="/">
+        <form method="GET" action="/bikes">
             <select onchange="this.form.submit()" name="filter" id="filter">
                 <option selected="selected">{{$filter}}</option>
                 @foreach ($categories as $item)

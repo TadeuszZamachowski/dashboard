@@ -41,13 +41,13 @@ Route::get('/dashboard', [DashboardOrderController::class,'home'])->middleware('
 
 //---------------------> ORDERS
 //All orders
-Route::get('/orders', [DashboardOrderController::class, 'index'])->middleware('auth');
+Route::get('/', [DashboardOrderController::class, 'index'])->middleware('auth');
 
 //Show create form
 Route::get('/orders/add', [DashboardOrderController::class, 'create'])->middleware('auth');
 
 //Show quick create form
-Route::get('orders/add-quick', [DashboardOrderController::class, 'createQuick'])->middleware('auth');
+Route::get('/orders/add-quick', [DashboardOrderController::class, 'createQuick'])->middleware('auth');
 
 //Store order data
 Route::post('/orders', [DashboardOrderController::class, 'store'])->middleware('auth');
@@ -82,7 +82,7 @@ Route::get('/orders/archive/{order}', [DashboardOrderController::class, 'showArc
 //---------------------> BIKES 
 
 //All bikes
-Route::get('/', [BikeController::class, 'index'])->middleware('auth');
+Route::get('/bikes', [BikeController::class, 'index'])->middleware('auth');
 
 //Show create form
 Route::get('/bikes/add', [BikeController::class, 'create'])->middleware('auth');

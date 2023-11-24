@@ -4,7 +4,7 @@
 
 <div class="sorting-section">
     <div class="filter-selector">
-        <form method="GET" action="/orders">
+        <form method="GET" action="/">
             <select onchange="this.form.submit()" name="filter" id="filter">
                 <option selected="selected">{{$filter}}</option>
                 @foreach ($categories as $item)
@@ -25,7 +25,7 @@
         <div class="ass" style="padding-right: 20px">
             Assigned = {{$assigned}}
         </div>
-        <form method="GET" action="/orders">
+        <form method="GET" action="/">
             <input name="search" type="text" placeholder="Search.." value="{{$search}}">
             <button type="submit"><i class="fas fa-search"></i></button>
         </form>
