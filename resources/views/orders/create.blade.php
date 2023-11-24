@@ -92,7 +92,7 @@
             <div class="input-section">
                 <label for="payment_method">Payment Method:</label>
                 <select name="payment_method" id="payment_method">
-                    <option value="{{old('payment_method')}}" disabled selected>{{old('payment_method')}}</option>
+                    <option value="{{old('payment_method')}}">{{old('payment_method')}}</option>
                     <option value="bacs">Bank Transfer</option>
                     <option value="cc">Credit Card</option>
                     <option value="pp">PayPal</option>

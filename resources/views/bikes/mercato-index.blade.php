@@ -81,7 +81,7 @@
                 @php
                     $date = optional($bike->dashboardOrder)->end_date;
                     if($date != null) {
-                    $frmtDate = date('d-m-Y',strtotime($date));
+                    $frmtDate = date('d-m-Y (g A)',strtotime($date));
                     } else {
                     $frmtDate = "";
                     }

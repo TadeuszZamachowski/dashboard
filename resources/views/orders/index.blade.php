@@ -33,7 +33,6 @@
 </div>
 
 <a href="/orders/add" class="btn">Add Order</a>
-<a href="/orders/add-quick" class="btn">Add Quick Order</a>
 <table id="orders-table" class="orders-table">
     <thead>
     <tr>

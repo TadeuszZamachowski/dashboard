@@ -20,7 +20,7 @@ use DateTime;
 class DashboardOrderController extends Controller
 {
     const ENABLE_SMS = true;
-    const ENABLE_CALLENDAR = true;
+    const ENABLE_CALLENDAR = false;
     const PAGINATION_NUMBER = 20;
     const CATEGORIES = [
         'Pending',
@@ -96,10 +96,6 @@ class DashboardOrderController extends Controller
         ]);
     }
 
-    public function createQuick() {
-        return view('orders.create-quick');
-    }
-
     public function createEvent($name, $description, $startDate, $endDate) {//google calendar
         $event = new Event;
 
@@ -119,33 +115,45 @@ class DashboardOrderController extends Controller
     public function store(Request $request) {
         $this->validate($request, [
             'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required|email',
-            'mobile' => 'required',
+            'last_name' => '',
+            'email' => '',
+            'mobile' => '',
             'accommodation' => '',
-            'start_date' =>'required',
-            'end_date' => 'required',
-            'amount_paid' => 'required',
-            'payment_method' => 'required',
-            'pickup_location' => 'required',
-            'address' => 'required',
-            'number_of_bikes' => 'required'
+            'start_date' =>'',
+            'end_date' => '',
+            'amount_paid' => '',
+            'payment_method' => '',
+            'pickup_location' => '',
+            'address' => '',
+            'number_of_bikes' => ''
         ]);
 
+        $requestData = $request->all();
+        //dd($requestData);
+       
+
+        foreach ($requestData as $key => $value) {
+            if ($value == null && ($key == 'start_date' || $key == 'end_date')) {
+                $requestData[$key] = new DateTime();
+            } else if($value == null) {
+                $requestData[$key] = "";
+            }
+        }
+
         $data['dashboard_order_id'] = floor(time()-999999999);
-        $data['first_name'] = $request['first_name'];
-        $data['last_name'] = $request['last_name'];
-        $data['email'] = $request['email'];
-        $data['mobile'] = $request['mobile'];
-        $data['accommodation'] = $request['accommodation'];
-        $data['start_date'] = $request['start_date'];
-        $data['end_date'] = $request['end_date'];
-        $data['amount_paid'] = $request['amount_paid'];
-        $data['payment_method'] = $request['payment_method'];
+        $data['first_name'] = $requestData['first_name'];
+        $data['last_name'] = $requestData['last_name'];
+        $data['email'] = $requestData['email'];
+        $data['mobile'] = $requestData['mobile'];
+        $data['accommodation'] = $requestData['accommodation'];
+        $data['start_date'] = $requestData['start_date'];
+        $data['end_date'] = $requestData['end_date'];
+        $data['amount_paid'] = $requestData['amount_paid'];
+        $data['payment_method'] = $requestData['payment_method'];
         $data['order_status'] = 'Pending';
-        $data['pickup_location'] = $request['pickup_location'];
-        $data['address'] = $request['address'];
-        $data['number_of_bikes'] = $request['number_of_bikes'];
+        $data['pickup_location'] = $requestData['pickup_location'];
+        $data['address'] = $requestData['address'];
+        $data['number_of_bikes'] = $requestData['number_of_bikes'];
         if($this::ENABLE_CALLENDAR) {
             $event = $this->createEvent($data['first_name'],$data['dashboard_order_id'], Carbon::parse($data['start_date']), Carbon::parse($data['end_date']));
             $data['event_id'] = $event->id;
@@ -154,31 +162,6 @@ class DashboardOrderController extends Controller
         DashboardOrder::create($data);
 
         return redirect('/')->with('success', 'Order succesfully added.');
-    }
-
-    public function storeQuick(Request $request) {
-        $this->validate($request, [
-            'first_name' => 'required'
-        ]);
-
-        $data['dashboard_order_id'] = floor(time()-999999999);
-        $data['first_name'] = $request['first_name'];
-        $data['last_name'] = "";
-        $data['email'] = "";
-        $data['mobile'] = "";
-        $data['accommodation'] = "";
-        $data['start_date'] = new DateTime();
-        $data['end_date'] = new DateTime();
-        $data['amount_paid'] = "";
-        $data['payment_method'] = "";
-        $data['order_status'] = 'Pending';
-        $data['pickup_location'] = "";
-        $data['address'] = "";
-        $data['number_of_bikes'] = 1;
-
-        DashboardOrder::create($data);
-
-        return redirect("/")->with('success', 'Quick order added');
     }
 
     public function edit(DashboardOrder $order) {
