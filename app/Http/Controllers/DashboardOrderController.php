@@ -19,7 +19,7 @@ use DateTime;
 class DashboardOrderController extends Controller
 {
     const ENABLE_SMS = true;
-    const ENABLE_CALLENDAR = false;
+    const ENABLE_CALLENDAR = true;
     const PAGINATION_NUMBER = 20;
     const CATEGORIES = [
         'Pending',
@@ -151,7 +151,7 @@ class DashboardOrderController extends Controller
         
         DashboardOrder::create($data);
 
-        return redirect('/orders')->with('success', 'Order succesfully added.');
+        return redirect('/')->with('success', 'Order succesfully added.');
     }
 
     public function storeQuick(Request $request) {
@@ -176,7 +176,7 @@ class DashboardOrderController extends Controller
 
         DashboardOrder::create($data);
 
-        return redirect("/orders")->with('success', 'Quick order added');
+        return redirect("/")->with('success', 'Quick order added');
     }
 
     public function edit(DashboardOrder $order) {
@@ -417,9 +417,9 @@ class DashboardOrderController extends Controller
             if($response == 1) {
                 $order->start_date_sms = 1;
                 $order->save();
-                return redirect('/orders')->with('success', 'Sms sent!');
+                return redirect('/')->with('success', 'Sms sent!');
             } else {
-                return redirect('/orders')->with('error', "Couldn't send SMS, invalid phone number");
+                return redirect('/')->with('error', "Couldn't send SMS, invalid phone number");
             }
             
         }
@@ -434,9 +434,9 @@ class DashboardOrderController extends Controller
             if($response == 1) {
                 $order->end_date_sms = 1;
                 $order->save();
-                return redirect('/orders')->with('success', 'Sms sent!');
+                return redirect('/')->with('success', 'Sms sent!');
             } else {
-                return redirect('/orders')->with('error', "Couldn't send SMS, invalid phone number");
+                return redirect('/')->with('error', "Couldn't send SMS, invalid phone number");
             }
         }
     } 

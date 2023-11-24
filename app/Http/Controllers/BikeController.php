@@ -108,7 +108,7 @@ class BikeController extends Controller
         
         Bike::create($validation);
 
-        return redirect('/')->with('success', 'Bike succesfully added.');
+        return redirect('/bikes')->with('success', 'Bike succesfully added.');
     }
 
     //show edit form'
@@ -141,13 +141,13 @@ class BikeController extends Controller
         
         $bike->update($formFields);
 
-        return redirect('/')->with('success', 'Bike ' . $bike->id . ' succesfully updated.');
+        return redirect('/bikes')->with('success', 'Bike ' . $bike->id . ' succesfully updated.');
     }
 
     //delete bike
     public function destroy(Bike $bike) {
         $bike->delete();
-        return redirect('/')->with('success', 'Bike deleted succesfully');
+        return redirect('/bikes')->with('success', 'Bike deleted succesfully');
     }
 
     public function boundToRack(BikeRack $rack) {
@@ -165,7 +165,7 @@ class BikeController extends Controller
         $bike->save();
         $rack->save();
 
-        return redirect('/')->with('success', 'Bike bounded to rack.');
+        return redirect('/bikes')->with('success', 'Bike bounded to rack.');
     }
 
     public function freeRack(BikeRack $rack) {
@@ -176,7 +176,7 @@ class BikeController extends Controller
         $rack->bike_id = null;
         $rack->save();
 
-        return redirect('/')->with('success', 'Rack freed');
+        return redirect('/bikes')->with('success', 'Rack freed');
     }
 
     public function mapBikes() {
@@ -190,6 +190,6 @@ class BikeController extends Controller
                 }
             }
         }
-        return redirect('/')->with('success','Bikes mapped');
+        return redirect('/bikes')->with('success','Bikes mapped');
     }
 }

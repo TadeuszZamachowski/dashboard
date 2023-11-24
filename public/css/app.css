@@ -189,6 +189,24 @@ input[type="text"], input[type="date"] {
   cursor: pointer;
 }
 
+.slct-pending {
+  background-color: red;
+}
+
+.slct-processing {
+  background-color: yellow;
+  color: black;
+}
+
+.slct-assigned {
+  background-color: green;
+}
+
+.slct-completed {
+  background-color: var(--bike-in);
+  color: black;
+}
+
 table {
   width: 100%;
   border-collapse: collapse; 
