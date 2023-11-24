@@ -266,7 +266,12 @@
                 <form method="POST" action="orders/status/{{$order->dashboard_order_id}}">
                     @csrf
                     @method('PUT')
-                    <select onchange="this.form.submit()" name="order_status" id="order_status" class="slct-btn">
+                    <select onchange="this.form.submit()" name="order_status" id="order_status" @class([
+                        'slct-btn' => true,
+                        'slct-pending' => $order->order_status == 'Pending',
+                        'slct-processing' => $order->order_status == 'Processing',
+                        'slct-assigned' => $order->order_status == 'Assigned',
+                        'slct-completed' => $order->order_status == 'Completed'])>
                         <option id="status_option" selected="selected">{{$order->order_status}}</option>
                         @foreach ($categories as $item)
                             @if ($item == $order->order_status)
@@ -276,6 +281,7 @@
                             @endif
                         @endforeach
                     </select>
+
                 </form>
             </div>
         </td>
