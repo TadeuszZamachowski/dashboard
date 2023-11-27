@@ -21,12 +21,18 @@ class SmsController extends Controller
     }
 
     public function send(Request $request) {
-        $mobiles = DashboardOrder::distinct('mobile')->pluck('mobile');
+        $orders = DashboardOrder::distinct('mobile')->get();
         
-        foreach($mobiles as $mobile) {
-            $this->sendSMS($mobile, $request->sms_input);
+        $response = "";
+        foreach($orders as $order) {
+            $attempt = $this->sendSMS($order->mobile, $request->sms_input);
+            if($attempt == 1) {
+                $response .= $order->dashboard_order_id. " ". $order->first_name. " Sms sent!". "\r\n";
+            } else {
+                $response .= $order->dashboard_order_id. " ". $order->first_name. " Error sending sms, mobile number - ". $order->mobile. "\r\n";
+            }
         }
-        return redirect('/messages')->with('success', 'Sms sent to all customers');
+        return redirect('/messages')->with('success',$response);
     }
 
     //Used in DashboardOrderController and BikesDashboardOrderController
