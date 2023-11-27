@@ -138,6 +138,15 @@ class BikeController extends Controller
             'notes' => '',
             'dashboard_order_id' => ''
         ]);
+
+        if($request->location == "Suffolk" && $bike->location == "Mercato") { //change from mercato to suffolk
+            $rack = BikeRack::where('bike_id', $bike->id)->first();
+            $rack->bike_id = null;
+            $rack->save();
+
+            $bike->rack = 0;
+            $bike->save();
+        }
         
         $bike->update($formFields);
 
