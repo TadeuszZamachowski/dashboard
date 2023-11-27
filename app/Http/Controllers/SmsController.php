@@ -16,6 +16,19 @@ class SmsController extends Controller
         $this->twilioService = $twilioService;
     }
 
+    public function index() {
+        return view('messages.index');
+    }
+
+    public function send(Request $request) {
+        $mobiles = DashboardOrder::distinct('mobile')->pluck('mobile');
+        
+        foreach($mobiles as $mobile) {
+            $this->sendSMS($mobile, $request->sms_input);
+        }
+        return redirect('/messages')->with('success', 'Sms sent to all customers');
+    }
+
     //Used in DashboardOrderController and BikesDashboardOrderController
     public function sendSMS($to, $message)
     {

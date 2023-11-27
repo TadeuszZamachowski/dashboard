@@ -237,6 +237,10 @@ Route::get('/reports/salesByLocation/result', [ReportsController::class,'process
 //Map bikes
 Route::get('mapBikes', [BikeController::class, 'mapBikes'])->middleware('auth');
 
+//Messaging
+Route::get('/messages', [SmsController::class, 'index'])->middleware('auth');
+Route::post('/messages/send', [SmsController::class, 'send'])->middleware('auth');
+
 
 
 //---------------------> TEMP SMS
