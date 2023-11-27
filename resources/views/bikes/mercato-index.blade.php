@@ -37,6 +37,8 @@
         <th onclick="sortTable(9,0,0,0,1)">Order ID</th>
         <th onclick="sortTable(10,0,0,0,0)">Name</th>
         <th onclick="sortTable(11,0,0,1,0)">Return Date</th>
+        <th onclick="sortTable(12,0,0,0,1)">$</th>
+        <th onclick="sortTable(13,0,0,0,1)">Total Duration</th>
         <th></th>
         <th></th>
         <th></th>
@@ -46,6 +48,26 @@
     @foreach ($racks as $rack)
         @php
             $bike = optional($rack->bike);
+            $date = optional($bike->dashboardOrder)->end_date;
+            if($date != null) {
+                $frmtDate = date('d-m-Y (g A)',strtotime($date));
+            } else {
+                $frmtDate = "";
+            }
+
+            $salesTotal = 0;
+            $durationTotal = 0;
+            $history = App\Models\BikesDashboardOrder::where('bike_id', $bike->id)->get();
+            foreach($history as $entry) {
+                $date1 = new DateTime($entry->start_date);
+                $date2 = new DateTime($entry->end_date);
+                $interval = $date1->diff($date2);
+                $duration = $interval->days;
+
+                $order = App\Models\DashboardOrder::where('dashboard_order_id', $entry->order_id)->first();
+                $salesTotal += $order->amount_paid;
+                $durationTotal += $duration;
+            }
         @endphp
         <tbody>
             <tr @class([
@@ -78,15 +100,9 @@
                         {{$bike->dashboard_order_id}}</a>
                 </td>
                 <td>{{optional($bike->dashboardOrder)->first_name}}</td>
-                @php
-                    $date = optional($bike->dashboardOrder)->end_date;
-                    if($date != null) {
-                    $frmtDate = date('d-m-Y (g A)',strtotime($date));
-                    } else {
-                    $frmtDate = "";
-                    }
-                @endphp
                 <td>{{$frmtDate}}</td>
+                <td>${{$salesTotal}}</td>
+                <td>{{$durationTotal}} days</td>
                 <td>
                     <a href="/bikes/{{$bike->id}}/assign">
                         <i class="fa-solid fa-bicycle" style="color: black">
