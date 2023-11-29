@@ -51,8 +51,8 @@
         <th onclick="sortTable(11,0,0,0,0)">Pickup</th>
         <th></th>
         <th></th>
-        <th>Pre-Pickup SMS</th>
-        <th>Reminder SMS</th>
+        <th>SMS RA</th>
+        <th>SMS Reminder</th>
     </tr>
     </thead>
     @php

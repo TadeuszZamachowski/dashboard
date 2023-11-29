@@ -13,7 +13,7 @@
 
   --bike-in: rgba(255, 224, 218, 1);
   --bike-out: rgba(224, 248, 245, 1);
-  --due-date: rgba(255, 255, 0, 0.6);
+  --due-date: rgba(255, 0, 0, 0.6);
   --processing: rgb(255, 255, 255);
   --complete: rgba(255, 0, 0, 0.15);
 }
