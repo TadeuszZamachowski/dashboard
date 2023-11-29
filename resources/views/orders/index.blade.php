@@ -64,7 +64,7 @@
         $startDateTime = new DateTime(date('d-m-Y',strtotime($order->start_date)));
         $difference = $today->diff($startDateTime);
 
-        if($difference->days >= 7 && $startDateTime > $today) {
+        if($difference->days >= 2 && $startDateTime > $today) {
             $ordersWeekFromNow[] = $order;
             continue;
         }
@@ -123,7 +123,14 @@
                             @if ($item == $order->order_status)
                                 {{-- Don't display duplicates --}}
                             @else
-                                <option value={{$item}}>{{$item}} </option>
+                                <option value={{$item}} @class([
+                                    'slct-archived' => $item == "Archived"])>
+                                    @if ($item=="Archived")
+                                        To Archive
+                                    @else
+                                        {{$item}} 
+                                    @endif
+                                </option>
                             @endif
                         @endforeach
                     </select>

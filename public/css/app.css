@@ -189,6 +189,12 @@ input[type="text"], input[type="date"] {
   cursor: pointer;
 }
 
+.slct-archived {
+  background-color: yellow;
+  color: black;
+  content: "Archive";
+}
+
 .slct-pending {
   background-color: red;
 }
@@ -336,7 +342,6 @@ td {
 .order-create .input-section {
   display: flex;
   justify-content: left; 
-  align-items: center;
 }
 
 .order-create select {
