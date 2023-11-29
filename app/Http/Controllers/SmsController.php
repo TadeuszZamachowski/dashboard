@@ -53,26 +53,35 @@ class SmsController extends Controller
         
         $orders = DashboardOrder::where("order_status", "LIKE", "Processing")->get();
         $today = date('Y-m-d H:i');
+        $smsSent = "";
         foreach($orders as $order) {
-            if($order->start_date_sms != 1) {
+            if($order->start_date_sms != 1) { //SMS hasn't been sent previously
                 $date = date('Y-m-d H:i',strtotime($order->start_date));
                 $hourDiff = UtilController::getHours($today, $date); 
 
-                if($hourDiff <= 1) {
+                if($hourDiff <= 1) { //rent date one hour from now
                     $sms = new SmsController(new TwilioService());
-                    $sms->sendSMS($order->mobile, self::getMessageStartDate());
+                    $response = $sms->sendSMS($order->mobile, self::getMessageStartDate());
     
-                    $order->start_date_sms = 1;
-                    $order->save();
+                    if($response == 1) { //sms succesfully sent
+                        $order->start_date_sms = 1;
+                        $order->save();
+                        $smsSent .= "Pre rental Sms sent to ".$order->first_name." | ";
+                    }
                 }
             }
         }
+        if($smsSent=="") {
+            $smsSent = "No pre rental sms sent";
+        }
+        return $smsSent;
     }
 
     //assigned
     public static function checkOneHourBeforeEndDate() {
         $orders = DashboardOrder::where("order_status", "LIKE", "Assigned")->get();
         $today = date('Y-m-d H:i');
+        $smsSent = "";
         foreach($orders as $order) {
             if($order->end_date_sms != 1) {
                 $date = date('Y-m-d H:i',strtotime($order->end_date));
@@ -80,13 +89,20 @@ class SmsController extends Controller
 
                 if($hourDiff <= 1) {
                     $sms = new SmsController(new TwilioService());
-                    $sms->sendSMS($order->mobile, self::getMessageEndDate());
+                    $response = $sms->sendSMS($order->mobile, self::getMessageEndDate());
     
-                    $order->end_date_sms = 1;
-                    $order->save();
+                    if($response == 1) {
+                        $order->end_date_sms = 1;
+                        $order->save();
+                        $smsSent .= "Reminder Sms sent to ".$order->first_name." | ";
+                    }
                 }
             }
         }
+        if($smsSent=="") {
+            $smsSent = "No reminder sms sent";
+        }
+        return $smsSent;
     }
 
     public static function getMessageStartDate() {
@@ -95,6 +111,10 @@ class SmsController extends Controller
 
     public static function getMessageEndDate() {
         return "Hello! I trust you had a fantastic bike riding experience! Just a friendly reminder: your bikes are scheduled to be returned in 1 hour. Feel free to share photos of your adventure with us! :)";
+    }
+
+    public function schedule() {
+        return view('smsScheduled');
     }
 
 }

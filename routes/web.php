@@ -247,3 +247,5 @@ Route::post('/messages/send', [SmsController::class, 'send'])->middleware('auth'
 Route::get('/orders/pre-pickup/{order}', [DashboardOrderController::class, 'prePickup'])->middleware('auth');
 
 Route::get('/orders/reminder/{order}', [DashboardOrderController::class, 'reminder'])->middleware('auth');
+
+Route::get('/smsScheduled', [SmsController::class, 'schedule'])->middleware('auth');
