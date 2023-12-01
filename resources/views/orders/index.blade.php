@@ -51,8 +51,22 @@
         <th onclick="sortTable(11,0,0,0,0)">Pickup</th>
         <th></th>
         <th></th>
-        <th>SMS RA</th>
-        <th>SMS Reminder</th>
+        <th>
+            <div class="tooltip">
+                SMS RA
+                <span class="tooltiptext">
+                    {{App\Http\Controllers\DashboardOrderController::getPrePickupMessage()}}
+                </span>
+            </div>
+        </th>
+        <th>
+            <div class="tooltip">
+                SMS Reminder
+                <span class="tooltiptext">
+                    {{App\Http\Controllers\DashboardOrderController::getReminderMessage()}}
+                </span>
+            </div>
+        </th>
     </tr>
     </thead>
     @php
@@ -183,7 +197,7 @@
                     <button onclick="this.form.submit()"><i class="fa-solid fa-envelope"></i></button>
                 </form>
             @else
-                <span style="color: green">Sms sent</span>
+                <span style="color: green">Sms sent</span>                
             @endif
         </td>
 

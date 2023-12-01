@@ -435,7 +435,6 @@ td {
   position: relative;
   display: inline-block;
 }
-
 /* Tooltip text */
 .tooltip .tooltiptext {
   visibility: hidden;
@@ -445,9 +444,10 @@ td {
   text-align: center;
   padding: 5px 0;
   border-radius: 6px;
-  bottom: 100%;
+  top: 100%;
   left: 50%;
   margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
+  font-weight: lighter;
  
   /* Position the tooltip text - see examples below! */
   position: absolute;
