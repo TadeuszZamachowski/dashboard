@@ -21,7 +21,7 @@ class DashboardOrderController extends Controller
 {
     const ENABLE_SMS = true;
     const ENABLE_CALLENDAR = true;
-    const PAGINATION_NUMBER = 20;
+    //const PAGINATION_NUMBER = 20;
     const CATEGORIES = [
         'Pending',
         'Processing',
@@ -363,7 +363,7 @@ class DashboardOrderController extends Controller
         $history = BikesDashboardOrder::all();
         return view('orders.archive', [
             'orders' => DashboardOrder::where('order_status', 'Archived')->with('history')->orderByDesc('dashboard_order_id')
-            ->paginate($this::PAGINATION_NUMBER)
+            ->get()
         ]);
     }
 
