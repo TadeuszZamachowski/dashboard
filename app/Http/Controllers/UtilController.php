@@ -10,7 +10,6 @@ use Carbon\Carbon;
 class UtilController extends Controller
 {
     public static function getTodaysSales() {
-        error_log("kkurwa mac".now());
         $todaySales = 0;
         foreach(DashboardOrder::whereDate('created_at', Carbon::today())->get() as $order) {
             $todaySales += $order->amount_paid;
