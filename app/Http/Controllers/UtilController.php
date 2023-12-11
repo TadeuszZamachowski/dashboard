@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Bike;
 use App\Models\DashboardOrder;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class UtilController extends Controller
 {
     public static function getTodaysSales() {
+        error_log("kkurwa mac".now());
         $todaySales = 0;
-        foreach(DashboardOrder::whereDay('created_at', now()->day)->get() as $order) {
+        foreach(DashboardOrder::whereDate('created_at', Carbon::today())->get() as $order) {
             $todaySales += $order->amount_paid;
         }
         return $todaySales;

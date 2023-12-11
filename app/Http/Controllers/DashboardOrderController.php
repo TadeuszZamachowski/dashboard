@@ -34,10 +34,10 @@ class DashboardOrderController extends Controller
     public function filterOrders($filter) {
         if($filter != null) {
             $orders = DashboardOrder::where('order_status', '!=', 'Archived')->where('order_status',$filter)->orWhere('order_status','wc-'.strtolower($filter))
-        ->orderByDesc('created_at')->with('history')->get();
+        ->orderBy('start_date')->with('history')->get();
         } else {
             $orders = DashboardOrder::where('order_status', '!=', 'Archived')->
-            orderByDesc('created_at')->with('history')->get();
+            orderBy('start_date')->with('history')->get();
         }
         return $orders;
     }
@@ -50,7 +50,7 @@ class DashboardOrderController extends Controller
         ->orWhere('mobile', 'LIKE', '%'.$search.'%')
         ->orWhere('amount_paid', 'LIKE', '%'.$search.'%')
         ->orWhere('pickup_location', 'LIKE', '%'.$search.'%')
-        ->orderByDesc('created_at')->with('history')->get();
+        ->orderBy('start_date')->with('history')->get();
     }
     public function index(Request $request) {
         $orders = $this->filterOrders($request->filter);
@@ -362,7 +362,7 @@ class DashboardOrderController extends Controller
     public function archive() {
         $history = BikesDashboardOrder::all();
         return view('orders.archive', [
-            'orders' => DashboardOrder::where('order_status', 'Archived')->with('history')->orderByDesc('dashboard_order_id')
+            'orders' => DashboardOrder::where('order_status', 'Archived')->with('history')->orderBy('end_date')
             ->get()
         ]);
     }
