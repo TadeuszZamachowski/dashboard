@@ -11,6 +11,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SmsController;
+use App\Http\Controllers\MailController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
@@ -249,3 +250,5 @@ Route::get('/orders/pre-pickup/{order}', [DashboardOrderController::class, 'preP
 Route::get('/orders/reminder/{order}', [DashboardOrderController::class, 'reminder'])->middleware('auth');
 
 Route::get('/smsScheduled', [SmsController::class, 'schedule'])->middleware('auth');
+
+Route::get('/sendMailTest', [MailController::class, 'sendEmail']);
