@@ -104,17 +104,19 @@
             </div>
             <br>
 
-            <label for="pickup_location">Location:</label>
-            <select name="pickup_location" id="pickup_location">
-                <option value="{{old('pickup_location')}}">{{old('pickup_location')}}</option>
-                @foreach ($locations as $loc)
-                    <option value={{$loc->value}}>{{$loc->value}}</option>
-                @endforeach
-            </select>
-            @error('pickup_location')
-                <p>{{$message}}</p>
-            @enderror
-            <br>
+            <div class="input-section">
+                <label for="pickup_location">Location:</label>
+                <select name="pickup_location" id="pickup_location">
+                    <option value="{{old('pickup_location')}}">{{old('pickup_location')}}</option>
+                    @foreach ($locations as $loc)
+                        <option value={{$loc->value}}>{{$loc->value}}</option>
+                    @endforeach
+                </select>
+                @error('pickup_location')
+                    <p>{{$message}}</p>
+                @enderror
+                <br>
+            </div>
 
             <div class="input-section">
                 <label for="address">Address:</label>

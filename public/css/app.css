@@ -340,11 +340,28 @@ td {
 }
 
 .order-create .input-section {
-  display: flex;
-  justify-content: left; 
+  /* display: flex;
+  justify-content: left;  */
+
+  display:flex;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.order-create .input-section label{
+  white-space: nowrap;
+  flex:1;
+  flex-basis:20%;
+  max-width:100%;
+  padding-right: 40px;
 }
 
 .order-create select {
+  flex:2;
+  flex-basis:20%;
+  max-width:40%;
+  margin-top: 30px;
+
   padding: 0px 0px;
   margin-bottom: 30px;
   width: 90px;
@@ -353,9 +370,13 @@ td {
 }
 
 .order-create input {
+  flex:2;
+  flex-basis:20%;
+  max-width:40%;
+  margin-top: 30px;
+
   padding: 0px 0px;
   margin-bottom: 30px;
-  width: 90px;
   height: 7%;
   text-align: center;
 }
