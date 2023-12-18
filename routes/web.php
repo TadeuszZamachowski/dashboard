@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AutomationController;
 use App\Http\Controllers\BikeController;
 use App\Http\Controllers\BikesCheckController;
 use App\Http\Controllers\BikesDashboardOrderController;
@@ -249,6 +250,10 @@ Route::get('/orders/pre-pickup/{order}', [DashboardOrderController::class, 'preP
 
 Route::get('/orders/reminder/{order}', [DashboardOrderController::class, 'reminder'])->middleware('auth');
 
-Route::get('/smsScheduled', [SmsController::class, 'schedule'])->middleware('auth');
+
+//Pre pickup and reminder SMS cron
+Route::get('/smsScheduled', [SmsController::class, 'schedule']);
 
 Route::get('/sendMailTest', [MailController::class, 'sendEmail']);
+
+Route::get('/autoAssign', [AutomationController::class, 'assign']);
