@@ -33,7 +33,7 @@
 </div>
 
 <a href="/orders/add" class="btn">Add Order</a>
-<a class="btn" href="/sendMailTest">Mail Test</a>
+<!--<a class="btn" href="/sendMailTest">Mail Test</a> -->
 <table id="orders-table" class="orders-table">
     <thead>
     <tr>

@@ -61,7 +61,7 @@
                 <select name="accessory" id="accessory">
                     <option value="{{$bike->accessory}}">{{$bike->accessory}}</option>
                     @foreach ($accessories as $acc)
-                        <option value={{$acc->value}}>{{$acc->value}}</option>
+                        <option value="{{$acc->value}}">{{$acc->value}}</option>
                     @endforeach
                 </select>
                 @error('accessory')

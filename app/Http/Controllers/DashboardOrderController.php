@@ -20,7 +20,7 @@ use DateTime;
 class DashboardOrderController extends Controller
 {
     const ENABLE_SMS = true;
-    const ENABLE_CALLENDAR = true;
+    const ENABLE_CALLENDAR = false;
     //const PAGINATION_NUMBER = 20;
     const CATEGORIES = [
         'Pending',
