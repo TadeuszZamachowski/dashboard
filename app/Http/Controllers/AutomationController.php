@@ -41,6 +41,9 @@ class AutomationController extends Controller
                             if($quantity >= 1) {
                                 $accName = $name;//assigning current accessory name
                                 $quantity -= 1;
+
+                                //TODO 
+                                //Fix iterating through accessories, bikes dont get assigned properly with accessories
                             }   
                         }
                     }

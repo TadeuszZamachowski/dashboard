@@ -27,7 +27,8 @@
     <tr>
         {{-- sortTable(n, isStatus, isLink, isDate, isNum) --}}
         <th></th>
-        <th onclick="sortTable(2,0,0,0,1)">Rack</th>
+        <th onclick="sortTable(1,0,0,0,1)">Rack</th>
+        <th onclick="sortTable(2,0,0,0,1)">Bike ID</th>
         <th onclick="sortTable(3,0,1,0,1)">Code</th>
         <th onclick="sortTable(4,0,0,0,0)">Color</th>
         <th onclick="sortTable(5,0,0,0,0)">Type</th>
@@ -89,6 +90,7 @@
                     </td>
                 @endif
                 <td>{{$rack->value}}</td>
+                <td>{{$bike->id}}</td>
                 <td><a href="/bikes/{{$bike->id}}">{{$bike->code}}</a></td>
                 <td>{{$bike->color}}</td>
                 <td>{{$bike->type}}</td>
