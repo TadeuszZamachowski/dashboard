@@ -7,6 +7,7 @@ use App\Models\Accommodation;
 use App\Models\BikeColor;
 use App\Models\BikeRack;
 use App\Models\Code;
+use App\Models\DashboardAutomation;
 use App\Models\Location;
 use Illuminate\Http\Request;
 
@@ -140,5 +141,29 @@ class SettingsController extends Controller
     public function accommodationsDestroy(Accommodation $accommodation) {
         $accommodation->delete();
         return redirect('/settings/accommodations')->with('success', 'Accommodation deleted succesfully');
+    }
+
+    public function automation() {
+        $setting = DashboardAutomation::first();
+
+        return view('settings.automation', [
+            'enabled' => $setting->enabled
+        ]);
+    }
+
+    public function automationEdit(Request $request) {
+        $setting = DashboardAutomation::first();
+
+        if($request->auto_enabled) {
+            $setting->enabled = 1;
+            $setting->save();
+            $result = "enabled";
+        } else {
+            $setting->enabled = 0;
+            $setting->save();
+            $result = "disabled";
+        }
+
+        return back();
     }
 }

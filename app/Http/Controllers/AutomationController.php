@@ -6,48 +6,50 @@ use App\Models\DashboardOrder;
 use App\Models\DashboardOrderAccessory;
 use App\Models\Bike;
 use App\Models\BikesDashboardOrder;
+use App\Models\Accessory;
 use App\Http\Controllers\SmsController;
+use App\Models\DashboardAutomation;
 use App\Services\TwilioService;
 use Illuminate\Http\Request;
 
 class AutomationController extends Controller
 {
     public static function assign() { //fires every 2 minutes as a cron job
-        $output = "";
-        
+        $setting = DashboardAutomation::first();
+        if(!$setting->enabled) {
+            return view('automationOutput', [
+                'output' => 'Automation is disabled'
+            ]);
+        }
+
         $orders = DashboardOrder::where('order_status', 'LIKE', 'Processing')->get();
         if($orders->isEmpty()) {
             return view('automationOutput', [
                 'output' => 'No processing orders at the moment'
             ]);
         }
-        $today = date('Y-m-d H:i');
 
+        $output = "";
+        $today = date('Y-m-d H:i');
         foreach($orders as $order) {
             $date = date('Y-m-d H:i',strtotime($order->start_date));
             $hourDiff = UtilController::getHours($today, $date);
             
-            if($hourDiff <= 0.5 && $hourDiff >= -1) { //start date is half an hour before or one hour after
-                $accessories = DashboardOrderAccessory::where('order_id', $order->dashboard_order_id)->get();
-                $accessories = self::filterAccesssories($accessories); //excluding non physical attachements (like bike delivery etc.)
-                
-                //find appropriate bikes
+            if($hourDiff >= -5 && $hourDiff <= 0.5) { //start date is half an hour before or 5  hour after
+
+                //excluding non physical attachements (like bike delivery etc.)
+                $accessories = self::filterAccesssories(DashboardOrderAccessory::where('order_id', $order->dashboard_order_id)->get());
+    
                 $bikes = array();
                 $accName = "";
-                $DEBUG = array();
                 for($i = 0; $i < $order->number_of_bikes; $i++) {//iterating through number of bikes
-                    foreach($accessories as &$acc) {//accessories
-                        foreach($acc as $name => &$quantity) {//individual accessories with quantity
-                            if($quantity >= 1) {
-                                $accName = $name;//assigning current accessory name
-                                $quantity -= 1;
-
-                                //TODO 
-                                //Fix iterating through accessories, bikes dont get assigned properly with accessories
-                            }   
-                        }
+                    foreach($accessories as $name => &$quantity) {
+                        if($quantity >= 1) {
+                            $accName = $name;//assigning current accessory name
+                            $quantity -= 1;
+                            break;//accessory found, breaking from foreach statement
+                        }                           
                     }
-                    dd($DEBUG);
                     $bike = Bike::where('accessory','LIKE',$accName)//looking for bike with the current accessory name
                                         ->where('status','LIKE','in')
                                         ->where('location','LIKE','Mercato')->first();
@@ -105,13 +107,13 @@ class AutomationController extends Controller
     }
 
     public static function filterAccesssories($accessories) {
-        $dictionary = array('Surfboard Rack', 'Basket', 'Front/Back lights', 'Child / Baby back seat', 'Kids Trailer');
+        $dictionary = Accessory::all();
         $result = array();
 
         foreach($accessories as $acc) {
             foreach($dictionary as $entry) {
-                if ($acc->name == $entry) {
-                    $result[] = [$acc->name => $acc->quantity];
+                if ($acc->name == $entry->value) {
+                    $result[$acc->name] = $acc->quantity;
                 }
             }
         }

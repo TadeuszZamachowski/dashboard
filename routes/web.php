@@ -208,6 +208,14 @@ Route::delete('/settings/accommodations/{accommodation}', [SettingsController::c
 
 
 
+//show automation 
+Route::get('/settings/automation', [SettingsController::class, 'automation'])->middleware('auth');
+
+//edit automation
+Route::post('settings/automation', [SettingsController::class, 'automationEdit'])->middleware('auth');
+
+
+
 //---------------------> INCIDENTS
 Route::get('/incidents', [DashboardIncidentController::class, 'index'])->middleware('auth');
 
