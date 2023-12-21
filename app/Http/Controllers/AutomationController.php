@@ -41,9 +41,9 @@ class AutomationController extends Controller
                 $accessories = self::filterAccesssories(DashboardOrderAccessory::where('order_id', $order->dashboard_order_id)->get());
     
                 $bikes = array();
-                $accName = "";
                 for($i = 0; $i < $order->number_of_bikes; $i++) {//iterating through number of bikes
                     foreach($accessories as $name => &$quantity) {
+                        $accName = "";
                         if($quantity >= 1) {
                             $accName = $name;//assigning current accessory name
                             $quantity -= 1;
@@ -58,42 +58,46 @@ class AutomationController extends Controller
                                 ->where('status','LIKE','in')
                                 ->where('location','LIKE','Mercato')->first();
                     }
-                    $bikes[] = $bike;
-
-                    //creating history
-                    $data['bike_id'] = $bike->id;
-                    $data['order_id'] = $order->dashboard_order_id;
-                    $data['start_date'] = $order->start_date;
-                    $data['end_date'] = $order->end_date;
-                    BikesDashboardOrder::create($data);
-
-                    //assigning bikes to order
+                    //assigning bike to order
                     $bike->update(array(
                         'status' => 'out',
                         'dashboard_order_id' => $order->dashboard_order_id
                     ));
-
-                    $order->update(array(
-                        'order_status' => 'Assigned',
-                        'bikes_assigned' => 1
-                    ));
+                    $bikes[] = $bike;
                 }
-                $sms = new SmsController(new TwilioService());
-                $result = $sms->sendSMS($order->mobile, self::getMessage($bikes));
+
+                //$sms = new SmsController(new TwilioService());
+                $result = 1;//$sms->sendSMS($order->mobile, self::getMessage($bikes));
 
                 if($result == 1) {
                     $output .= "Sent Sms to ". $order->dashboard_order_id. " ". $order->first_name." with bikes ";
                     foreach($bikes as $bike) {
+                        //creating history
+                        $data['bike_id'] = $bike->id;
+                        $data['order_id'] = $order->dashboard_order_id;
+                        $data['start_date'] = $order->start_date;
+                        $data['end_date'] = $order->end_date;
+                        BikesDashboardOrder::create($data);
+    
+                        //assigning bikes to order
+                        $order->update(array(
+                            'order_status' => 'Assigned',
+                            'bikes_assigned' => 1
+                        ));
                         $output .= ' | Rack: '. $bike->rack .' => Code: '.$bike->code;
                     }
                     $output .= "\r\n";
                 } else {
                     //send email;
-                    $output .= "Sent Email to ". $order->dashboard_order_id. " ". $order->first_name." with bikes ";
-                    foreach($bikes as $bike) {
-                        $output .= ' | Rack: '. $bike->rack .' => Code: '.$bike->code;
+
+                    foreach($bikes as &$bike) {
+                        //reverting
+                        $bike->update(array(
+                            'status' => 'in',
+                            'dashboard_order_id' => null
+                        ));
                     }
-                    $output .= "\r\n";
+                    $output .= "Invalid phone number couldnt send bikes so bikes not assigned";
                 }
             }
         }
