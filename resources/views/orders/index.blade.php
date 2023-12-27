@@ -56,7 +56,7 @@
             <div class="tooltip">
                 SMS RA
                 <span class="tooltiptext">
-                    {{App\Http\Controllers\DashboardOrderController::getPrePickupMessage()}}
+                    {{App\Http\Controllers\SmsController::getMessageStartDate()}}
                 </span>
             </div>
         </th>
@@ -64,7 +64,7 @@
             <div class="tooltip">
                 SMS Reminder
                 <span class="tooltiptext">
-                    {{App\Http\Controllers\DashboardOrderController::getReminderMessage()}}
+                    {{App\Http\Controllers\SmsController::getMessageEndDate()}}
                 </span>
             </div>
         </th>

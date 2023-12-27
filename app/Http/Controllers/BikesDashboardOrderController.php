@@ -93,7 +93,7 @@ class BikesDashboardOrderController extends Controller
         $response = "";
         if($order->pickup_location == "Mercato") {
             $sms = new SmsController(new TwilioService());
-            $result = $sms->sendSMS($order->mobile, $this::getMessage($assignedBikes));
+            $result = $sms->sendSMS($order->mobile, SmsController::getMessageWithBikes($assignedBikes));
             if($result == 1) {
                 $response = "Sms sent!";
             } else {
@@ -141,14 +141,5 @@ class BikesDashboardOrderController extends Controller
         $history->delete();
 
         return redirect()->to($request->last_url)->with('success', 'Bike succesfully freed.');
-    }
-
-    public static function getMessage($assignedBikes) {
-        $message = 'Here are your rack numbers and codes: '. "\r\n";
-        foreach($assignedBikes as $bike) {
-            $message .= '=> Rack: '. $bike->rack .' | Code: '.$bike->code . "\r\n";
-        }
-        $message .= 'Please take a photo of the bike when picking it up and send it to +61 418 883 631. Upon return, hang the bike on the same bike rack. Attach the bike with the same lock code and send us a photo again.';
-        return $message;   
     }
  }

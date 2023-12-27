@@ -41,7 +41,8 @@ class AutomationController extends Controller
                 $accessories = self::filterAccesssories(DashboardOrderAccessory::where('order_id', $order->dashboard_order_id)->get());
     
                 $bikes = array();
-                for($i = 0; $i < $order->number_of_bikes; $i++) {//iterating through number of bikes
+                for($i = 0; $i < $order->number_of_bikes; $i++) {
+                    $accName = "";//iterating through number of bikes
                     foreach($accessories as $name => &$quantity) {
                         $accName = "";
                         if($quantity >= 1) {
@@ -66,8 +67,8 @@ class AutomationController extends Controller
                     $bikes[] = $bike;
                 }
 
-                //$sms = new SmsController(new TwilioService());
-                $result = 1;//$sms->sendSMS($order->mobile, self::getMessage($bikes));
+                $sms = new SmsController(new TwilioService());
+                $result = $sms->sendSMS($order->mobile, SmsController::getMessageWithBikes($bikes));
 
                 if($result == 1) {
                     $output .= "Sent Sms to ". $order->dashboard_order_id. " ". $order->first_name." with bikes ";
@@ -122,14 +123,5 @@ class AutomationController extends Controller
             }
         }
         return $result;
-    }
-
-    public static function getMessage($assignedBikes) {
-        $message = 'Here are your rack numbers and codes: '. "\r\n";
-        foreach($assignedBikes as $bike) {
-            $message .= '=> Rack: '. $bike->rack .' | Code: '.$bike->code . "\r\n";
-        }
-        $message .= 'Please take a photo of the bike when picking it up and send it to +61 418 883 631. Upon return, hang the bike on the same bike rack. Attach the bike with the same lock code and send us a photo again.';
-        return $message;   
     }
 }
