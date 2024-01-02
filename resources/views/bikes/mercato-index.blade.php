@@ -28,18 +28,19 @@
         {{-- sortTable(n, isStatus, isLink, isDate, isNum) --}}
         <th></th>
         <th onclick="sortTable(1,0,0,0,1)">Rack</th>
-        <th onclick="sortTable(2,0,0,0,1)">Bike ID</th>
-        <th onclick="sortTable(3,0,1,0,1)">Code</th>
-        <th onclick="sortTable(4,0,0,0,0)">Color</th>
-        <th onclick="sortTable(5,0,0,0,0)">Type</th>
-        <th onclick="sortTable(6,0,0,0,0)">Accessory</th>
-        <th onclick="sortTable(7,0,0,0,0)">Location</th>
-        <th onclick="sortTable(8,0,0,0,0)">Status</th>
-        <th onclick="sortTable(9,0,0,0,1)">Order ID</th>
-        <th onclick="sortTable(10,0,0,0,0)">Name</th>
-        <th onclick="sortTable(11,0,0,1,0)">Return Date</th>
-        <th onclick="sortTable(12,0,0,0,1)">$</th>
-        <th onclick="sortTable(13,0,0,0,1)">Total Duration</th>
+        <th onclick="sortTable(2,0,0,0,1)">ID</th>
+        <th onclick="sortTable(3,0,0,0,1)">Number</th>
+        <th onclick="sortTable(4,0,1,0,1)">Code</th>
+        <th onclick="sortTable(5,0,0,0,0)">Color</th>
+        <th onclick="sortTable(6,0,0,0,0)">Type</th>
+        <th onclick="sortTable(7,0,0,0,0)">Accessory</th>
+        <th onclick="sortTable(8,0,0,0,0)">Location</th>
+        <th onclick="sortTable(9,0,0,0,0)">Status</th>
+        <th onclick="sortTable(10,0,0,0,1)">Order ID</th>
+        <th onclick="sortTable(11,0,0,0,0)">Name</th>
+        <th onclick="sortTable(12,0,0,1,0)">Return Date</th>
+        <th onclick="sortTable(13,0,0,0,1)">$</th>
+        <th onclick="sortTable(14,0,0,0,1)">Total Duration</th>
         <th></th>
         <th></th>
         <th></th>
@@ -91,6 +92,7 @@
                 @endif
                 <td>{{$rack->value}}</td>
                 <td>{{$bike->id}}</td>
+                <td>{{$bike->number}}</td>
                 <td><a href="/bikes/{{$bike->id}}">{{$bike->code}}</a></td>
                 <td>{{$bike->color}}</td>
                 <td>{{$bike->type}}</td>

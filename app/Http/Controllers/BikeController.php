@@ -136,7 +136,8 @@ class BikeController extends Controller
             'status' => 'required',
             'helmet' => 'required',
             'notes' => '',
-            'dashboard_order_id' => ''
+            'dashboard_order_id' => '',
+            'number' => 'required'
         ]);
 
         if($request->location == "Suffolk" && $bike->location == "Mercato") { //change from mercato to suffolk

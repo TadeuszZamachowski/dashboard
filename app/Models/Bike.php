@@ -27,7 +27,8 @@ class Bike extends Model
         'status',
         'helmet',
         'notes',
-        'dashboard_order_id'
+        'dashboard_order_id',
+        'number'
     ];
     
     public function dashboardOrder(): BelongsTo

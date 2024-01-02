@@ -16,6 +16,20 @@
         <div class="left-side">
 
             <div class="input-section">
+                <label for="number">Number:</label>
+                <select name="number" id="number">
+                    <option value="{{$bike->number}}">{{$bike->number}}</option>
+                    @for ($i = 1; $i <= 40; $i++)
+                        <option value={{$i}}>{{$i}}</option>
+                    @endfor
+                </select>
+                @error('number')
+                    <p>{{$message}}</p>
+                @enderror
+                <br>
+            </div>
+
+            <div class="input-section">
                 <label for="color">Color:</label>
                 <select name="color" id="color">
                     <option value="{{$bike->color}}">{{$bike->color}}</option>
