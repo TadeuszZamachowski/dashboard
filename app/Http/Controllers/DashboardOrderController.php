@@ -360,10 +360,9 @@ class DashboardOrderController extends Controller
 
 
     public function archive() {
-        $history = BikesDashboardOrder::all();
         return view('orders.archive', [
-            'orders' => DashboardOrder::where('order_status', 'Archived')->with('history')->orderBy('end_date')
-            ->get()
+            'orders' => DashboardOrder::where('order_status', 'Archived')->with('history')->orderByDesc('created_at')
+            ->paginate(50)
         ]);
     }
 

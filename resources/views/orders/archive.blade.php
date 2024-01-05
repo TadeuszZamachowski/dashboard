@@ -47,7 +47,7 @@
                 @php
                     $bike = App\Models\Bike::where('id', $entry->bike_id)->first();
                 @endphp
-                    Rack {{$bike->rack}} | Code: {{$bike->code}}
+                    ID: {{$bike->id}} | Rack: {{$bike->rack}} | Code: {{$bike->code}}
                     <br>
             @endforeach           
         </td>
@@ -63,4 +63,5 @@
     @endphp
 @endforeach
 </table>
+{{$orders->links()}}
 @endsection
