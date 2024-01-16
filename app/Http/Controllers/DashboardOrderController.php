@@ -135,6 +135,8 @@ class DashboardOrderController extends Controller
         foreach ($requestData as $key => $value) {
             if ($value == null && ($key == 'start_date' || $key == 'end_date')) {
                 $requestData[$key] = new DateTime();
+            } else if($value == null && ($key == 'amount_paid')) {
+                $requestData[$key] = 0;
             } else if($value == null) {
                 $requestData[$key] = "";
             }
@@ -211,17 +213,17 @@ class DashboardOrderController extends Controller
     public function update(Request $request, DashboardOrder $order) {
         $this->validate($request, [
             'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required|email',
-            'mobile' => 'required',
+            'last_name' => '',
+            'email' => '',
+            'mobile' => '',
             'accommodation' => '',
-            'start_date' =>'required',
-            'end_date' => 'required',
-            'amount_paid' => 'required',
-            'payment_method' => 'required',
-            'order_status' => 'required',
-            'pickup_location' => 'required',
-            'address' => 'required',
+            'start_date' =>'',
+            'end_date' => '',
+            'amount_paid' => '',
+            'payment_method' => '',
+            'order_status' => '',
+            'pickup_location' => '',
+            'address' => '',
             'number_of_bikes' => 'required'
         ]);
 
