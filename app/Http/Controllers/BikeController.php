@@ -24,9 +24,9 @@ class BikeController extends Controller
 
     public function filterBikes($filter) {
         if($filter != 'None') {
-            $bikes = Bike::with('dashboardOrder')->where('location', $filter)->orderBy('rack')->get();
+            $bikes = Bike::with('dashboardOrder')->where('location', $filter)->orderBy('id')->get();
         } else {
-            $bikes = Bike::with('dashboardOrder')->orderBy('rack')->get();
+            $bikes = Bike::with('dashboardOrder')->orderBy('id')->get();
         }
         return $bikes;
     }
@@ -34,19 +34,9 @@ class BikeController extends Controller
     //show all bikes
     public function index(Request $request) {
         if($request->filter == null) {
-            $request->filter = 'Mercato';
+            $request->filter = 'None';
         }
         $bikes = $this->filterBikes($request->filter);
-        $types = array();
-        foreach($this::TYPES as $type) {
-            foreach(BikeColor::all() as $color) {
-                $bikeFigures = Bike::where('type', 'LIKE', $type)->where('color','LIKE',$color['value'])->get();
-                if(count($bikeFigures) > 0) {
-                    $types[] = $bikeFigures;
-                }
-            }
-        }
-
         $racks = BikeRack::with('bike')->get()->sortBy('value');
         
         if($request->filter == 'Mercato') {
@@ -54,14 +44,12 @@ class BikeController extends Controller
                 'racks' => $racks,
                 'categories' => Location::all(),
                 'filter' => $request->filter,
-                'types' => $types
             ]);
         } else {
             return view('bikes.index', [
                 'bikes' => $bikes,
                 'categories' => Location::all(),
                 'filter' => $request->filter,
-                'types' => $types
             ]);
         }
     }
