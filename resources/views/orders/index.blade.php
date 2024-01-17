@@ -41,7 +41,7 @@
         <th onclick="sortTable(0,0,1,0,1)">Order ID</th>
         <th onclick="sortTable(1,0,0,0,0)">Name</th>
         <th onclick="sortTable(2,1,0,0,0)">Status</th>
-        <th onclick="sortTable(3,0,0,0,1)" style="padding-right: 10px" nowrap >Rack | Code</th>
+        <th onclick="sortTable(3,0,0,0,1)" style="padding-right: 10px" nowrap >ID | Number | Rack | Code</th>
         <th onclick="sortTable(4,0,0,0,1)">Phone number</th>
         <th onclick="sortTable(5,0,0,0,0)">Acc</th>
         <th onclick="sortTable(6,0,0,1,0)">Start Date</th>
@@ -166,7 +166,7 @@
                     @php
                         $bike = App\Models\Bike::where('id', $entry->bike_id)->first();
                     @endphp
-                    {{ $bike->rack }} | {{ $bike->code }} <br>
+                    {{$bike->id}} | {{$bike->number}} | {{ $bike->rack }} | {{ $bike->code }} <br>
                 @endforeach 
             @endif
         </td>
