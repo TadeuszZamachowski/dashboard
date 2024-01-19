@@ -440,5 +440,21 @@ class DashboardOrderController extends Controller
                 return redirect('/')->with('error', "Couldn't send SMS, invalid phone number");
             }
         }
-    } 
+    }
+    
+    public function promo(DashboardOrder $order) {
+        $response = "";
+        if($this::ENABLE_SMS) {
+            $sms = new SmsController(new TwilioService());
+            $response = $sms->sendSMS($order->mobile, SmsController::getPromoMessage());
+
+            if($response == 1) {
+                $order->promo_sms = 1;
+                $order->save();
+                return redirect('/')->with('success', 'Sms sent!');
+            } else {
+                return redirect('/')->with('error', "Couldn't send SMS, invalid phone number");
+            }
+        }
+    }
 }

@@ -105,6 +105,33 @@ class SmsController extends Controller
         return $smsSent;
     }
 
+    public static function checkPromo() {
+        $orders = DashboardOrder::where("order_status", "LIKE", "Assigned")->get();
+        $today = date('Y-m-d H:i');
+        $smsSent = "";
+        foreach($orders as $order) {
+            if($order->promo_sms != 1) {
+                $date = date('Y-m-d H:i',strtotime($order->end_date));
+                $hourDiff = UtilController::getHours($today, $date); 
+
+                if($hourDiff <= 2) {
+                    $sms = new SmsController(new TwilioService());
+                    $response = $sms->sendSMS($order->mobile, self::getPromoMessage());
+    
+                    if($response == 1) {
+                        $order->promo_sms = 1;
+                        $order->save();
+                        $smsSent .= "Promo Sms sent to ".$order->first_name." | ";
+                    }
+                }
+            }
+        }
+        if($smsSent=="") {
+            $smsSent = "No promo sms sent";
+        }
+        return $smsSent;
+    }
+
     public static function getReturnMessage() {
         return "Greetings! Appreciate the return of the bikes. Feel free to share images from your journey; we'd love to showcase them in our weekly social media post. Also, kindly leave a review here: https://g.page/r/CbxYagpHSIZxEAI/review 😉🙏";
     }
@@ -123,6 +150,10 @@ class SmsController extends Controller
         }
         $message .= 'Please take a photo of the bike when picking it up and send it to +61 418 883 631. Upon return, hang the bike on the same bike rack. Attach the bike with the same lock code and send us a photo again.';
         return $message;   
+    }
+
+    public static function getPromoMessage() {
+        return "Love your ride? Extend the joy! Enjoy 50% off your next bike rental with code TAKE50 at checkout on byronbaybikes.com. Hurry, offer valid for bookings made today only. Happy cycling!";
     }
 
     public function schedule() {

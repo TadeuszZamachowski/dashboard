@@ -68,6 +68,14 @@
                 </span>
             </div>
         </th>
+        <th>
+            <div class="tooltip">
+                SMS Promo
+                <span class="tooltiptext">
+                    {{App\Http\Controllers\SmsController::getPromoMessage()}}
+                </span>
+            </div>
+        </th>
     </tr>
     </thead>
     @php
@@ -210,6 +218,17 @@
                 </form>
             @else
                 <span style="color: green">Sms sent</span>
+            @endif
+        </td>
+
+        <td>
+            @if ($order->promo_sms != 1)
+                <form method="GET" action="/orders/promo/{{$order->dashboard_order_id}}">
+                    @csrf
+                    <button onclick="this.form.submit()"><i class="fa-solid fa-envelope"></i></button>
+                </form>
+            @else
+                <span style="color: green">Sms sent</span>                
             @endif
         </td>
         
