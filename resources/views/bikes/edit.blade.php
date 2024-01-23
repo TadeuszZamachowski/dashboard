@@ -30,6 +30,20 @@
             </div>
 
             <div class="input-section">
+                <label for="rack">Rack:</label>
+                <select name="rack" id="rack">
+                    <option value="{{$bike->rack}}">{{$bike->rack}}</option>
+                    @for ($i = 1; $i <= 40; $i++)
+                        <option value={{$i}}>{{$i}}</option>
+                    @endfor
+                </select>
+                @error('rack')
+                    <p>{{$message}}</p>
+                @enderror
+                <br>
+            </div>
+
+            <div class="input-section">
                 <label for="color">Color:</label>
                 <select name="color" id="color">
                     <option value="{{$bike->color}}">{{$bike->color}}</option>

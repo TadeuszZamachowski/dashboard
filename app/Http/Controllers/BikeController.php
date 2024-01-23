@@ -39,19 +39,25 @@ class BikeController extends Controller
         $bikes = $this->filterBikes($request->filter);
         $racks = BikeRack::with('bike')->get()->sortBy('value');
         
-        if($request->filter == 'Mercato') {
-            return view('bikes.mercato-index', [
-                'racks' => $racks,
-                'categories' => Location::all(),
-                'filter' => $request->filter,
-            ]);
-        } else {
-            return view('bikes.index', [
-                'bikes' => $bikes,
-                'categories' => Location::all(),
-                'filter' => $request->filter,
-            ]);
-        }
+        // if($request->filter == 'Mercato') {
+        //     return view('bikes.mercato-index', [
+        //         'racks' => $racks,
+        //         'categories' => Location::all(),
+        //         'filter' => $request->filter,
+        //     ]);
+        // } else {
+        //     return view('bikes.index', [
+        //         'bikes' => $bikes,
+        //         'categories' => Location::all(),
+        //         'filter' => $request->filter,
+        //     ]);
+        // }
+
+        return view('bikes.index', [
+            'bikes' => $bikes,
+            'categories' => Location::all(),
+            'filter' => $request->filter,
+        ]);
     }
 
     //show single bike
@@ -120,6 +126,7 @@ class BikeController extends Controller
             'accessory' => 'required',
             'code' =>'required',
             'location' => 'required',
+            'rack' => '',
             'state' => '',
             'status' => 'required',
             'helmet' => 'required',
