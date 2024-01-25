@@ -80,9 +80,9 @@
             
         ])>
             <td>{{$bike['rack']}}</td>
-            <td>{{$bike['id']}}</td>
+            <td><a href="/bikes/{{$bike['id']}}">{{$bike['id']}}</a></td>
             <td>{{$bike['number']}}</td>
-            <td><a href="/bikes/{{$bike['id']}}">{{$bike['code']}}</a></td>
+            <td>{{$bike['code']}}</a></td>
             <td>{{$bike['color']}}</td>
             <td>{{$bike['type']}}</td>
             <td>{{$bike['accessory']}}</td>
