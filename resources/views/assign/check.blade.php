@@ -3,7 +3,7 @@
 <h1 style="color:red">Bikes already assigned to this order</h1>
 <h2>Assigned bikes:</h2>
 @foreach($bikes as $bike)
-    <p>{{$bike->color}}, Code - {{$bike->code}}, Rack - {{$bike->rack}}</p>
+    <p>{{$bike->color}} {{$bike->type}}, Code - {{$bike->code}}, ID - {{$bike->id}}</p>
 @endforeach
 <p style="color: rgb(233, 0, 0)">Reassigning cancels the current assignement</p>
 <br>
