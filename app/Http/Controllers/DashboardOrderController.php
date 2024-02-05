@@ -43,8 +43,8 @@ class DashboardOrderController extends Controller
     }
 
     public function searchOrders($search) {
-        return DashboardOrder::where('order_status','!=','Archived')
-        ->where('first_name','LIKE', '%'.$search.'%')
+        return DashboardOrder::where('dashboard_order_id','LIKE', '%'.$search.'%')
+        ->orWhere('first_name','LIKE', '%'.$search.'%')
         ->orWhere('last_name', 'LIKE', '%'.$search.'%')
         ->orWhere('email', 'LIKE', '%'.$search.'%')
         ->orWhere('mobile', 'LIKE', '%'.$search.'%')
