@@ -20,10 +20,10 @@
     </div>
     <div class="search-bar">
         <div class="process" style="padding-right: 20px">
-            Processing = {{$processing}}
+            Active Orders = {{$processing}}
         </div>
         <div class="ass" style="padding-right: 20px">
-            Assigned = {{$assigned}}
+            Assigned Bikes = {{$assigned}}
         </div>
         <form method="GET" action="/">
             <input name="search" type="text" placeholder="Search.." value="{{$search}}">
