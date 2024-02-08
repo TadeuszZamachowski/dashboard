@@ -6,6 +6,7 @@ use App\Models\Accessory;
 use App\Models\BikeColor;
 use App\Models\BikeRack;
 use App\Models\BikesCheck;
+use App\Models\BikeNumber;
 use App\Models\BikesDashboardOrder;
 use App\Models\Code;
 use App\Models\DashboardOrder;
@@ -196,5 +197,12 @@ class BikeController extends Controller
             }
         }
         return redirect('/bikes')->with('success','Bikes mapped');
+    }
+
+    public static function recordNumberOfBikes() {
+        $count = Bike::where('status', 'LIKE', 'out')->where('dashboard_order_id', '!=', 'NULL')->count();
+        $data = array('count' => $count);
+        BikeNumber::create($data);
+        return "Success";
     }
 }

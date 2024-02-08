@@ -244,6 +244,8 @@ Route::get('/reports/salesByLocation', [ReportsController::class, 'salesByLocati
 
 Route::get('/reports/salesByLocation/result', [ReportsController::class,'process'])->middleware('auth');
 
+Route::get('/reports/graph', [ReportsController::class, 'graph'])->middleware('auth');
+
 //Map bikes
 Route::get('mapBikes', [BikeController::class, 'mapBikes'])->middleware('auth');
 
@@ -251,6 +253,9 @@ Route::get('mapBikes', [BikeController::class, 'mapBikes'])->middleware('auth');
 Route::get('/messages', [SmsController::class, 'index'])->middleware('auth');
 Route::post('/messages/send', [SmsController::class, 'send'])->middleware('auth');
 
+
+//---------------------> Save assigned bikes number cron
+Route::get('/recordNumberOfBikes', [BikeController::class, 'recordNumberOfBikes']);
 
 
 //---------------------> TEMP SMS

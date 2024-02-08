@@ -30,4 +30,8 @@ class ReportsController extends Controller
             'orders' => $orders
         ]);
     }
+
+    public function graph() {
+        return view('reports.graph');
+    }
 }

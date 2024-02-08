@@ -53,6 +53,6 @@
   </div>
 </body>
 <footer class="footer">
-  Copyright &copy; 2023 All Rights Reserved by Ostral
+  Copyright &copy; 2024 All Rights Reserved by Ostral
 </footer>
 </html>
