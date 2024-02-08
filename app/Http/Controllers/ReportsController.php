@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DashboardOrder;
 use App\Models\Location;
 use Illuminate\Http\Request;
+use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 
 class ReportsController extends Controller
 {
@@ -32,6 +33,19 @@ class ReportsController extends Controller
     }
 
     public function graph() {
-        return view('reports.graph');
+        $chart_options = [
+            'chart_color' => '255,0,0',
+            'chart_title' => 'Assigned bikes',
+            'report_type' => 'group_by_date',
+            'model' => 'App\Models\BikeNumber',
+            'group_by_field' => 'created_at',
+            'group_by_period' => 'day',
+            'aggregate_function' => 'sum',
+            'aggregate_field' => 'count',
+            'chart_type' => 'line',
+        ];
+        $chart1 = new LaravelChart($chart_options);
+        
+        return view('reports.graph', compact('chart1'));
     }
 }
