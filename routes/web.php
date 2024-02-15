@@ -244,6 +244,10 @@ Route::get('/reports/salesByLocation', [ReportsController::class, 'salesByLocati
 
 Route::get('/reports/salesByLocation/result', [ReportsController::class,'process'])->middleware('auth');
 
+Route::get('/reports/bikesByType', [ReportsController::class, 'bikesByType'])->middleware('auth');
+
+Route::get('/reports/bikesByType/result', [ReportsController::class,'bikeTypeProcess'])->middleware('auth');
+
 Route::get('/reports/graph', [ReportsController::class, 'graph'])->middleware('auth');
 
 //Map bikes

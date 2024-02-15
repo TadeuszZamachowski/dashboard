@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\DashboardOrder;
 use App\Models\Location;
+use App\Models\Bike;
+use App\Models\BikeColor;
 use Illuminate\Http\Request;
 use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 
@@ -29,6 +31,24 @@ class ReportsController extends Controller
             'to' => $request->to,
             'location' => $request->location,
             'orders' => $orders
+        ]);
+    }
+
+    public function bikesByType() {
+        $bikeTypes = ['Cruiser', 'Urban', 'Kid'];
+        return view('reports.bikesByType', [
+            'types' => $bikeTypes,
+            'colors' => BikeColor::all()
+        ]);
+    }
+
+    public function bikeTypeProcess(Request $request) {
+        $count = Bike::where('type','LIKE',$request->type)->where('color','LIKE',$request->colour)->count();
+
+        return view('reports.bikesByTypeResult', [
+            'type' => $request->type,
+            'colour' => $request->colour,
+            'count' => $count
         ]);
     }
 
