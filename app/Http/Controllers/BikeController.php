@@ -58,6 +58,10 @@ class BikeController extends Controller
             'bikes' => $bikes,
             'categories' => Location::all(),
             'filter' => $request->filter,
+
+            'in' => Bike::where('status',"LIKE", 'in')->count(),
+            'out' => Bike::where('status','LIKE','out')->count(),
+            'total' => Bike::all()->count()
         ]);
     }
 

@@ -17,6 +17,18 @@
             </select>
         </form>
     </div>
+
+    <div class="search-bar">
+        <div class="in" style="padding-right: 20px">
+            Bikes in = {{$in}}
+        </div>
+        <div class="out" style="padding-right: 20px">
+            Bikes out = {{$out}}
+        </div>
+        <div class="total" style="padding-right: 20px">
+            Total = {{$total}}
+        </div>
+    </div>
 </div>
 
 <a class="btn" href="/bikes/add">Add Bike</a>
