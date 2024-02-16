@@ -32,12 +32,30 @@ class BikeController extends Controller
         return $bikes;
     }
 
+    public function filterStats($filter) {
+        $stats = array();
+        if($filter != 'None') {
+            $in = Bike::where('status',"LIKE", 'in')->where('location',$filter)->count();
+            $out = Bike::where('status','LIKE','out')->where('location',$filter)->count();
+            $total = Bike::where('location',$filter)->count();
+
+        } else {
+            $in = Bike::where('status',"LIKE", 'in')->count();
+            $out = Bike::where('status','LIKE','out')->count();
+            $total = Bike::all()->count();
+        }
+        $stats = [$in, $out, $total];
+        return $stats;
+    }
+
     //show all bikes
     public function index(Request $request) {
         if($request->filter == null) {
             $request->filter = 'None';
         }
+
         $bikes = $this->filterBikes($request->filter);
+        $stats = $this->filterStats($request->filter);
         $racks = BikeRack::with('bike')->get()->sortBy('value');
         
         // if($request->filter == 'Mercato') {
@@ -59,9 +77,9 @@ class BikeController extends Controller
             'categories' => Location::all(),
             'filter' => $request->filter,
 
-            'in' => Bike::where('status',"LIKE", 'in')->count(),
-            'out' => Bike::where('status','LIKE','out')->count(),
-            'total' => Bike::all()->count()
+            'in' => $stats[0],
+            'out' => $stats[1],
+            'total' => $stats[2]
         ]);
     }
 
