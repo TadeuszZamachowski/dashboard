@@ -25,9 +25,9 @@ class BikeController extends Controller
 
     public function filterBikes($filter) {
         if($filter != 'None') {
-            $bikes = Bike::with('dashboardOrder')->where('location', $filter)->orderBy('id')->get();
+            $bikes = Bike::with('dashboardOrder')->where('status', 'NOT LIKE', 'archive')->where('location', $filter)->orderBy('id')->get();
         } else {
-            $bikes = Bike::with('dashboardOrder')->orderBy('id')->get();
+            $bikes = Bike::with('dashboardOrder')->where('status', 'NOT LIKE', 'archive')->orderBy('id')->get();
         }
         return $bikes;
     }
@@ -226,5 +226,11 @@ class BikeController extends Controller
         $data = array('count' => $count);
         BikeNumber::create($data);
         return "Success";
+    }
+
+    public function bikeArchive() {
+        return view('bikes.archive', [
+            'bikes' => Bike::with('dashboardOrder')->where('status', 'LIKE', 'archive')->orderBy('id')->get()
+        ]);
     }
 }

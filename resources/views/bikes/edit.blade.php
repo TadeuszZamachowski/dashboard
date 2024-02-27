@@ -164,6 +164,7 @@
                     <option value="out">out</option>
                     <option value="free">free</option>
                     <option value="sell">sell</option>
+                    <option value="archive">archive</option>
                 </select>
                 @error('status')
                     <p>{{$message}}</p>
