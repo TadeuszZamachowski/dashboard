@@ -25,7 +25,7 @@
             <h2>{{count($bikes)}} Bikes:</h2>
             @foreach($bikes as $bike)
                 <p>{{$bike->color}} {{$bike->type}}</p>
-                <p>Rack: {{$bike->rack}} | Code: {{$bike->code}}</p>
+                <p>ID: {{$bike->id}} | Code: {{$bike->code}}</p>
                 <p>Accessory: {{$bike->accessory}} | Location: {{$bike->location}}</p>
                 <br>
             @endforeach
