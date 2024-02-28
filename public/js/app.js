@@ -49,3 +49,4 @@ function showGear(val) {
 
   document.getElementById('gear').value = gearVal;
 }
+

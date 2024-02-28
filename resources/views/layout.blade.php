@@ -37,6 +37,7 @@
           <li><a class="nav-link" href="/">ORDERS</a></li>
           <li><a class="nav-link" href="/bikes">BIKES</a></li>
           <li><a class="nav-link" href="/schedule">SCHEDULE</a></li>
+          <li><a class="nav-link" href="/inventory">INVENTORY</a></li>
         </ul>
       </div>
     </div>

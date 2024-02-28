@@ -234,7 +234,8 @@ Route::put('/incidents/{incident}', [DashboardIncidentController::class, 'update
 //Delete incident
 Route::delete('/incidents/{incident}', [DashboardIncidentController::class, 'destroy'])->middleware('auth');
 
-
+//---------------------> INVENTORY
+Route::get('/inventory', [BikeController::class, 'inventory'])->middleware('auth');
 
 
 //---------------------> REPORTS

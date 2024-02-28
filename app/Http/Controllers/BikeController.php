@@ -233,4 +233,38 @@ class BikeController extends Controller
             'bikes' => Bike::with('dashboardOrder')->where('status', 'LIKE', 'archive')->orderBy('id')->get()
         ]);
     }
+
+    public function inventory(Request $request) {
+        if($request->filter == null) {
+            $request->filter = 'None';
+        }
+
+        $bikes = $this->filterBikes($request->filter);
+        $stats = $this->filterStats($request->filter);
+        $racks = BikeRack::with('bike')->get()->sortBy('value');
+        
+        // if($request->filter == 'Mercato') {
+        //     return view('bikes.mercato-index', [
+        //         'racks' => $racks,
+        //         'categories' => Location::all(),
+        //         'filter' => $request->filter,
+        //     ]);
+        // } else {
+        //     return view('bikes.index', [
+        //         'bikes' => $bikes,
+        //         'categories' => Location::all(),
+        //         'filter' => $request->filter,
+        //     ]);
+        // }
+
+        return view('bikes.inventory', [
+            'bikes' => $bikes,
+            'categories' => Location::all(),
+            'filter' => $request->filter,
+
+            'in' => $stats[0],
+            'out' => $stats[1],
+            'total' => $stats[2]
+        ]);
+    }
 }
