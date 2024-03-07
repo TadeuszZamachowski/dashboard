@@ -57,6 +57,7 @@ class AutomationController extends Controller
                     if(!$bike) {
                         $bike = Bike::where('accessory','LIKE','None')//bike with current accessory not found, taking one without an accessory
                                 ->where('status','LIKE','in')
+                                ->where('type', 'NOT LIKE', 'Kid')//excluding kids bikes
                                 ->where('location','LIKE','Mercato')->first();
                     }
                     //assigning bike to order
