@@ -373,7 +373,8 @@ class DashboardOrderController extends Controller
         $bikeTypes = ['Cruiser', 'Urban', 'Kid'];
         foreach($bikeTypes as $type) {
             foreach(BikeColor::all() as $color) {
-                $bikeFigures = Bike::where('type', 'LIKE', $type)->where('color','LIKE',$color['value'])->get();
+                $bikeFigures = Bike::where('type', 'LIKE', $type)->where('color','LIKE',$color['value'])
+                ->where('status', "NOT LIKE", 'archive')->get();
                 if(count($bikeFigures) > 0) {
                     $types[] = $bikeFigures;
                 }

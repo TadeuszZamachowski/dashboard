@@ -44,5 +44,44 @@
     </table>
     
 @endforeach
+
+<h1>Total</h1>
+<table>
+    <thead>
+        <th>Type</th>
+        <th>Amount</th>
+    </thead>
+    <tbody>
+        @php
+            $types = array();
+            $bikeTypes = ['Cruiser', 'Urban', 'Kid'];
+            foreach($bikeTypes as $type) {
+                foreach($colors as $color) {
+                    $bikeFigures = App\Models\Bike::where('type', 'LIKE', $type)->where('color','LIKE',$color['value'])
+                    ->where('status', 'NOT LIKE', 'archive')->get();
+                    if(count($bikeFigures) > 0) {
+                        $types[] = $bikeFigures;
+                    }
+                }
+            }
+            
+            $total = 0;
+        @endphp
+        @foreach ($types as $bikeType)
+            <tr>
+                <td>{{$bikeType[0]->color}} {{$bikeType[0]->type}}</td>
+                <td>{{count($bikeType)}}</td>
+
+                @php
+                    $total += count($bikeType);
+                @endphp
+            </tr>
+        @endforeach
+        <tr style="font-weight: bold">
+            <td>Total</td>
+            <td>{{$total}}</td>
+        </tr>
+    </tbody>
+</table>
     
 @endsection
