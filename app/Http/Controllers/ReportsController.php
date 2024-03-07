@@ -8,6 +8,7 @@ use App\Models\Bike;
 use App\Models\BikeColor;
 use Illuminate\Http\Request;
 use LaravelDaily\LaravelCharts\Classes\LaravelChart;
+use App\Http\Controllers\UtilController;
 
 class ReportsController extends Controller
 {
@@ -34,21 +35,10 @@ class ReportsController extends Controller
         ]);
     }
 
-    public function bikesByType() {
-        $bikeTypes = ['Cruiser', 'Urban', 'Kid'];
-        return view('reports.bikesByType', [
-            'types' => $bikeTypes,
-            'colors' => BikeColor::all()
-        ]);
-    }
-
-    public function bikeTypeProcess(Request $request) {
-        $count = Bike::where('type','LIKE',$request->type)->where('color','LIKE',$request->colour)->count();
-
+    public function bikesStatistics() {
         return view('reports.bikesByTypeResult', [
-            'type' => $request->type,
-            'colour' => $request->colour,
-            'count' => $count
+            'locations' => Location::all(),
+            'colors' => BikeColor::all() ,
         ]);
     }
 
