@@ -117,7 +117,7 @@
                 <span class="tooltiptext" style="width: 250px">
                     Start/End Time: {{date('H:i',strtotime($order->start_date))}}<br>
                     Bikes: {{$order->number_of_bikes}}<br>
-                    Address: {{$order->address}}<br>
+                    How did you hear: {{$order->address}}<br>
                     Accessories:
                     @if (count($accessories) > 0)
                         @foreach ($accessories as $acc)
