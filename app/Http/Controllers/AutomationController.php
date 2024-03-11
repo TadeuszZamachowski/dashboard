@@ -37,9 +37,16 @@ class AutomationController extends Controller
             
             if($hourDiff >= -5 && $hourDiff <= 0.5) { //start date is half an hour before or 5  hour after
 
+                //if accessory is bike delivery, not assigning and not sending codes
+                $accessories = DashboardOrderAccessory::where('order_id', $order->dashboard_order_id)->get();
+                if(self::isBikeDelivery($accessories)) {
+                    $output = "Bike delivery selected, skipping order ". $order->dashboard_order_id . "\r\n";
+                    continue;
+                }
+
                 //excluding non physical attachements (like bike delivery etc.)
                 $accessories = self::filterAccesssories(DashboardOrderAccessory::where('order_id', $order->dashboard_order_id)->get());
-    
+                
                 $bikes = array();
                 for($i = 0; $i < $order->number_of_bikes; $i++) {
                     $accName = "";//iterating through number of bikes
@@ -101,6 +108,7 @@ class AutomationController extends Controller
                     }
                     $output .= "Invalid phone number couldnt send bikes so bikes not assigned";
                 }
+                
             }
         }
 
@@ -124,5 +132,14 @@ class AutomationController extends Controller
             }
         }
         return $result;
+    }
+
+    public static function isBikeDelivery($accessories) {
+        foreach($accessories as $acc) {
+            if (str_contains(strtolower($acc->name), 'delivery')) {
+                return true;
+            }
+        }
+        return false;
     }
 }

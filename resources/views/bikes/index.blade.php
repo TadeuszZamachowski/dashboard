@@ -134,4 +134,14 @@
     
 @endforeach
 </table>
+<script>$(document).ready(function () {
+    $('tr').click(function () {
+        if($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+        }
+        else {
+            $(this).addClass('selected');
+        }
+    });
+  });</script>
 @endsection

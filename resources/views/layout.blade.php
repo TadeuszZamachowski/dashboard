@@ -37,7 +37,7 @@
           <li><a class="nav-link" href="/">ORDERS</a></li>
           <li><a class="nav-link" href="/bikes">BIKES</a></li>
           <li><a class="nav-link" href="/schedule">SCHEDULE</a></li>
-          <li><a class="nav-link" href="/inventory">INVENTORY</a></li>
+          <!-- <li><a class="nav-link" href="/inventory">INVENTORY</a></li> -->
         </ul>
       </div>
     </div>
@@ -49,7 +49,7 @@
   </div>
   <div id="main" class="main">
     <x-flash-message />
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     @yield('content')
   </div>
 </body>
