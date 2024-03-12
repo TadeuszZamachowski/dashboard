@@ -42,20 +42,31 @@ class DashboardOrderController extends Controller
         return $orders;
     }
 
-    public function searchOrders($search) {
-        return DashboardOrder::where('dashboard_order_id','LIKE', '%'.$search.'%')
-        ->orWhere('first_name','LIKE', '%'.$search.'%')
-        ->orWhere('last_name', 'LIKE', '%'.$search.'%')
-        ->orWhere('email', 'LIKE', '%'.$search.'%')
-        ->orWhere('mobile', 'LIKE', '%'.$search.'%')
-        ->orWhere('amount_paid', 'LIKE', '%'.$search.'%')
-        ->orWhere('pickup_location', 'LIKE', '%'.$search.'%')
-        ->orderBy('start_date')->with('history')->get();
+    public function searchOrders($search, $isArchive) {
+
+        if($isArchive) {
+            return DashboardOrder::where([
+                ['order_status', '=', 'Archived'],
+                ['dashboard_order_id', 'LIKE', '%'.$search.'%']
+            ])->orWhere([
+                //['order_status', '=', 'Archived'],
+                ['first_name','LIKE', '%'.$search.'%'],
+                ['last_name', 'LIKE', '%'.$search.'%']
+            ])->orderBy('start_date')->with('history')->paginate(50);
+        } else {
+            return DashboardOrder::where([
+                ['order_status', '!=', 'Archived'],
+                ['dashboard_order_id', 'LIKE', '%'.$search.'%']
+            ])->orWhere([
+                ['first_name','LIKE', '%'.$search.'%'],
+                ['last_name', 'LIKE', '%'.$search.'%']
+            ])->orderBy('start_date')->with('history')->get();
+        }
     }
     public function index(Request $request) {
         $orders = $this->filterOrders($request->filter);
         if($request->search != null) {
-            $orders = $this->searchOrders($request->search);
+            $orders = $this->searchOrders($request->search, false);
         }
 
         return view('orders.index', [
@@ -361,10 +372,15 @@ class DashboardOrderController extends Controller
 
 
 
-    public function archive() {
+    public function archive(Request $request) {
+        $orders =  DashboardOrder::where('order_status', 'Archived')->with('history')->orderByDesc('created_at')
+        ->paginate(50);
+        if($request->search != null) {
+            $orders = $this->searchOrders($request->search, true);
+        }
         return view('orders.archive', [
-            'orders' => DashboardOrder::where('order_status', 'Archived')->with('history')->orderByDesc('created_at')
-            ->paginate(50)
+            'orders' => $orders,
+            'search' => $request->search
         ]);
     }
 

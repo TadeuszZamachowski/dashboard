@@ -1,5 +1,17 @@
 @extends('layout')
 @section('content')
+
+<div class="sorting-section">
+    <div class="filter-selector">
+    </div>
+    <div class="search-bar">
+        <form method="GET" action="/orders/archive">
+            <input name="search" type="text" placeholder="Search.." value="{{$search}}">
+            <button type="submit"><i class="fas fa-search"></i></button>
+        </form>
+    </div>
+</div>
+
 <table id="orders-table" class="orders-table">
     <thead>
     <tr>
