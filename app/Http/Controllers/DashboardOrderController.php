@@ -45,14 +45,11 @@ class DashboardOrderController extends Controller
     public function searchOrders($search, $isArchive) {
 
         if($isArchive) {
-            return DashboardOrder::where([
-                ['order_status', '=', 'Archived'],
-                ['dashboard_order_id', 'LIKE', '%'.$search.'%']
-            ])->orWhere([
-                //['order_status', '=', 'Archived'],
-                ['first_name','LIKE', '%'.$search.'%'],
-                ['last_name', 'LIKE', '%'.$search.'%']
-            ])->orderBy('start_date')->with('history')->paginate(50);
+            return DashboardOrder::where('dashboard_order_id','LIKE', '%'.$search.'%')
+        ->orWhere('first_name','LIKE', '%'.$search.'%')
+        ->orWhere('last_name', 'LIKE', '%'.$search.'%')
+        ->where('order_status', 'LIKE', 'Archived')
+        ->orderBy('start_date')->with('history')->paginate(50);
         } else {
             return DashboardOrder::where([
                 ['order_status', '!=', 'Archived'],
