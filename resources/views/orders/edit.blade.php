@@ -145,7 +145,7 @@
             <br>
 
             <div class="input-section">
-                <label for="address">Address:</label>
+                <label for="address">How did you hear about us?:</label>
                 <input type="text" id="address" name="address" value="{{$order->address}}">
                 @error('address')
                     <p>{{$message}}</p>
