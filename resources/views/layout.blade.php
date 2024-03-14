@@ -21,7 +21,7 @@
           <li><a class="nav-link" href="/dashboard">Dashboard</a></li>
           <li><a class="nav-link" href="/incidents">Incidents</a></li>
           <!-- <li><a class="nav-link" href="/orders/archive">Archive</a></li> -->
-          <li><a class="nav-link" href="/reports">Reports</a></li>
+          <li><a class="nav-link" href="/schedule">Schedule</a></li>
           <li><a class="nav-link" href="/settings">Settings</a></li>
           <li><a class="nav-link" href="/messages">Messages</a></li>
         </ul>
@@ -36,7 +36,7 @@
           <li><button id="hamburger" onclick="showSidebar()"><i class="fa fa-bars btn"></i></button></li>
           <li><a class="nav-link" href="/">ORDERS</a></li>
           <li><a class="nav-link" href="/bikes">BIKES</a></li>
-          <li><a class="nav-link" href="/schedule">SCHEDULE</a></li>
+          <li><a class="nav-link" href="/reports">REPORTS</a></li>
           <!-- <li><a class="nav-link" href="/inventory">INVENTORY</a></li> -->
         </ul>
       </div>

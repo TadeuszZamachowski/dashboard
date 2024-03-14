@@ -36,9 +36,42 @@ class ReportsController extends Controller
     }
 
     public function bikesStatistics() {
+        $bikeTypes = ['Cruiser', 'Urban', 'Kid'];
+
+        $overallBikes = array();
+        foreach($bikeTypes as $type) {
+            foreach(BikeColor::all() as $color) {
+                $bikeFigures = Bike::where('type', 'LIKE', $type)->where('color','LIKE',$color['value'])
+                ->where('status', 'NOT LIKE', 'archive')->get();
+                if(count($bikeFigures) > 0) {
+                    $overallBikes[] = $bikeFigures;
+                }
+            }
+        }
+
+        $soldBikes = array();
+        foreach($bikeTypes as $type) {
+            foreach(BikeColor::all() as $color) {
+                $bikeFigures = Bike::where(function ($query) {
+                    $query->where('status', 'LIKE', 'sell')
+                        ->orWhere('status', 'LIKE', 'archive');
+                })->where('type', 'LIKE', $type)
+                  ->where('color','LIKE',$color['value'])
+                  ->get();
+                if(count($bikeFigures) > 0) {
+                    $soldBikes[] = $bikeFigures;
+                }
+            }
+        }
+
         return view('reports.bikesByTypeResult', [
             'locations' => Location::all(),
-            'colors' => BikeColor::all() ,
+            'bikesSold' => Bike::where('status','LIKE', 'sell'),
+            'colors' => BikeColor::all(),
+
+            'overallBikes' => $overallBikes,
+            'soldBikes' => $soldBikes
+
         ]);
     }
 

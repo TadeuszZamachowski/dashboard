@@ -10,7 +10,7 @@
                     @if ($item->value == $filter)
                         {{-- Don't display duplicates --}}
                     @else
-                        <option value={{$item->value}}>{{$item->value}} </option>
+                        <option value="{{$item->value}}">{{$item->value}} </option>
                     @endif
                 @endforeach
                 <option value="None">None</option>

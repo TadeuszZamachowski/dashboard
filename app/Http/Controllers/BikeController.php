@@ -37,12 +37,12 @@ class BikeController extends Controller
         if($filter != 'None') {
             $in = Bike::where('status',"LIKE", 'in')->where('location',$filter)->count();
             $out = Bike::where('status','LIKE','out')->where('location',$filter)->count();
-            $total = Bike::where('location',$filter)->count();
+            $total = Bike::where('location',$filter)->where('status', 'NOT LIKE', 'archive')->count();
 
         } else {
             $in = Bike::where('status',"LIKE", 'in')->count();
             $out = Bike::where('status','LIKE','out')->count();
-            $total = Bike::all()->count();
+            $total = Bike::where('status', 'NOT LIKE', 'archive')->count();
         }
         $stats = [$in, $out, $total];
         return $stats;
