@@ -251,6 +251,8 @@ Route::get('/reports/graph', [ReportsController::class, 'graph'])->middleware('a
 
 Route::get('/reports/bikeArchive', [BikeController::class, 'bikeArchive'])->middleware('auth');
 
+Route::get('reports/statistics', [ReportsController::class, 'statistics'])->middleware('auth');
+
 //Map bikes
 Route::get('mapBikes', [BikeController::class, 'mapBikes'])->middleware('auth');
 

@@ -91,4 +91,33 @@ class ReportsController extends Controller
         
         return view('reports.graph', compact('chart1'));
     }
+
+    public function statistics() {
+        $chart_options = [
+            'chart_color' => '219,112,147',
+            'chart_title' => 'How did you hear about us?',
+            'report_type' => 'group_by_string',
+            'model' => 'App\Models\DashboardOrder',
+            'group_by_field' => 'address',
+            //'filter_field' => 'created_at',
+            //'group_by_field_format' => 'MM/dd/yyyy',
+            'filter_field' => 'created_at',
+            'range_date_start' => '2024-03-08 11:51:35',
+            'range_date_end' => '2222-11-30 11:51:35',
+            'chart_type' => 'bar',
+        ];
+        $chart1 = new LaravelChart($chart_options);
+
+        $chart_options = [
+            'chart_color' => '219,112,147',
+            'chart_title' => 'Where do you stay in Byron?',
+            'report_type' => 'group_by_string',
+            'model' => 'App\Models\DashboardOrder',
+            'group_by_field' => 'accommodation',
+            'chart_type' => 'bar',
+        ];
+        $chart2 = new LaravelChart($chart_options);
+
+        return view('reports.statistics', compact('chart1', 'chart2'));
+    }
 }
