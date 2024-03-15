@@ -163,8 +163,7 @@
                     <option value="in">in</option>
                     <option value="out">out</option>
                     <option value="free">free</option>
-                    <option value="sell">sell</option>
-                    <option value="archive">archive</option>
+                    <option value="sold">sold</option>
                 </select>
                 @error('status')
                     <p>{{$message}}</p>

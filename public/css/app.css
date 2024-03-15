@@ -480,6 +480,10 @@ td {
   visibility: visible;
 }
 
+.chart {
+  height: 300px;
+}
+
 
 .footer {
   display: flex;

@@ -146,7 +146,13 @@
 
             <div class="input-section">
                 <label for="address">How did you hear about us?:</label>
-                <input type="text" id="address" name="address" value="{{$order->address}}">
+                <select name="address" id="address">
+                    <option value="{{$order->address}}">{{$order->address}}</option>
+                    <option value="Bus stop sign">Bus stop sign</option>
+                    <option value="Flyers">Flyers</option>
+                    <option value="Online search">Online search</option>
+                    <option value="Onsite sign - Woolworth">Onsite sign - Woolworth</option>
+                </select>
                 @error('address')
                     <p>{{$message}}</p>
                 @enderror

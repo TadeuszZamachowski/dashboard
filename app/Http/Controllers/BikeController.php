@@ -25,9 +25,9 @@ class BikeController extends Controller
 
     public function filterBikes($filter) {
         if($filter != 'None') {
-            $bikes = Bike::with('dashboardOrder')->where('status', 'NOT LIKE', 'archive')->where('location', $filter)->orderBy('id')->get();
+            $bikes = Bike::with('dashboardOrder')->where('status', 'NOT LIKE', 'sold')->where('location', $filter)->orderBy('id')->get();
         } else {
-            $bikes = Bike::with('dashboardOrder')->where('status', 'NOT LIKE', 'archive')->orderBy('id')->get();
+            $bikes = Bike::with('dashboardOrder')->where('status', 'NOT LIKE', 'sold')->orderBy('id')->get();
         }
         return $bikes;
     }
@@ -37,12 +37,12 @@ class BikeController extends Controller
         if($filter != 'None') {
             $in = Bike::where('status',"LIKE", 'in')->where('location',$filter)->count();
             $out = Bike::where('status','LIKE','out')->where('location',$filter)->count();
-            $total = Bike::where('location',$filter)->where('status', 'NOT LIKE', 'archive')->count();
+            $total = Bike::where('status', 'NOT LIKE', 'sold')->where('location',$filter)->count();
 
         } else {
             $in = Bike::where('status',"LIKE", 'in')->count();
             $out = Bike::where('status','LIKE','out')->count();
-            $total = Bike::where('status', 'NOT LIKE', 'archive')->count();
+            $total = Bike::where('status', 'NOT LIKE', 'sold')->count();
         }
         $stats = [$in, $out, $total];
         return $stats;
@@ -230,7 +230,7 @@ class BikeController extends Controller
 
     public function bikeArchive() {
         return view('bikes.archive', [
-            'bikes' => Bike::with('dashboardOrder')->where('status', 'LIKE', 'archive')->orderBy('id')->get()
+            'bikes' => Bike::with('dashboardOrder')->where('status', 'LIKE', 'sold')->orderBy('id')->get()
         ]);
     }
 

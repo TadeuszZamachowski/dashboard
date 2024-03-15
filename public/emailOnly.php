@@ -13,15 +13,15 @@ function sendEmail($email) {
 	$mail = new PHPMailer(true); //defaults to using php "mail()"; the true param means it will throw exceptions on errors, which we need to catch
 
 try {
-    // configure an SMTP
+  // configure an SMTP
     $mail->isSMTP();
-	$mail->Host = 'vmpl01.ha-node.net';
+	  $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
-    $mail->Username = 'ride@byronbaybikes.com';
-    $mail->Password = 'Byronwood123';
+    $mail->Username = 'ride.byronbaybikes@gmail.com';
+    $mail->Password = 'xcpb shza lkoc tdqg';
 	//$mail->Password = 'XCXiRFj,gpcV';
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-    $mail->Port = 25;
+    $mail->Port = 587;
 
     $mail->setFrom('ride@byronbaybikes.com', 'Byron Bay Bikes');
     $mail->addAddress($email, 'Name');
@@ -30,8 +30,7 @@ try {
     $mail->isHTML(true);
     
     $mail->Body = "<html>Hi, this is a test email </html>";
-	$mail->Send();
-  echo "Message Sent OK\n";
+	  $mail->Send();
 } catch (phpmailerException $e) {
   echo $e->errorMessage(); //Pretty error messages from PHPMailer
 } catch (Exception $e) {
