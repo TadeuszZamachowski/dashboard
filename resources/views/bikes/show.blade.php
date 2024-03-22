@@ -48,12 +48,12 @@
         @endforeach
     </div>
     <div class="element">
-        <h2>Check History</h2>
+        <h2>Maintenance</h2>
         @foreach ($checks as $check)
             @php
                 $checkCount += 1;
             @endphp
-            <p>{{$checkCount}}.  {{$check->created_at}}</p>
+            <p>{{$checkCount}}.  {{$check->work}} on {{date('d-m-Y', strtotime($check->created_at))}} | Notes: {{$check->notes}}</p>
         @endforeach
     </div>
     <div class="element">

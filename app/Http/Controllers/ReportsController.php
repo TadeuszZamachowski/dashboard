@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DashboardOrder;
 use App\Models\Location;
 use App\Models\Bike;
+use App\Models\BikesCheck;
 use App\Models\BikeColor;
 use Illuminate\Http\Request;
 use LaravelDaily\LaravelCharts\Classes\LaravelChart;
@@ -120,5 +121,12 @@ class ReportsController extends Controller
         $chart2 = new LaravelChart($chart_options);
 
         return view('reports.statistics', compact('chart1', 'chart2'));
+    }
+
+    public function bikeMaintenance() {
+        $checks = BikesCheck::all();
+        return view('reports.bikeMaintenance', [
+            'checks' => $checks
+        ]);
     }
 }
