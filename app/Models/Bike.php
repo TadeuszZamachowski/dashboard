@@ -40,4 +40,9 @@ class Bike extends Model
     {
         return $this->belongsTo('App\Models\BikeRack','id', 'bike_id');
     }
+
+    public function bikeChecks(): HasMany
+    {
+        return $this->hasMany('App\Models\BikesCheck', 'bike_id', 'id');
+    }
 }

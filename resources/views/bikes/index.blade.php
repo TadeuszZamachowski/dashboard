@@ -36,7 +36,6 @@
     <thead>
     <tr>
         {{-- sortTable(n, isStatus, isLink, isDate, isNum) --}}
-        <th onclick="sortTable(1,0,0,0,1)">Rack</th>
         <th onclick="sortTable(2,0,0,0,1)">ID</th>
         <th onclick="sortTable(3,0,0,0,1)">Number</th>
         <th onclick="sortTable(4,0,1,0,1)">Code</th>
@@ -44,12 +43,12 @@
         <th onclick="sortTable(6,0,0,0,0)">Type</th>
         <th onclick="sortTable(7,0,0,0,0)">Accessory</th>
         <th onclick="sortTable(8,0,0,0,0)">Location</th>
-        <th onclick="sortTable(9,0,0,0,0)">Status</th>
         <th onclick="sortTable(10,0,0,0,1)">Order ID</th>
         <th onclick="sortTable(11,0,0,0,0)">Name</th>
         <th onclick="sortTable(12,0,0,1,0)">Return Date</th>
         <th onclick="sortTable(13,0,0,0,1)">$</th>
         <th onclick="sortTable(14,0,0,0,1)">Total Duration</th>
+        <th onclick="sortTable(12,0,0,1,0)">Checked</th>
         <th></th>
         <th></th>
         <th></th>
@@ -78,7 +77,13 @@
             $salesTotal += $order->amount_paid;
             $durationTotal += $duration;
         }
-        
+    
+        $latestCheckDate = '';
+        if(count($bike->bikeChecks) > 0) {
+            $sorted = $bike->bikeChecks->sortByDesc('created_at');
+            $foundCheck = $sorted->first();
+            $latestCheckDate = date('d-m-Y',strtotime($foundCheck->created_at));
+        }
     @endphp
     <tbody>
         <tr @class([
@@ -91,7 +96,6 @@
                             (date('Y-m-d H:i:s', strtotime(optional($bike->dashboardOrder)->end_date)) < date('Y-m-d H:i:s')),
             
         ])>
-            <td>{{$bike['rack']}}</td>
             <td><a href="/bikes/{{$bike['id']}}">{{$bike['id']}}</a></td>
             <td>{{$bike['number']}}</td>
             <td>{{$bike['code']}}</a></td>
@@ -99,7 +103,6 @@
             <td>{{$bike['type']}}</td>
             <td>{{$bike['accessory']}}</td>
             <td>{{$bike['location']}}</td>
-            <td>{{$bike['status']}}</td>
             <td>
                 <a href="orders/{{$bike['dashboard_order_id']}}">
                     {{$bike['dashboard_order_id']}}</a></td>
@@ -107,6 +110,7 @@
             <td>{{$frmtDate}}</td>
             <td>{{$salesTotal}}</td>
             <td>{{$durationTotal}}</td>
+            <td>{{$latestCheckDate}}</td>
             <td>
                 <a href="/bikes/{{$bike->id}}/assign">
                     <i class="fa-solid fa-bicycle" style="color: black">
@@ -124,9 +128,9 @@
                 </form>
             </td>
             <td>
-                <form method="POST" action="/bikes/check/{{$bike->id}}">
+                <form method="GET" action="/bikes/check/{{$bike->id}}">
                     @csrf
-                    <button><i class="fa-solid fa-check"></i></button>
+                    <button><i class="fas fa-tools"></i></button>
                 </form>
             </td>
         </tr>

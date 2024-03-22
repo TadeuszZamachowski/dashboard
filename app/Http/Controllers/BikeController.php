@@ -25,9 +25,10 @@ class BikeController extends Controller
 
     public function filterBikes($filter) {
         if($filter != 'None') {
-            $bikes = Bike::with('dashboardOrder')->where('status', 'NOT LIKE', 'sold')->where('location', $filter)->orderBy('id')->get();
+            $bikes = Bike::with('dashboardOrder')->with('bikeChecks')->where('status', 'NOT LIKE', 'sold')
+                            ->where('location', $filter)->orderBy('id')->get();
         } else {
-            $bikes = Bike::with('dashboardOrder')->where('status', 'NOT LIKE', 'sold')->orderBy('id')->get();
+            $bikes = Bike::with('dashboardOrder')->with('bikeChecks')->where('status', 'NOT LIKE', 'sold')->orderBy('id')->get();
         }
         return $bikes;
     }
@@ -157,15 +158,6 @@ class BikeController extends Controller
             'dashboard_order_id' => '',
             'number' => 'required'
         ]);
-
-        if($request->location == "Suffolk" && $bike->location == "Mercato") { //change from mercato to suffolk
-            $rack = BikeRack::where('bike_id', $bike->id)->first();
-            $rack->bike_id = null;
-            $rack->save();
-
-            $bike->rack = 0;
-            $bike->save();
-        }
         
         $bike->update($formFields);
 

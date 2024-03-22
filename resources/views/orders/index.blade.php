@@ -83,11 +83,12 @@
     @endphp
 @foreach ($orders as $order)
     @php
-        $today = new DateTime();
-        $startDateTime = new DateTime(date('d-m-Y',strtotime($order->start_date)));
-        $difference = $today->diff($startDateTime);
+        $today = date('Y-m-d H:i');
+        $startDateTime = date('Y-m-d H:i',strtotime($order->start_date));
+        $difference = App\Http\Controllers\UtilController::getHours($today, $startDateTime);
+        //$today->diff($startDateTime);
 
-        if($difference->days >= 2 && $startDateTime > $today) {
+        if($difference >= 24 && $startDateTime > $today) {
             $ordersWeekFromNow[] = $order;
             continue;
         }

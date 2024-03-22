@@ -98,9 +98,6 @@ Route::delete('/bikes/{bike}', [BikeController::class, 'destroy'])->middleware('
 //Show single bike
 Route::get('/bikes/{bike}', [BikeController::class, 'show'])->middleware('auth');
 
-//Store bike check
-Route::post('/bikes/check/{bike}', [BikesCheckController::class, 'store'])->middleware('auth');
-
 //Show bound to rack form
 Route::get('/bikes/boundToRack/{rack}', [BikeController::class, 'boundToRack'])->middleware('auth');
 
@@ -109,6 +106,14 @@ Route::post('/bikes/boundToRack/{rack}', [BikeController::class, 'boundToRackSto
 
 //Free rack
 Route::get('/bikes/freeRack/{rack}', [BikeController::class, 'freeRack'])->middleware('auth');
+
+
+
+//----------------------------> BIKE MAINTENANCE
+//Show form
+Route::get('/bikes/check/{bike}', [BikesCheckController::class, 'create'])->middleware('auth');
+
+Route::post('/bikes/check', [BikesCheckController::class, 'store'])->middleware('auth');
 
 
 //---------------------> SCHEDULE
