@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DashboardOrder;
 use App\Services\TwilioService;
+use App\Services\ClicksendService;
 use Twilio\Exceptions\RestException;
 use Google\Service\BackupforGKE\Restore;
 use Illuminate\Http\Request;
@@ -11,12 +12,15 @@ use Illuminate\Http\Request;
 class SmsController extends Controller
 {
     protected $twilioService;
+    protected $clicksendService;
     public function __construct(TwilioService $twilioService)
     {
         $this->twilioService = $twilioService;
     }
 
     public function index() {
+        $clicksendService = new ClicksendService();
+        $result = $clicksendService->sendSMS('+61493754103', 'test message from website');
         return view('messages.index');
     }
 
