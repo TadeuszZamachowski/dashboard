@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\DashboardOrder;
-use App\Services\TwilioService;
 use App\Services\ClicksendService;
 use Twilio\Exceptions\RestException;
 use Google\Service\BackupforGKE\Restore;
@@ -11,16 +10,18 @@ use Illuminate\Http\Request;
 
 class SmsController extends Controller
 {
-    protected $twilioService;
+    //protected $twilioService;
+    // public function __construct(TwilioService $twilioService)
+    // {
+    //     $this->twilioService = $twilioService;
+    // }
     protected $clicksendService;
-    public function __construct(TwilioService $twilioService)
-    {
-        $this->twilioService = $twilioService;
+
+    public function __construct(ClicksendService $clicksendService) {
+        $this->clicksendService = $clicksendService;
     }
 
     public function index() {
-        $clicksendService = new ClicksendService();
-        $result = $clicksendService->sendSMS('+61493754103', 'test message from website');
         return view('messages.index');
     }
 
@@ -42,15 +43,7 @@ class SmsController extends Controller
     //Used in DashboardOrderController and BikesDashboardOrderController
     public function sendSMS($to, $message)
     {
-        try {
-            $response = $this->twilioService->sendSMS($to, $message);
-            if ($response->sid) {
-                return 1;
-            }
-        } catch(RestException $e) {
-            return -1;
-        }
-        
+        return $this->clicksendService->sendSMS($to, $message);
     }
 
     public static function checkOneHourBeforeStartDate() {
@@ -64,7 +57,7 @@ class SmsController extends Controller
                 $hourDiff = UtilController::getHours($today, $date); 
 
                 if($hourDiff <= 1) { //rent date one hour from now
-                    $sms = new SmsController(new TwilioService());
+                    $sms = new SmsController(new ClicksendService());
                     $response = $sms->sendSMS($order->mobile, self::getMessageStartDate());
     
                     if($response == 1) { //sms succesfully sent
@@ -92,7 +85,7 @@ class SmsController extends Controller
                 $hourDiff = UtilController::getHours($today, $date); 
 
                 if($hourDiff <= 1) {
-                    $sms = new SmsController(new TwilioService());
+                    $sms = new SmsController(new ClicksendService());
                     $response = $sms->sendSMS($order->mobile, self::getMessageEndDate());
     
                     if($response == 1) {
@@ -119,7 +112,7 @@ class SmsController extends Controller
                 $hourDiff = UtilController::getHours($today, $date); 
 
                 if($hourDiff <= 2) {
-                    $sms = new SmsController(new TwilioService());
+                    $sms = new SmsController(new ClicksendService());
                     $response = $sms->sendSMS($order->mobile, self::getPromoMessage());
     
                     if($response == 1) {

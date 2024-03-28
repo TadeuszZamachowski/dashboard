@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Bike;
 use App\Models\BikesDashboardOrder;
 use App\Models\DashboardOrder;
-use App\Services\TwilioService;
+use App\Services\ClicksendService;
 use Illuminate\Http\Request;
 
 class BikesDashboardOrderController extends Controller
@@ -92,7 +92,7 @@ class BikesDashboardOrderController extends Controller
 
         $response = "";
         if($order->pickup_location == "Mercato") {
-            $sms = new SmsController(new TwilioService());
+            $sms = new SmsController(new ClicksendService());
             $result = $sms->sendSMS($order->mobile, SmsController::getMessageWithBikes($assignedBikes));
             if($result == 1) {
                 $response = "Sms sent!";

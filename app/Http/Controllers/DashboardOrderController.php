@@ -8,7 +8,7 @@ use App\Models\BikeColor;
 use App\Models\BikesDashboardOrder;
 use App\Models\DashboardOrder;
 use App\Models\DashboardOrderAccessory;
-use App\Services\TwilioService;
+use App\Services\ClicksendService;
 use App\Models\Location;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -259,7 +259,7 @@ class DashboardOrderController extends Controller
             $this->deleteEvent($order);
         } else if($order->order_status == 'Archived') {
             if($this::ENABLE_SMS) {
-                $sms = new SmsController(new TwilioService());
+                $sms = new SmsController(new ClicksendService());
                 $result = $sms->sendSMS($order->mobile, SmsController::getReturnMessage());
 
                 if($result == 1) {
@@ -300,7 +300,7 @@ class DashboardOrderController extends Controller
             $this->deleteEvent($order);
         } else if($order->order_status == 'Archived'){
             if($this::ENABLE_SMS) {
-                $sms = new SmsController(new TwilioService());
+                $sms = new SmsController(new ClicksendService());
                 $result = $sms->sendSMS($order->mobile, SmsController::getReturnMessage());
 
                 if($result == 1) {
@@ -426,7 +426,7 @@ class DashboardOrderController extends Controller
     public function prePickup(DashboardOrder $order) {
         $response = "";
         if($this::ENABLE_SMS) {
-            $sms = new SmsController(new TwilioService());
+            $sms = new SmsController(new ClicksendService());
             $response = $sms->sendSMS($order->mobile, SmsController::getMessageStartDate());
 
             if($response == 1) {
@@ -434,7 +434,7 @@ class DashboardOrderController extends Controller
                 $order->save();
                 return redirect('/')->with('success', 'Sms sent!');
             } else {
-                return redirect('/')->with('error', "Couldn't send SMS, invalid phone number");
+                return redirect('/')->with('error', "Couldn't send SMS");
             }
             
         }
@@ -443,7 +443,7 @@ class DashboardOrderController extends Controller
     public function reminder(DashboardOrder $order) {
         $response = "";
         if($this::ENABLE_SMS) {
-            $sms = new SmsController(new TwilioService());
+            $sms = new SmsController(new ClicksendService());
             $response = $sms->sendSMS($order->mobile, SmsController::getMessageEndDate());
 
             if($response == 1) {
@@ -459,7 +459,7 @@ class DashboardOrderController extends Controller
     public function promo(DashboardOrder $order) {
         $response = "";
         if($this::ENABLE_SMS) {
-            $sms = new SmsController(new TwilioService());
+            $sms = new SmsController(new ClicksendService());
             $response = $sms->sendSMS($order->mobile, SmsController::getPromoMessage());
 
             if($response == 1) {

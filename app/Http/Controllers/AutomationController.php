@@ -9,7 +9,7 @@ use App\Models\BikesDashboardOrder;
 use App\Models\Accessory;
 use App\Http\Controllers\SmsController;
 use App\Models\DashboardAutomation;
-use App\Services\TwilioService;
+use App\Services\ClicksendService;
 use Illuminate\Http\Request;
 
 class AutomationController extends Controller
@@ -77,7 +77,7 @@ class AutomationController extends Controller
                     $bikes[] = $bike;
                 }
 
-                $sms = new SmsController(new TwilioService());
+                $sms = new SmsController(new ClicksendService());
                 $result = $sms->sendSMS($order->mobile, SmsController::getMessageWithBikes($bikes));
 
                 if($result == 1) {
@@ -95,7 +95,7 @@ class AutomationController extends Controller
                             'order_status' => 'Assigned',
                             'bikes_assigned' => 1
                         ));
-                        $output .= ' | Rack: '. $bike->rack .' => Code: '.$bike->code;
+                        $output .= ' | Number: '. $bike->id .' => Code: '.$bike->code;
                     }
                     $output .= "\r\n";
                 } else {

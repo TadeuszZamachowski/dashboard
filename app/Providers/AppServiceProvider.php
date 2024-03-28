@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
-use App\Services\TwilioService;
+use App\Services\ClicksendService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,8 +13,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(TwilioService::class, function ($app) {
-            return new TwilioService();
+        $this->app->bind(ClicksendService::class, function ($app) {
+            return new ClicksendService();
         });
     }
 

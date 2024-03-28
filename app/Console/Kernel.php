@@ -5,7 +5,7 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Http\Controllers\SmsController;
-use App\Services\TwilioService;
+use App\Services\ClicksendService;
 
 class Kernel extends ConsoleKernel
 {

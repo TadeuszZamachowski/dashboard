@@ -28,16 +28,20 @@ class ClicksendService
         $sms_messages = new \ClickSend\Model\SmsMessageCollection();
         $sms_messages->setMessages([$msg]);
 
-        
-        $result = $this->apiInstance->smsSendPost($sms_messages);
+        try {
+            $result = $this->apiInstance->smsSendPost($sms_messages);
+            
+            $resultDecode = json_decode($result, true);
+            $success = $resultDecode['data']['messages'][0]['status'];
 
-        $resultDecode = json_decode($result, true);
-        $success = $resultDecode['data']['messages'][0]['status'];
-
-        if(substr_count(strtolower($success), 'success') >= 1) {
-            return 1;
-        } else {
-            return 0;
+            if(substr_count(strtolower($success), 'success') >= 1) {
+                return 1;
+            } else {
+                return -1;
+            }
+        } catch (Exception $e) {
+            echo 'Exception when calling SMSApi->smsSendPost: ', $e->getMessage(), PHP_EOL;
+            return -1;
         }
     }
 }
