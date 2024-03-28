@@ -30,8 +30,7 @@
 @foreach ($locations as $location)
     @php
         $bikeCount = App\Models\Bike::where('location', 'LIKE', $location->value)
-                    ->where('status', 'NOT LIKE', 'archive')
-                    ->where('status', 'NOT LIKE', 'sell')
+                    ->where('status', 'NOT LIKE', 'sold')
                     ->count();
         $locationEmpty = true;
         if($bikeCount > 0) {
@@ -56,8 +55,7 @@
                             $bikeFigures = App\Models\Bike::where('type', 'LIKE', $type)
                             ->where('color','LIKE',$color['value'])
                             ->where('location', 'LIKE', $location->value)
-                            ->where('status', 'NOT LIKE', 'archive')
-                            ->where('status', 'NOT LIKE', 'sell')
+                            ->where('status', 'NOT LIKE', 'sold')
                             ->get();
                             if(count($bikeFigures) > 0) {
                                 $types[] = $bikeFigures;
