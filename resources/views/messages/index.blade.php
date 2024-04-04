@@ -1,8 +1,7 @@
 @extends('layout')
 @section('content')
-    <form method="POST" action="/messages/send">
-        @csrf
-        <textarea name="sms_input" id="sms_input" cols="30" rows="10"></textarea>
-        <button type="submit" class="btn">SUBMIT</button>
-    </form>
+<h1 style="padding-bottom: 20px">Reports</h1>
+<a class="btn" href="/messages/allRecipients"><i class="fa-solid fa-envelope" style="color:white"></i>Send Message to all Recipients</a>
+<a class="btn" href="/messages/edit"><i class="fas fa-edit" style="color:white"></i>Edit all Messages</a>
+   
 @endsection

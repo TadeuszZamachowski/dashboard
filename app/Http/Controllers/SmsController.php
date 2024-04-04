@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DashboardMessage;
 use App\Models\DashboardOrder;
 use App\Services\ClicksendService;
 use Twilio\Exceptions\RestException;
@@ -23,6 +24,34 @@ class SmsController extends Controller
 
     public function index() {
         return view('messages.index');
+    }
+
+    public function allRecipients() {
+        return view('messages.allRecipients');
+    }
+
+    public function showMessages() {
+        return view('messages.showMessages', [
+            'messages' => DashboardMessage::all()
+        ]);
+    }
+
+    public function edit(DashboardMessage $message) {
+        return view('messages.edit', [
+            'message' => $message
+        ]);
+    }
+
+    public function update(Request $request, DashboardMessage $message) {
+        $this->validate($request, [
+            'value' => 'required',
+        ]);
+
+        $data['value'] = $request['value'];
+        $message->update($data);
+        
+
+        return redirect('/messages/edit')->with('success', 'Message succesfully edited');
     }
 
     //send one sms to all mobiles in the database
@@ -139,15 +168,28 @@ class SmsController extends Controller
         return $smsSent;
     }
 
-    public static function getReturnMessage() {
-        return "Greetings! Appreciate the return of the bikes. Feel free to share images from your journey; we'd love to showcase them in our weekly social media post. Also, kindly leave a review here: https://g.page/r/CbxYagpHSIZxEAI/review 😉🙏";
-    }
-    public static function getMessageStartDate() {
-        return "Greetings! Thank you for your order. If you haven't submitted the rental agreement yet, please do by clicking on this link https://form.jotform.com/233026632488862. Visit the Woolworth Underground Carpark, specifically the Bicycle Storage room next to the Public Toilets, and text us the rack numbers of the chosen bikes. We'll promptly provide you with the unlock codes. Ensure that your bike selection includes any accessories as per your order. Feel free to call us if you require assistance with picking up the bikes +61 418 883 631";
+    public static function getReturnMessage() { //added to database
+        $message = DashboardMessage::where('name', 'bike_return')->first();
+        return $message->value;
     }
 
-    public static function getMessageEndDate() {
-        return "Hello! I trust you had a fantastic bike riding experience! Just a friendly reminder: your bikes are scheduled to be returned in 1 hour. Feel free to share photos of your adventure with us! :)";
+    public static function getMessageStartDate() { //added to database
+        $message = DashboardMessage::where('name', 'new_order')->first();
+        return $message->value;
+    }
+
+    public static function getMessageEndDate() { //added to database
+        $message = DashboardMessage::where('name', 'reminder')->first();
+        return $message->value;
+    }
+
+    public static function getPromoMessage() { //added to database
+        $message = DashboardMessage::where('name', 'promo')->first();
+        return $message->value;
+    }
+
+    public function schedule() {
+        return view('smsScheduled');
     }
 
     public static function getMessageWithBikes($assignedBikes) {
@@ -157,14 +199,6 @@ class SmsController extends Controller
         }
         $message .= 'Please take a photo of the bike when picking it up and send it to +61 418 883 631. Upon return, hang the bike on the same bike rack. Attach the bike with the same lock code and send us a photo again.';
         return $message;   
-    }
-
-    public static function getPromoMessage() {
-        return "Love your ride? Extend the joy! Enjoy 50% off your next bike rental with code TAKE50 at checkout on byronbaybikes.com. Hurry, offer valid for bookings made today only. Happy cycling!";
-    }
-
-    public function schedule() {
-        return view('smsScheduled');
     }
 
 }

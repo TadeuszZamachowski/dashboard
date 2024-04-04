@@ -264,8 +264,12 @@ Route::get('/reports/bikeMaintenance', [ReportsController::class, 'bikeMaintenan
 Route::get('mapBikes', [BikeController::class, 'mapBikes'])->middleware('auth');
 
 //Messaging
-Route::get('/messages', [SmsController::class, 'index'])->middleware('auth');
+Route::get('messages', [SmsController::class, 'index'])->middleware('auth');
+Route::get('/messages/allRecipients', [SmsController::class, 'allRecipients'])->middleware('auth');
 Route::post('/messages/send', [SmsController::class, 'send'])->middleware('auth');
+Route::get('messages/edit', [SmsController::class, 'showMessages'])->middleware('auth');
+Route::get('messages/edit/{message}', [SmsController::class, 'edit'])->middleware('auth');
+Route::put('messages/edit/{message}', [SmsController::class, 'update'])->middleware('auth');
 
 
 //---------------------> Save assigned bikes number cron
