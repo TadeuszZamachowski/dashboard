@@ -25,6 +25,7 @@ class SmsController extends Controller
         return view('messages.index');
     }
 
+    //send one sms to all mobiles in the database
     public function send(Request $request) {
         $orders = DashboardOrder::distinct('mobile')->get();
         
@@ -43,7 +44,7 @@ class SmsController extends Controller
     //Used in DashboardOrderController and BikesDashboardOrderController
     public function sendSMS($to, $message)
     {
-        return $this->clicksendService->sendSMS($to, $message);
+        return $this->clicksendService->sendSMS($to, $message); //returns 1 upon success, return -1 if not success
     }
 
     public static function checkOneHourBeforeStartDate() {
@@ -57,10 +58,9 @@ class SmsController extends Controller
                 $hourDiff = UtilController::getHours($today, $date); 
 
                 if($hourDiff <= 1) { //rent date one hour from now
-                    $sms = new SmsController(new ClicksendService());
-                    $response = $sms->sendSMS($order->mobile, self::getMessageStartDate());
-    
-                    if($response == 1) { //sms succesfully sent
+                    $response = UtilController::sendMessage($order, self::getMessageStartDate());
+
+            if(str_contains($response, 'sent!')) { //sms succesfully sent
                         $order->start_date_sms = 1;
                         $order->save();
                         $smsSent .= "Pre rental Sms sent to ".$order->first_name." | ";
@@ -85,10 +85,9 @@ class SmsController extends Controller
                 $hourDiff = UtilController::getHours($today, $date); 
 
                 if($hourDiff <= 1) {
-                    $sms = new SmsController(new ClicksendService());
-                    $response = $sms->sendSMS($order->mobile, self::getMessageEndDate());
-    
-                    if($response == 1) {
+                    $response = UtilController::sendMessage($order, self::getMessageEndDate());
+
+            if(str_contains($response, 'sent!')) {
                         $order->end_date_sms = 1;
                         $order->save();
                         $smsSent .= "Reminder Sms sent to ".$order->first_name." | ";
@@ -112,10 +111,9 @@ class SmsController extends Controller
                 $hourDiff = UtilController::getHours($today, $date); 
 
                 if($hourDiff <= 2) {
-                    $sms = new SmsController(new ClicksendService());
-                    $response = $sms->sendSMS($order->mobile, self::getPromoMessage());
-    
-                    if($response == 1) {
+                    $response = UtilController::sendMessage($order, self::getPromoMessage());
+
+                    if(str_contains($response, 'sent!')) {
                         $order->promo_sms = 1;
                         $order->save();
                         $smsSent .= "Promo Sms sent to ".$order->first_name." | ";

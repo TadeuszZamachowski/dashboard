@@ -259,14 +259,7 @@ class DashboardOrderController extends Controller
             $this->deleteEvent($order);
         } else if($order->order_status == 'Archived') {
             if($this::ENABLE_SMS) {
-                $sms = new SmsController(new ClicksendService());
-                $result = $sms->sendSMS($order->mobile, SmsController::getReturnMessage());
-
-                if($result == 1) {
-                    $response = "Sms sent!";
-                } else {
-                    $response = "Couldn't send sms, Invalid phone number";
-                }
+                $response = UtilController::sendMessage($order, SmsController::getReturnMessage());
             }
         } else if ($order->order_status == 'Cancelled') {
             $this->freeBikes($order);
@@ -300,14 +293,7 @@ class DashboardOrderController extends Controller
             $this->deleteEvent($order);
         } else if($order->order_status == 'Archived'){
             if($this::ENABLE_SMS) {
-                $sms = new SmsController(new ClicksendService());
-                $result = $sms->sendSMS($order->mobile, SmsController::getReturnMessage());
-
-                if($result == 1) {
-                    $response = "Sms sent!";
-                } else {
-                    $response = "Couldn't send sms, Invalid phone number";
-                }
+                $response = UtilController::sendMessage($order, SmsController::getReturnMessage());
             }
         } else if ($order->order_status == 'Cancelled') {
             $this->freeBikes($order);
@@ -426,15 +412,14 @@ class DashboardOrderController extends Controller
     public function prePickup(DashboardOrder $order) {
         $response = "";
         if($this::ENABLE_SMS) {
-            $sms = new SmsController(new ClicksendService());
-            $response = $sms->sendSMS($order->mobile, SmsController::getMessageStartDate());
-
-            if($response == 1) {
+            $response = UtilController::sendMessage($order, SmsController::getMessageStartDate());
+            
+            if(str_contains($response, 'sent!')) {
                 $order->start_date_sms = 1;
                 $order->save();
-                return redirect('/')->with('success', 'Sms sent!');
+                return redirect('/')->with('success', $response);
             } else {
-                return redirect('/')->with('error', "Couldn't send SMS");
+                return redirect('/')->with('error', $response);
             }
             
         }
@@ -443,15 +428,14 @@ class DashboardOrderController extends Controller
     public function reminder(DashboardOrder $order) {
         $response = "";
         if($this::ENABLE_SMS) {
-            $sms = new SmsController(new ClicksendService());
-            $response = $sms->sendSMS($order->mobile, SmsController::getMessageEndDate());
+            $response = UtilController::sendMessage($order, SmsController::getMessageEndDate());
 
-            if($response == 1) {
+            if(str_contains($response, 'sent!')) {
                 $order->end_date_sms = 1;
                 $order->save();
-                return redirect('/')->with('success', 'Sms sent!');
+                return redirect('/')->with('success', $response);
             } else {
-                return redirect('/')->with('error', "Couldn't send SMS, invalid phone number");
+                return redirect('/')->with('error', $response);
             }
         }
     }
@@ -459,15 +443,14 @@ class DashboardOrderController extends Controller
     public function promo(DashboardOrder $order) {
         $response = "";
         if($this::ENABLE_SMS) {
-            $sms = new SmsController(new ClicksendService());
-            $response = $sms->sendSMS($order->mobile, SmsController::getPromoMessage());
+            $response = UtilController::sendMessage($order, SmsController::getPromoMessage());
 
-            if($response == 1) {
+            if(str_contains($response, 'sent!')) {
                 $order->promo_sms = 1;
                 $order->save();
-                return redirect('/')->with('success', 'Sms sent!');
+                return redirect('/')->with('success', $response);
             } else {
-                return redirect('/')->with('error', "Couldn't send SMS, invalid phone number");
+                return redirect('/')->with('error', $response);
             }
         }
     }

@@ -92,13 +92,8 @@ class BikesDashboardOrderController extends Controller
 
         $response = "";
         if($order->pickup_location == "Mercato") {
-            $sms = new SmsController(new ClicksendService());
-            $result = $sms->sendSMS($order->mobile, SmsController::getMessageWithBikes($assignedBikes));
-            if($result == 1) {
-                $response = "Sms sent!";
-            } else {
-                $response = "Couldn't send sms, Invalid phone number";
-            }
+            $response = UtilController::sendMessage($order, SmsController::getMessageWithBikes($assignedBikes));
+
     }
         return redirect()->to($request->last_url)->with('success', 'Bike succesfully assigned. '.$response);
          

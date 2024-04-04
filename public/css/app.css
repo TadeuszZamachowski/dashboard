@@ -491,3 +491,7 @@ td {
   justify-content: center;
   font-size: 10px;
 }
+
+option:checked {
+  display: none;
+}

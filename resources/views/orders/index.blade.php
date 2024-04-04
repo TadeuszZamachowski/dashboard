@@ -150,7 +150,7 @@
                                 <option value={{$item}} @class([
                                     'slct-archived' => $item == "Archived"])>
                                     @if ($item=="Archived")
-                                        To Archive
+                                        Archived
                                     @else
                                         {{$item}} 
                                     @endif
