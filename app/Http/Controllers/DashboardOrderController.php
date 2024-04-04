@@ -418,7 +418,9 @@ class DashboardOrderController extends Controller
                 $order->start_date_sms = 1;
                 $order->save();
                 return redirect('/')->with('success', $response);
-            } else {
+            } else if(str_contains($response, 'email')) {
+                $order->start_date_sms = 2;
+                $order->save();
                 return redirect('/')->with('error', $response);
             }
             
@@ -434,7 +436,9 @@ class DashboardOrderController extends Controller
                 $order->end_date_sms = 1;
                 $order->save();
                 return redirect('/')->with('success', $response);
-            } else {
+            } else if(str_contains($response, 'email')) {
+                $order->end_date_sms = 2;
+                $order->save();
                 return redirect('/')->with('error', $response);
             }
         }
@@ -449,7 +453,9 @@ class DashboardOrderController extends Controller
                 $order->promo_sms = 1;
                 $order->save();
                 return redirect('/')->with('success', $response);
-            } else {
+            } else if(str_contains($response, 'email')) {
+                $order->promo_sms = 2;
+                $order->save();
                 return redirect('/')->with('error', $response);
             }
         }

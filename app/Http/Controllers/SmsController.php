@@ -53,17 +53,21 @@ class SmsController extends Controller
         $today = date('Y-m-d H:i');
         $smsSent = "";
         foreach($orders as $order) {
-            if($order->start_date_sms != 1) { //SMS hasn't been sent previously
+            if($order->start_date_sms != 1 && $order->start_date_sms != 2) { //SMS hasn't been sent previously
                 $date = date('Y-m-d H:i',strtotime($order->start_date));
                 $hourDiff = UtilController::getHours($today, $date); 
 
                 if($hourDiff <= 1) { //rent date one hour from now
                     $response = UtilController::sendMessage($order, self::getMessageStartDate());
-
-            if(str_contains($response, 'sent!')) { //sms succesfully sent
-                        $order->start_date_sms = 1;
+                
+                    if(str_contains($response, 'sent!')) { //sms succesfully sent
+                            $order->start_date_sms = 1;
+                            $order->save();
+                            $smsSent .= "Pre rental Sms sent to ".$order->first_name." | ";
+                    } else if(str_contains($response, 'email')) {
+                        $order->start_date_sms = 2;
                         $order->save();
-                        $smsSent .= "Pre rental Sms sent to ".$order->first_name." | ";
+                        $smsSent .= "Pre rental email sent to ".$order->first_name." | ";
                     }
                 }
             }
@@ -80,17 +84,21 @@ class SmsController extends Controller
         $today = date('Y-m-d H:i');
         $smsSent = "";
         foreach($orders as $order) {
-            if($order->end_date_sms != 1) {
+            if($order->end_date_sms != 1 && $order->end_date_sms != 2) {
                 $date = date('Y-m-d H:i',strtotime($order->end_date));
                 $hourDiff = UtilController::getHours($today, $date); 
 
                 if($hourDiff <= 1) {
                     $response = UtilController::sendMessage($order, self::getMessageEndDate());
 
-            if(str_contains($response, 'sent!')) {
+                    if(str_contains($response, 'sent!')) {
                         $order->end_date_sms = 1;
                         $order->save();
                         $smsSent .= "Reminder Sms sent to ".$order->first_name." | ";
+                    } else if(str_contains($response, 'email')) {
+                        $order->end_date_sms = 2;
+                        $order->save();
+                        $smsSent .= "Reminder email sent to ".$order->first_name." | ";
                     }
                 }
             }
@@ -106,7 +114,7 @@ class SmsController extends Controller
         $today = date('Y-m-d H:i');
         $smsSent = "";
         foreach($orders as $order) {
-            if($order->promo_sms != 1) {
+            if($order->promo_sms != 1 && $order->promo_sms != 2) {
                 $date = date('Y-m-d H:i',strtotime($order->end_date));
                 $hourDiff = UtilController::getHours($today, $date); 
 
@@ -117,6 +125,10 @@ class SmsController extends Controller
                         $order->promo_sms = 1;
                         $order->save();
                         $smsSent .= "Promo Sms sent to ".$order->first_name." | ";
+                    } else if(str_contains($response, 'email')) {
+                        $order->promo_sms = 2;
+                        $order->save();
+                        $smsSent .= "Promo email sent to ".$order->first_name." | ";
                     }
                 }
             }

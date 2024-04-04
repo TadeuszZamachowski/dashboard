@@ -201,35 +201,41 @@
         </td>
         {{-- TEMP SMS SENDING BUTTONS --}}
         <td>
-            @if ($order->start_date_sms != 1)
+            @if ($order->start_date_sms == 1)
+                <span style="color: green">Sms sent</span>  
+            @elseif($order->start_date_sms == 2)
+                <span style="color: green">Email sent</span>    
+            @else
                 <form method="GET" action="/orders/pre-pickup/{{$order->dashboard_order_id}}">
                     @csrf
                     <button onclick="this.form.submit()"><i class="fa-solid fa-envelope"></i></button>
-                </form>
-            @else
-                <span style="color: green">Sms sent</span>                
+                </form> 
             @endif
         </td>
 
         <td>
-            @if ($order->end_date_sms != 1)
+            @if ($order->end_date_sms == 1)
+                <span style="color: green">Sms sent</span>  
+            @elseif($order->end_date_sms == 2)
+                <span style="color: green">Email sent</span>    
+            @else
                 <form method="GET" action="/orders/reminder/{{$order->dashboard_order_id}}">
                     @csrf
                     <button onclick="this.form.submit()"><i class="fa-solid fa-envelope"></i></button>
                 </form>
-            @else
-                <span style="color: green">Sms sent</span>
             @endif
         </td>
 
         <td>
-            @if ($order->promo_sms != 1)
+            @if ($order->promo_sms == 1)
+                <span style="color: green">Sms sent</span>  
+            @elseif($order->promo_sms == 2)
+                <span style="color: green">Email sent</span>    
+            @else
                 <form method="GET" action="/orders/promo/{{$order->dashboard_order_id}}">
                     @csrf
                     <button onclick="this.form.submit()"><i class="fa-solid fa-envelope"></i></button>
                 </form>
-            @else
-                <span style="color: green">Sms sent</span>                
             @endif
         </td>
         

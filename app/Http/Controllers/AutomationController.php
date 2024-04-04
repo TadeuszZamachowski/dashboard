@@ -100,15 +100,33 @@ class AutomationController extends Controller
                     $output .= "\r\n";
                 } else {
                     //send email;
+                    UtilController::sendEmail($order->email, SmsController::getMessageWithBikes($bikes));
 
-                    foreach($bikes as &$bike) {
-                        //reverting
-                        $bike->update(array(
-                            'status' => 'in',
-                            'dashboard_order_id' => null
+                    $output .= "Sent email to ". $order->dashboard_order_id. " ". $order->first_name." with bikes ";
+                    foreach($bikes as $bike) {
+                        //creating history
+                        $data['bike_id'] = $bike->id;
+                        $data['order_id'] = $order->dashboard_order_id;
+                        $data['start_date'] = $order->start_date;
+                        $data['end_date'] = $order->end_date;
+                        BikesDashboardOrder::create($data);
+    
+                        //assigning bikes to order
+                        $order->update(array(
+                            'order_status' => 'Assigned',
+                            'bikes_assigned' => 1
                         ));
+                        $output .= ' | Number: '. $bike->id .' => Code: '.$bike->code;
                     }
-                    $output .= "Invalid phone number couldnt send bikes so bikes not assigned";
+                    $output .= "\r\n";
+
+                    // foreach($bikes as &$bike) {
+                    //     //reverting
+                    //     $bike->update(array(
+                    //         'status' => 'in',
+                    //         'dashboard_order_id' => null
+                    //     ));
+                    // }
                 }
                 
             }
