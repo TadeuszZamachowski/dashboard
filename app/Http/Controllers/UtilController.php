@@ -10,9 +10,9 @@ use App\Services\ClicksendService;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require '../../../PHPMailer/src/Exception.php';
-require '../../../PHPMailer/src/PHPMailer.php';
-require '../../../PHPMailer/src/SMTP.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/../PHPMailer/src/Exception.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/../PHPMailer/src/PHPMailer.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/../PHPMailer/src/SMTP.php';
 
 class UtilController extends Controller
 {
@@ -86,12 +86,13 @@ class UtilController extends Controller
         if($result == 1) {
             return "Sms sent!";
         } else {
-            self::sendEmail($order->email);
+            self::sendEmail($order->email, $message);
             return "Couldn't send sms, sent email instead";
+            
         }
     }
 
-    public static function sendEmail($email) {
+    public static function sendEmail($email, $message) {
 	
         $mail = new PHPMailer(true); //defaults to using php "mail()"; the true param means it will throw exceptions on errors, which we need to catch
     
@@ -108,17 +109,14 @@ class UtilController extends Controller
         
             $mail->setFrom('ride@byronbaybikes.com', 'Byron Bay Bikes');
             $mail->addAddress($email, 'Name');
-            $mail->Subject = 'Test email';
+            $mail->Subject = 'Your bike rental';
             // Set HTML 
             $mail->isHTML(true);
             
-            $mail->Body = "<html>Hi, this is a test email </html>";
+            $mail->Body = "<html>". $message. "</html>";
             $mail->Send();
-        } catch (phpmailerException $e) {
-        echo $e->errorMessage(); //Pretty error messages from PHPMailer
         } catch (Exception $e) {
-        echo $e->getMessage(); //Boring error messages from anything else!
+            echo $e->getMessage(); //Boring error messages from anything else!
         }
-
     }
 }
