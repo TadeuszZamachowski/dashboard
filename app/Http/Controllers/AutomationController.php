@@ -100,7 +100,7 @@ class AutomationController extends Controller
                     $output .= "\r\n";
                 } else {
                     //send email;
-                    UtilController::sendEmail($order->email, SmsController::getMessageWithBikes($bikes));
+                    UtilController::sendEmail($order->email, $order->first_name, SmsController::getMessageWithBikes($bikes));
 
                     $output .= "Sent email to ". $order->dashboard_order_id. " ". $order->first_name." with bikes ";
                     foreach($bikes as $bike) {

@@ -86,13 +86,13 @@ class UtilController extends Controller
         if($result == 1) {
             return "Sms sent!";
         } else {
-            self::sendEmail($order->email, $message);
+            self::sendEmail($order->email, $order->first_name, $message);
             return "Couldn't send sms, sent email instead";
             
         }
     }
 
-    public static function sendEmail($email, $message) {
+    public static function sendEmail($email, $name, $message) {
 	
         $mail = new PHPMailer(true); //defaults to using php "mail()"; the true param means it will throw exceptions on errors, which we need to catch
     
@@ -108,7 +108,7 @@ class UtilController extends Controller
             $mail->Port = 587;
         
             $mail->setFrom('ride@byronbaybikes.com', 'Byron Bay Bikes');
-            $mail->addAddress($email, 'Name');
+            $mail->addAddress($email, $name);
             $mail->Subject = 'Your bike rental';
             // Set HTML 
             $mail->isHTML(true);
