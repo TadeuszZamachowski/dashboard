@@ -219,6 +219,8 @@ Route::get('/settings/automation', [SettingsController::class, 'automation'])->m
 //edit automation
 Route::post('settings/automation', [SettingsController::class, 'automationEdit'])->middleware('auth');
 
+Route::post('settings/automationSms', [SettingsController::class, 'smsEdit'])->middleware('auth');
+
 
 
 //---------------------> INCIDENTS

@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 class AutomationController extends Controller
 {
     public static function assign() { //fires every 2 minutes as a cron job
-        $setting = DashboardAutomation::first();
+        $setting = DashboardAutomation::where('id',1)->first();
         if(!$setting->enabled) {
             return view('automationOutput', [
                 'output' => 'Automation is disabled'

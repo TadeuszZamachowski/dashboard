@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Session;
 use Spatie\GoogleCalendar\Event;
 use Carbon\Carbon;
 use DateTime;
+use App\Models\DashboardAutomation;
 
 class DashboardOrderController extends Controller
 {
@@ -258,8 +259,11 @@ class DashboardOrderController extends Controller
             $this->freeBikes($order);
             $this->deleteEvent($order);
         } else if($order->order_status == 'Archived') {
-            if($this::ENABLE_SMS) {
+            $setting = DashboardAutomation::where('id', 2)->first();
+            if($setting->enabled) {
                 $response = UtilController::sendMessage($order, SmsController::getReturnMessage());
+            } else {
+                $response = "Sms disabled";
             }
         } else if ($order->order_status == 'Cancelled') {
             $this->freeBikes($order);
@@ -292,8 +296,11 @@ class DashboardOrderController extends Controller
             $this->freeBikes($order);
             $this->deleteEvent($order);
         } else if($order->order_status == 'Archived'){
-            if($this::ENABLE_SMS) {
+            $setting = DashboardAutomation::where('id', 2)->first();
+            if($setting->enabled) {
                 $response = UtilController::sendMessage($order, SmsController::getReturnMessage());
+            } else {
+                $response = "Sms disabled";
             }
         } else if ($order->order_status == 'Cancelled') {
             $this->freeBikes($order);

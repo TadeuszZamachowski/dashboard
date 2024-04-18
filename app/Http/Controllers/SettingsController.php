@@ -144,15 +144,38 @@ class SettingsController extends Controller
     }
 
     public function automation() {
-        $setting = DashboardAutomation::first();
+        $settingAutomation = DashboardAutomation::where('id',1)->first();
+        $settingSms = DashboardAutomation::where('id', 2)->first();
 
         return view('settings.automation', [
-            'enabled' => $setting->enabled
+            'enabledAuto' => $settingAutomation->enabled,
+            'enabledSms' => $settingSms->enabled
         ]);
     }
 
     public function automationEdit(Request $request) {
-        $setting = DashboardAutomation::first();
+        $setting = DashboardAutomation::where('id',1)->first();
+        $smsSetting = DashboardAutomation::where('id',2)->first();
+
+        if($request->auto_enabled) {
+            $setting->enabled = 1;
+            $smsSetting->enabled = 1;
+
+            $smsSetting->save();
+            $setting->save();
+            $result = "enabled";
+        } else {
+            $setting->enabled = 0;
+            $setting->save();
+            $result = "disabled";
+        }
+
+        return back();
+    }
+
+    public function smsEdit(Request $request) {
+        $automationSetting = DashboardAutomation::where('id',1)->first();
+        $setting = DashboardAutomation::where('id',2)->first();
 
         if($request->auto_enabled) {
             $setting->enabled = 1;
@@ -160,7 +183,10 @@ class SettingsController extends Controller
             $result = "enabled";
         } else {
             $setting->enabled = 0;
+            $automationSetting->enabled = 0;
+
             $setting->save();
+            $automationSetting->save();
             $result = "disabled";
         }
 

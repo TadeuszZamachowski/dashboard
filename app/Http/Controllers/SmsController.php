@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DashboardAutomation;
 use App\Models\DashboardMessage;
 use App\Models\DashboardOrder;
 use App\Services\ClicksendService;
@@ -77,6 +78,11 @@ class SmsController extends Controller
     }
 
     public static function checkOneHourBeforeStartDate() {
+
+        $setting = DashboardAutomation::where('id', 2)->first();
+        if(!$setting->enabled) {
+            return "Sms setting disabled";
+        }
         
         $orders = DashboardOrder::where("order_status", "LIKE", "Processing")->get();
         $today = date('Y-m-d H:i');
@@ -109,6 +115,12 @@ class SmsController extends Controller
 
     //assigned
     public static function checkOneHourBeforeEndDate() {
+
+        $setting = DashboardAutomation::where('id', 2)->first();
+        if(!$setting->enabled) {
+            return "Sms setting disabled";
+        }
+
         $orders = DashboardOrder::where("order_status", "LIKE", "Assigned")->get();
         $today = date('Y-m-d H:i');
         $smsSent = "";
@@ -139,6 +151,12 @@ class SmsController extends Controller
     }
 
     public static function checkPromo() {
+
+        $setting = DashboardAutomation::where('id', 2)->first();
+        if(!$setting->enabled) {
+            return "Sms setting disabled";
+        }
+
         $orders = DashboardOrder::where("order_status", "LIKE", "Assigned")->get();
         $today = date('Y-m-d H:i');
         $smsSent = "";
