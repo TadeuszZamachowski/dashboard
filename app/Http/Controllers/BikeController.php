@@ -52,7 +52,7 @@ class BikeController extends Controller
     //show all bikes
     public function index(Request $request) {
         if($request->filter == null) {
-            $request->filter = 'None';
+            $request->filter = 'Mercato';
         }
 
         $bikes = $this->filterBikes($request->filter);
