@@ -16,6 +16,7 @@ class Bike extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'id',
         'color',
         'type',
         'gear',

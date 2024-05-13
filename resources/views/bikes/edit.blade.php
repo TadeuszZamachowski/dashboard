@@ -16,6 +16,15 @@
         <div class="left-side">
 
             <div class="input-section">
+                <label for="id">ID:</label>
+                <input type="text" id="id" name="id" value="{{$bike->id}}"><br>
+                @error('id')
+                    <p>{{$message}}</p>
+                @enderror
+                <br>
+            </div>
+
+            <div class="input-section">
                 <label for="number">Number:</label>
                 <select name="number" id="number">
                     <option value="{{$bike->number}}">{{$bike->number}}</option>

@@ -144,6 +144,7 @@ class BikeController extends Controller
     //update bike
     public function update(Request $request, Bike $bike) {
         $formFields = $request->validate([
+            'id' => 'required',
             'color' => 'required',
             'type' => 'required',
             'gear' => 'required',

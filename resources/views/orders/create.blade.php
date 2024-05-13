@@ -109,7 +109,7 @@
                 <select name="pickup_location" id="pickup_location">
                     <option value="{{old('pickup_location')}}">{{old('pickup_location')}}</option>
                     @foreach ($locations as $loc)
-                        <option value={{$loc->value}}>{{$loc->value}}</option>
+                        <option value="{{$loc->value}}">{{$loc->value}}</option>
                     @endforeach
                 </select>
                 @error('pickup_location')
