@@ -286,6 +286,13 @@ Route::get('/orders/reminder/{order}', [DashboardOrderController::class, 'remind
 Route::get('/orders/promo/{order}', [DashboardOrderController::class, 'promo'])->middleware('auth');
 
 
+Route::get('/orders/bus-pre-pickup/{order}', [DashboardOrderController::class, 'busPrePickup'])->middleware('auth');
+
+Route::get('/orders/bus-reminder/{order}', [DashboardOrderController::class, 'busReminder'])->middleware('auth');
+
+Route::get('/orders/bus-promo/{order}', [DashboardOrderController::class, 'busPromo'])->middleware('auth');
+
+
 //Pre pickup and reminder SMS cron
 Route::get('/smsScheduled', [SmsController::class, 'schedule']);
 

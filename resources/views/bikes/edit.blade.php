@@ -190,5 +190,6 @@
         </div>
     </div>
     <input class="btn form-btn" type="submit" value="Submit">
+    <input type="hidden" name="url" value="{{  URL::previous() }}">
 </form>
 @endsection

@@ -206,7 +206,15 @@
             @elseif($order->start_date_sms == 2)
                 <span style="color: green">Email sent</span>    
             @else
-                <form method="GET" action="/orders/pre-pickup/{{$order->dashboard_order_id}}">
+                @php
+                    $action = "";
+                    if($order->pickup_location == 'Bus Station') {
+                        $action = "/orders/bus-pre-pickup/{{$order->dashboard_order_id}}";
+                    } else {
+                        $action = "/orders/pre-pickup/{{$order->dashboard_order_id}}";
+                    }
+                @endphp
+                <form method="GET" action="{{$action}}">
                     @csrf
                     <button onclick="this.form.submit()"><i class="fa-solid fa-envelope"></i></button>
                 </form> 
@@ -219,7 +227,15 @@
             @elseif($order->end_date_sms == 2)
                 <span style="color: green">Email sent</span>    
             @else
-                <form method="GET" action="/orders/reminder/{{$order->dashboard_order_id}}">
+                @php
+                    $action = "";
+                    if($order->pickup_location == 'Bus Station') {
+                        $action = "/orders/bus-reminder/{{$order->dashboard_order_id}}";
+                    } else {
+                        $action = "/orders/reminder/{{$order->dashboard_order_id}}";
+                    }
+                @endphp
+                <form method="GET" action="{{$action}}">
                     @csrf
                     <button onclick="this.form.submit()"><i class="fa-solid fa-envelope"></i></button>
                 </form>
@@ -232,7 +248,15 @@
             @elseif($order->promo_sms == 2)
                 <span style="color: green">Email sent</span>    
             @else
-                <form method="GET" action="/orders/promo/{{$order->dashboard_order_id}}">
+                @php
+                    $action = "";
+                    if($order->pickup_location == 'Bus Station') {
+                        $action = "/orders/bus-promo/{{$order->dashboard_order_id}}";
+                    } else {
+                        $action = "/orders/promo/{{$order->dashboard_order_id}}";
+                    }
+                @endphp
+                <form method="GET" action="{{$action}}">
                     @csrf
                     <button onclick="this.form.submit()"><i class="fa-solid fa-envelope"></i></button>
                 </form>

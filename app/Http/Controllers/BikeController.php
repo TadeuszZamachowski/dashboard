@@ -162,7 +162,7 @@ class BikeController extends Controller
         
         $bike->update($formFields);
 
-        return redirect('/bikes')->with('success', 'Bike ' . $bike->id . ' succesfully updated.');
+        return redirect()->to($request->url)->with('success','Bike ' . $bike->id . ' succesfully updated.');
     }
 
     //delete bike

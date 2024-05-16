@@ -78,7 +78,13 @@ class AutomationController extends Controller
                 }
 
                 $sms = new SmsController(new ClicksendService());
-                $result = $sms->sendSMS($order->mobile, SmsController::getMessageWithBikes($bikes));
+                $message = "";
+                if($order->pickup_location == "Bus Station") {
+                    $message = SmsController::getMessageWithBikesBus($bikes);
+                } else {
+                    $message = SmsController::getMessageWithBikes($bikes);
+                }
+                $result = $sms->sendSMS($order->mobile, $message);
 
                 if($result == 1) {
                     $output .= "Sent Sms to ". $order->dashboard_order_id. " ". $order->first_name." with bikes ";

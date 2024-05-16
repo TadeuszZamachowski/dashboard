@@ -93,7 +93,13 @@ class SmsController extends Controller
                 $hourDiff = UtilController::getHours($today, $date); 
 
                 if($hourDiff <= 1) { //rent date one hour from now
-                    $response = UtilController::sendMessage($order, self::getMessageStartDate());
+                    $message = "";
+                    if($order->pickup_location == "Bus Station") {
+                        $message = self::getMessageStartDateBus();
+                    } else {
+                        $message = self::getMessageStartDate();
+                    }
+                    $response = UtilController::sendMessage($order, $message);
                 
                     if(str_contains($response, 'sent!')) { //sms succesfully sent
                             $order->start_date_sms = 1;
@@ -130,7 +136,13 @@ class SmsController extends Controller
                 $hourDiff = UtilController::getHours($today, $date); 
 
                 if($hourDiff <= 1) {
-                    $response = UtilController::sendMessage($order, self::getMessageEndDate());
+                    $message = "";
+                    if($order->pickup_location == "Bus Station") {
+                        $message = self::getMessageEndDateBus();
+                    } else {
+                        $message = self::getMessageEndDate();
+                    }
+                    $response = UtilController::sendMessage($order, $message);
 
                     if(str_contains($response, 'sent!')) {
                         $order->end_date_sms = 1;
@@ -166,7 +178,14 @@ class SmsController extends Controller
                 $hourDiff = UtilController::getHours($today, $date); 
 
                 if($hourDiff <= 2) {
-                    $response = UtilController::sendMessage($order, self::getPromoMessage());
+                    $message = "";
+                    if($order->pickup_location == "Bus Station") {
+                        $message = self::getPromoMessageBus();
+                    } else {
+                        $message = self::getPromoMessage();
+                    }
+
+                    $response = UtilController::sendMessage($order, $message);
 
                     if(str_contains($response, 'sent!')) {
                         $order->promo_sms = 1;
@@ -191,18 +210,44 @@ class SmsController extends Controller
         return $message->value;
     }
 
+    public static function getReturnMessageBus() { //added to database
+        $message = DashboardMessage::where('name', 'bus_bike_return')->first();
+        return $message->value;
+    }
+
+
+
     public static function getMessageStartDate() { //added to database
         $message = DashboardMessage::where('name', 'new_order')->first();
         return $message->value;
     }
+
+    public static function getMessageStartDateBus() { //added to database
+        $message = DashboardMessage::where('name', 'bus_new_order')->first();
+        return $message->value;
+    }
+
+
 
     public static function getMessageEndDate() { //added to database
         $message = DashboardMessage::where('name', 'reminder')->first();
         return $message->value;
     }
 
+    public static function getMessageEndDateBus() { //added to database
+        $message = DashboardMessage::where('name', 'bus_reminder')->first();
+        return $message->value;
+    }
+
+
+
     public static function getPromoMessage() { //added to database
         $message = DashboardMessage::where('name', 'promo')->first();
+        return $message->value;
+    }
+
+    public static function getPromoMessageBus() { //added to database
+        $message = DashboardMessage::where('name', 'bus_promo')->first();
         return $message->value;
     }
 
@@ -216,6 +261,16 @@ class SmsController extends Controller
             $message .= '=> Number: '. $bike->id .' | Code: '.$bike->code . "\r\n";
         }
         $dbMessage = DashboardMessage::where('name', 'bike_info')->first();
+        $message .= $dbMessage->value;
+        return $message;   
+    }
+
+    public static function getMessageWithBikesBus($assignedBikes) {
+        $message = 'Here are your bike numbers and codes: '. "\r\n";
+        foreach($assignedBikes as $bike) {
+            $message .= '=> Number: '. $bike->id .' | Code: '.$bike->code . "\r\n";
+        }
+        $dbMessage = DashboardMessage::where('name', 'bus_bike_info')->first();
         $message .= $dbMessage->value;
         return $message;   
     }

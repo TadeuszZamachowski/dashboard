@@ -261,7 +261,13 @@ class DashboardOrderController extends Controller
         } else if($order->order_status == 'Archived') {
             $setting = DashboardAutomation::where('id', 2)->first();
             if($setting->enabled) {
-                $response = UtilController::sendMessage($order, SmsController::getReturnMessage());
+                $message = "";
+                if($order->pickup_location == "Bus Station") {
+                    $message = SmsController::getReturnMessageBus();
+                } else {
+                    $message = SmsController::getReturnMessage();
+                }
+                $response = UtilController::sendMessage($order, $message);
             } else {
                 $response = "Sms disabled";
             }
@@ -298,7 +304,13 @@ class DashboardOrderController extends Controller
         } else if($order->order_status == 'Archived'){
             $setting = DashboardAutomation::where('id', 2)->first();
             if($setting->enabled) {
-                $response = UtilController::sendMessage($order, SmsController::getReturnMessage());
+                $message = "";
+                if($order->pickup_location == "Bus Station") {
+                    $message = SmsController::getReturnMessageBus();
+                } else {
+                    $message = SmsController::getReturnMessage();
+                }
+                $response = UtilController::sendMessage($order, $message);
             } else {
                 $response = "Sms disabled";
             }
@@ -434,6 +446,26 @@ class DashboardOrderController extends Controller
         }
     }
 
+    public function busPrePickup(DashboardOrder $order) {
+        $response = "";
+        if($this::ENABLE_SMS) {
+            $response = UtilController::sendMessage($order, SmsController::getMessageStartDateBus());
+            
+            if(str_contains($response, 'sent!')) {
+                $order->start_date_sms = 1;
+                $order->save();
+                return redirect('/')->with('success', $response);
+            } else if(str_contains($response, 'email')) {
+                $order->start_date_sms = 2;
+                $order->save();
+                return redirect('/')->with('error', $response);
+            }
+            
+        }
+    }
+
+
+
     public function reminder(DashboardOrder $order) {
         $response = "";
         if($this::ENABLE_SMS) {
@@ -450,11 +482,47 @@ class DashboardOrderController extends Controller
             }
         }
     }
+
+    public function busReminder(DashboardOrder $order) {
+        $response = "";
+        if($this::ENABLE_SMS) {
+            $response = UtilController::sendMessage($order, SmsController::getMessageEndDateBus());
+
+            if(str_contains($response, 'sent!')) {
+                $order->end_date_sms = 1;
+                $order->save();
+                return redirect('/')->with('success', $response);
+            } else if(str_contains($response, 'email')) {
+                $order->end_date_sms = 2;
+                $order->save();
+                return redirect('/')->with('error', $response);
+            }
+        }
+    }
+
+
     
     public function promo(DashboardOrder $order) {
         $response = "";
         if($this::ENABLE_SMS) {
             $response = UtilController::sendMessage($order, SmsController::getPromoMessage());
+
+            if(str_contains($response, 'sent!')) {
+                $order->promo_sms = 1;
+                $order->save();
+                return redirect('/')->with('success', $response);
+            } else if(str_contains($response, 'email')) {
+                $order->promo_sms = 2;
+                $order->save();
+                return redirect('/')->with('error', $response);
+            }
+        }
+    }
+
+    public function busPromo(DashboardOrder $order) {
+        $response = "";
+        if($this::ENABLE_SMS) {
+            $response = UtilController::sendMessage($order, SmsController::getPromoMessageBus());
 
             if(str_contains($response, 'sent!')) {
                 $order->promo_sms = 1;
