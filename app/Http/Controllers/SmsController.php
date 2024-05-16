@@ -215,7 +215,8 @@ class SmsController extends Controller
         foreach($assignedBikes as $bike) {
             $message .= '=> Number: '. $bike->id .' | Code: '.$bike->code . "\r\n";
         }
-        $message .= 'Please take a photo of the bike when picking it up and send it to +61 418 883 631. Upon return, hang the bike on the same bike rack. Attach the bike with the same lock code and send us a photo again.';
+        $dbMessage = DashboardMessage::where('name', 'bike_info')->first();
+        $message .= $dbMessage->value;
         return $message;   
     }
 
