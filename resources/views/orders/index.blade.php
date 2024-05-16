@@ -209,9 +209,9 @@
                 @php
                     $action = "";
                     if($order->pickup_location == 'Bus Station') {
-                        $action = "/orders/bus-pre-pickup/{{$order->dashboard_order_id}}";
+                        $action = "/orders/bus-pre-pickup/".$order->dashboard_order_id;
                     } else {
-                        $action = "/orders/pre-pickup/{{$order->dashboard_order_id}}";
+                        $action = "/orders/pre-pickup/".$order->dashboard_order_id;
                     }
                 @endphp
                 <form method="GET" action="{{$action}}">
@@ -230,9 +230,9 @@
                 @php
                     $action = "";
                     if($order->pickup_location == 'Bus Station') {
-                        $action = "/orders/bus-reminder/{{$order->dashboard_order_id}}";
+                        $action = "/orders/bus-reminder/".$order->dashboard_order_id;
                     } else {
-                        $action = "/orders/reminder/{{$order->dashboard_order_id}}";
+                        $action = "/orders/reminder/".$order->dashboard_order_id;
                     }
                 @endphp
                 <form method="GET" action="{{$action}}">
@@ -251,9 +251,9 @@
                 @php
                     $action = "";
                     if($order->pickup_location == 'Bus Station') {
-                        $action = "/orders/bus-promo/{{$order->dashboard_order_id}}";
+                        $action = "/orders/bus-promo/".$order->dashboard_order_id;
                     } else {
-                        $action = "/orders/promo/{{$order->dashboard_order_id}}";
+                        $action = "/orders/promo/".$order->dashboard_order_id;
                     }
                 @endphp
                 <form method="GET" action="{{$action}}">
