@@ -44,7 +44,7 @@ class BikesDashboardOrderController extends Controller
         } else {
             return view('assign.assign', [
                 'order' => $order,
-                'bikes' => Bike::where('status', '=', 'in')->orderBy('id')->get()
+                'bikes' => Bike::where('status', '=', 'in')->where('location',$order->pickup_location)->orderBy('id')->get()
             ]);
         }
     }
