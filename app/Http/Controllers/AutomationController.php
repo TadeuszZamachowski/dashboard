@@ -35,7 +35,7 @@ class AutomationController extends Controller
             $date = date('Y-m-d H:i',strtotime($order->start_date));
             $hourDiff = UtilController::getHours($today, $date);
             
-            if($hourDiff >= -5 && $hourDiff <= 0.5) { //start date is half an hour before or 5  hour after
+            if($hourDiff >= -5 && $hourDiff <= 2) { //start date is half an hour before or 2 hours after
 
                 //if accessory is bike delivery, not assigning and not sending codes
                 $accessories = DashboardOrderAccessory::where('order_id', $order->dashboard_order_id)->get();
