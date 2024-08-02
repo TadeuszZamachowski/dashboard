@@ -104,7 +104,10 @@ class BikesDashboardOrderController extends Controller
             'dashboard_order_id' => 'required'
         ]);
 
-        $order = DashboardOrder::where('dashboard_order_id', $request->dashboard_order_id)->first();
+        $order = DashboardOrder::where('dashboard_order_id', $request->dashboard_order_id)->with('bikes')->first(); //prevents assigning more bikes than indicated on the order
+        if(count($order->bikes) >= $order->number_of_bikes) {
+            return back()->with('error', 'Maximum amount of bikes already assigned to this order');
+        }
 
         $data['bike_id'] = $bike->id;
         $data['order_id'] = $order->dashboard_order_id;
