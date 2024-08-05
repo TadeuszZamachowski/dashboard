@@ -10,6 +10,7 @@ use App\Models\BikeColor;
 use Illuminate\Http\Request;
 use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 use App\Http\Controllers\UtilController;
+use DateTime;
 
 class ReportsController extends Controller
 {
@@ -90,6 +91,38 @@ class ReportsController extends Controller
         $chart1 = new LaravelChart($chart_options);
         
         return view('reports.graph', compact('chart1'));
+    }
+
+    public function revenueGraphs() {
+        return view('reports.revenueGraphs', [
+            'locations' => Location::where('value', 'Bus Station')->orWhere('value', 'Mercato')->get()
+        ]);
+    }
+
+    public function displayRevenueGraph(Request $request) {
+        $start = new DateTime($request->start_date); // or your date as well
+        $end = new DateTime($request->end_date);
+
+        $dataPoints1 = array();
+        $dataPoints2 = array();
+        while($start <= $end) {
+            $amount = DashboardOrder::whereDate('created_at', $start)->where('pickup_location', $request->location)->sum('amount_paid');
+            $numberOfOrders = DashboardOrder::whereDate('created_at', $start)->where('pickup_location', $request->location)->count();
+
+            array_push($dataPoints1, array("label"=> $start->format("d-m-Y"), "y"=> $amount));
+            array_push($dataPoints2, array("label"=> $start->format("d-m-Y"), "y"=> $numberOfOrders));
+            $start->modify('+1 day');
+        }
+        
+        $start = new DateTime($request->start_date);
+        $chartTitle = "Revenue from ". $start->format("d-m-Y") . " to " . $end->format("d-m-Y");
+
+        return view('reports.showRevenueGraph', [
+            'chartTitle' => $chartTitle,
+
+            'dataPoints1' => $dataPoints1,
+            'dataPoints2' => $dataPoints2
+        ]);
     }
 
     public function statistics() {

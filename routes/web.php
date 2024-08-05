@@ -256,6 +256,10 @@ Route::get('/reports/bikesStatistics', [ReportsController::class,'bikesStatistic
 
 Route::get('/reports/graph', [ReportsController::class, 'graph'])->middleware('auth');
 
+Route::get('reports/revenueGraphs', [ReportsController::class, 'revenueGraphs'])->middleware('auth');
+
+Route::get('reports/revenueGraph/result', [ReportsController::class, 'displayRevenueGraph'])->middleware('auth');
+
 Route::get('/reports/bikeArchive', [BikeController::class, 'bikeArchive'])->middleware('auth');
 
 Route::get('/reports/statistics', [ReportsController::class, 'statistics'])->middleware('auth');
