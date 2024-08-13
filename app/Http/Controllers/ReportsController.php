@@ -10,7 +10,7 @@ use App\Models\BikeColor;
 use Illuminate\Http\Request;
 use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 use App\Http\Controllers\UtilController;
-use DateTime;
+use DateTimeImmutable;
 
 class ReportsController extends Controller
 {
@@ -94,28 +94,72 @@ class ReportsController extends Controller
     }
 
     public function revenueGraphs() {
-        return view('reports.revenueGraphs', [
-            'locations' => Location::where('value', 'Bus Station')->orWhere('value', 'Mercato')->get()
-        ]);
-    }
-
-    public function displayRevenueGraph(Request $request) {
-        $start = new DateTime($request->start_date); // or your date as well
-        $end = new DateTime($request->end_date);
+        $start = new DateTimeImmutable(date("01-m-Y",strtotime(date("d-m-Y")))); // or your date as well
+        $end = new DateTimeImmutable(date("t-m-Y",strtotime(date("d-m-Y"))));
 
         $dataPoints1 = array();
         $dataPoints2 = array();
         while($start <= $end) {
-            $amount = DashboardOrder::whereDate('created_at', $start)->where('pickup_location', $request->location)->sum('amount_paid');
-            $numberOfOrders = DashboardOrder::whereDate('created_at', $start)->where('pickup_location', $request->location)->count();
+            $amount = DashboardOrder::whereDate('created_at', $start)->where('pickup_location', 'Mercato')->sum('amount_paid');
+            $numberOfOrders = DashboardOrder::whereDate('created_at', $start)->where('pickup_location', 'Mercato')->count();
 
             array_push($dataPoints1, array("label"=> $start->format("d-m-Y"), "y"=> $amount));
             array_push($dataPoints2, array("label"=> $start->format("d-m-Y"), "y"=> $numberOfOrders));
-            $start->modify('+1 day');
+            $start = $start->modify('+1 day');
         }
         
-        $start = new DateTime($request->start_date);
-        $chartTitle = "Revenue from ". $start->format("d-m-Y") . " to " . $end->format("d-m-Y");
+        $start = new DateTimeImmutable(date("01-m-Y",strtotime(date("d-m-Y"))));
+        $chartTitle = "Mercato ". $start->format("d-m-Y") . " to " . $end->format("d-m-Y");
+
+        return view('reports.revenueGraphs', [
+            'locations' => Location::where('value', 'Bus Station')->orWhere('value', 'Mercato')->get(),
+
+            'chartTitle' => $chartTitle,
+
+            'dataPoints1' => $dataPoints1,
+            'dataPoints2' => $dataPoints2
+        ]);
+    }
+
+    public function displayRevenueGraph(Request $request) {
+        $start = new DateTimeImmutable($request->start_date); // or your date as well
+        $end = new DateTimeImmutable($request->end_date);
+
+        $dataPoints1 = array();
+        $dataPoints2 = array();
+        if ($request->type_select == "Day") {
+            while($start <= $end) {
+                $amount = DashboardOrder::whereDate('created_at', $start)->where('pickup_location', $request->location)->sum('amount_paid');
+                $numberOfOrders = DashboardOrder::whereDate('created_at', $start)->where('pickup_location', $request->location)->count();
+    
+                array_push($dataPoints1, array("label"=> $start->format("d-m-Y"), "y"=> $amount));
+                array_push($dataPoints2, array("label"=> $start->format("d-m-Y"), "y"=> $numberOfOrders));
+                $start = $start->modify('+1 day');
+            }
+        } else if($request->type_select == "Week") {
+            while($start <= $end) {
+                $weekFromNow = $start->modify('+1 week');
+                $amount = DashboardOrder::whereBetween('created_at', [$start, $weekFromNow])->where('pickup_location', $request->location)->sum('amount_paid');
+                $numberOfOrders = DashboardOrder::whereBetween('created_at', [$start, $weekFromNow])->where('pickup_location', $request->location)->count();
+    
+                array_push($dataPoints1, array("label"=> $start->format("d-m-Y") . " - " . $weekFromNow->format('d-m-Y'), "y"=> $amount));
+                array_push($dataPoints2, array("label"=> $start->format("d-m-Y") . " - " . $weekFromNow->format('d-m-Y'), "y"=> $numberOfOrders));
+                $start = $start->modify('+1 week');
+            }
+        } else if($request->type_select == "Month"){
+            while($start <= $end) {
+                $monthFromNow = $start->modify('+1 month');
+                $amount = DashboardOrder::whereBetween('created_at', [$start, $monthFromNow])->where('pickup_location', $request->location)->sum('amount_paid');
+                $numberOfOrders = DashboardOrder::whereBetween('created_at', [$start, $monthFromNow])->where('pickup_location', $request->location)->count();
+
+                array_push($dataPoints1, array("label"=> $start->format("M"), "y"=> $amount));
+                array_push($dataPoints2, array("label"=> $start->format("M"), "y"=> $numberOfOrders));
+                $start = $start->modify('+1 month');
+            }
+        }
+        
+        $start = new DateTimeImmutable($request->start_date);
+        $chartTitle = $request->location . " " . $start->format("d-m-Y") . " to " . $end->format("d-m-Y");
 
         return view('reports.showRevenueGraph', [
             'chartTitle' => $chartTitle,

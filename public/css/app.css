@@ -495,3 +495,25 @@ td {
 option:checked {
   display: none;
 }
+
+.reports-index {
+  max-width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.reports-index label {
+  margin-left: 40px;
+}
+
+.reports-index .input-date {
+  width: 150px;
+  margin: 0;
+  padding: 0;
+}
+
+.reports-buttons a {
+  display: block; 
+  width: 250px;
+  margin-bottom: 10px;
+}

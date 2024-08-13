@@ -50,3 +50,18 @@ function showGear(val) {
   document.getElementById('gear').value = gearVal;
 }
 
+function changeInputType(val) {
+  var inputType = "";
+  if (val == 'Day') {
+    document.getElementById('start_date').type = 'date';
+    document.getElementById('end_date').type = 'date';
+  } else if (val == 'Week') {
+    document.getElementById('start_date').type = 'week';
+    document.getElementById('end_date').type = 'week';
+  } else { // Month
+    document.getElementById('start_date').type = 'month';
+    document.getElementById('end_date').type = 'month';
+  }
+
+}
+
