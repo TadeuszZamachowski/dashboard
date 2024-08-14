@@ -27,18 +27,11 @@ var chart = new CanvasJS.Chart("chartContainer", {
 	data: [{
 		type: "column",
 		name: "Revenue",
-		indexLabel: "{y}",
+		indexLabel: "",
 		yValueFormatString: "$#0.##",
 		showInLegend: true,
 		dataPoints: <?php echo json_encode($dataPoints1, JSON_NUMERIC_CHECK); ?>
-	},{
-		type: "column",
-		name: "Number of orders",
-		indexLabel: "{y}",
-		yValueFormatString: "#0.##",
-		showInLegend: true,
-		dataPoints: <?php echo json_encode($dataPoints2, JSON_NUMERIC_CHECK); ?>
-	}]
+	},]
 });
 chart.render();
  
