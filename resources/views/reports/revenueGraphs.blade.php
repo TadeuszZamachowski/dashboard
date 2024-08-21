@@ -70,6 +70,7 @@
         },
         data: [{
             type: "column",
+            color: "purple",
             name: "Revenue",
             indexLabel: "",
             yValueFormatString: "$#0.##",

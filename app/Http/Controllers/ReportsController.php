@@ -15,7 +15,69 @@ use DateTimeImmutable;
 class ReportsController extends Controller
 {
     public function index() {
-        return view("reports.index");
+        $types = array();
+        $bikeTypes = ['Cruiser', 'Urban', 'Kid'];
+        foreach($bikeTypes as $type) {
+            foreach(BikeColor::all() as $color) {
+                $bikeFigures = Bike::where('type', 'LIKE', $type)->where('color','LIKE',$color['value'])
+                ->where('status', "NOT LIKE", 'archive')->get();
+                if(count($bikeFigures) > 0) {
+                    $types[] = $bikeFigures;
+                }
+            }
+        }
+
+        $todaySales = UtilController::getTodaysSales();
+        $weekSales = UtilController::getWeekSales();
+        $monthSales = UtilController::getMonthSales();
+        $yearSales = UtilController::getYearSales();
+        $totalSales = UtilController::getTotalSales();
+        
+        $allIn = Bike::where('status', 'LIKE', 'in')->count();
+        $allOut = Bike::where('status', 'LIKE', 'out')->count();
+        $all = Bike::count();
+
+        $bikesInLocations = UtilController::getBikeStats(Location::all());
+
+        $start = new DateTimeImmutable('01-07-2024'); // or your date as well
+        $end = new DateTimeImmutable();
+
+        $dataPoints1 = array();
+        $dataPoints2 = array();
+        while($start <= $end) {
+            $amount = DashboardOrder::whereDate('created_at', $start)->where('pickup_location', 'Mercato')->sum('amount_paid');
+            $numberOfOrders = DashboardOrder::whereDate('created_at', $start)->where('pickup_location', 'Mercato')->count();
+
+            array_push($dataPoints1, array("label"=> $start->format("d-m-Y"), "y"=> $amount));
+            array_push($dataPoints2, array("label"=> $start->format("d-m-Y"), "y"=> $numberOfOrders));
+            $start = $start->modify('+1 day');
+        }
+        
+        $start = new DateTimeImmutable('01-07-2024');
+        $chartTitle = "Mercato ". $start->format("d-m-Y") . " to " . $end->format("d-m-Y");
+
+        return view('reports.index',[
+            'types' => $types,
+
+            'todaySales' => $todaySales,
+            'weekSales' => $weekSales,
+            'monthSales' => $monthSales,
+            'yearSales' => $yearSales,
+            'totalSales'=> $totalSales,
+
+            'all' => $all,
+            'allIn' => $allIn,
+            'allOut' => $allOut,
+
+            'bikes' => $bikesInLocations,
+
+            'locations' => Location::where('value', 'Bus Station')->orWhere('value', 'Mercato')->get(),
+
+            'chartTitle' => $chartTitle,
+
+            'dataPoints1' => $dataPoints1,
+            'dataPoints2' => $dataPoints2
+        ]);
     }
 
     public function salesByLocation() {

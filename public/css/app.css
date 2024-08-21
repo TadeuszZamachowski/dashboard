@@ -153,6 +153,13 @@ input[type="text"], input[type="date"] {
     margin-left: 0;
     padding: 0;
   }
+
+  .show-order .element {
+    display: none;
+  }
+  #chartContainer {
+    display: none;
+  }
 }
 
 #main {
@@ -443,6 +450,7 @@ td {
 
 .show-order {
   display: flex;
+  width: 30%;
 }
 
 .show-order .element {
@@ -516,4 +524,9 @@ option:checked {
   display: block; 
   width: 250px;
   margin-bottom: 10px;
+}
+
+.reports-layout {
+  display: flex;
+  justify-content: space-between;
 }
