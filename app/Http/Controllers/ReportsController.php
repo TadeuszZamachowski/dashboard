@@ -156,7 +156,7 @@ class ReportsController extends Controller
     }
 
     public function revenueGraphs() {
-        $start = new DateTimeImmutable(date("01-m-Y",strtotime(date("d-m-Y")))); // or your date as well
+        $start = new DateTimeImmutable(date("01-m-Y",strtotime(date("d-m-Y")))); 
         $end = new DateTimeImmutable(date("t-m-Y",strtotime(date("d-m-Y"))));
 
         $dataPoints1 = array();
@@ -173,13 +173,37 @@ class ReportsController extends Controller
         $start = new DateTimeImmutable(date("01-m-Y",strtotime(date("d-m-Y"))));
         $chartTitle = "Mercato ". $start->format("d-m-Y") . " to " . $end->format("d-m-Y");
 
+        //PREVIOUS YEAR CHART
+        $startPrev = new DateTimeImmutable('01-01-2023'); 
+        $endPrev = new DateTimeImmutable('31-12-2023');
+
+        $dataPoints1Prev = array();
+        $dataPoints2Prev = array();
+        while($startPrev <= $endPrev) {
+            $monthFromNow = $startPrev->modify('+1 month');
+            $amount = DashboardOrder::whereBetween('created_at', [$startPrev, $monthFromNow])->sum('amount_paid');
+            $numberOfOrders = DashboardOrder::whereBetween('created_at', [$startPrev, $monthFromNow])->count();
+
+            array_push($dataPoints1Prev, array("label"=> $startPrev->format("M"), "y"=> $amount));
+            array_push($dataPoints2Prev, array("label"=> $startPrev->format("M"), "y"=> $numberOfOrders));
+            $startPrev = $startPrev->modify('+1 month');
+        }
+        
+        $startPrev = new DateTimeImmutable(date("01-m-Y",strtotime(date("d-m-Y"))));
+        $chartTitlePrev = "2023 Total";
+
         return view('reports.revenueGraphs', [
             'locations' => Location::where('value', 'Bus Station')->orWhere('value', 'Mercato')->get(),
 
             'chartTitle' => $chartTitle,
 
             'dataPoints1' => $dataPoints1,
-            'dataPoints2' => $dataPoints2
+            'dataPoints2' => $dataPoints2,
+
+            'chartTitlePrev' => $chartTitlePrev,
+
+            'dataPoints1Prev' => $dataPoints1Prev,
+            'dataPoints2Prev' => $dataPoints2Prev
         ]);
     }
 

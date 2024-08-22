@@ -79,6 +79,38 @@
         },]
     });
     chart.render();
+
+    //PREVIOUS YEAR CHART
+    var chart1 = new CanvasJS.Chart("chartContainer1", {
+        animationEnabled: true,
+        theme: "light2",
+        title:{
+            text: "<?php echo $chartTitlePrev ?>"
+        },
+        axisX:{
+            interval: 200
+        },
+        axisY:{
+            includeZero: true,
+            margin: 200
+        },
+        legend:{
+            cursor: "pointer",
+            verticalAlign: "center",
+            horizontalAlign: "right",
+            itemclick: toggleDataSeries
+        },
+        data: [{
+            type: "column",
+            color: "purple",
+            name: "Revenue",
+            indexLabel: "",
+            yValueFormatString: "$#0.##",
+            showInLegend: true,
+            dataPoints: <?php echo json_encode($dataPoints1Prev, JSON_NUMERIC_CHECK); ?>
+        },]
+    });
+    chart1.render();
      
     function toggleDataSeries(e){
         if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
@@ -91,8 +123,9 @@
     }
      
     }
-    </script>
-    <div id="chartContainer" style="height: 370px; width: 100%;"></div>
-    <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+</script>
+<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+<div id="chartContainer1" style="height: 370px; width: 100%; margin-top: 100px;"></div>
+<script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
 
 @endsection
