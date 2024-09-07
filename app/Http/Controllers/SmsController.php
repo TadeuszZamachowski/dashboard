@@ -94,7 +94,7 @@ class SmsController extends Controller
 
                 if($hourDiff <= 1) { //rent date one hour from now
                     $message = "";
-                    if($order->pickup_location == "Bus Station") {
+                    if($order->pickup_location == "Byron Colab 12 Shirley st") {
                         $message = self::getMessageStartDateBus();
                     } else {
                         $message = self::getMessageStartDate();
@@ -137,7 +137,7 @@ class SmsController extends Controller
 
                 if($hourDiff <= 1) {
                     $message = "";
-                    if($order->pickup_location == "Bus Station") {
+                    if($order->pickup_location == "Byron Colab 12 Shirley st") {
                         $message = self::getMessageEndDateBus();
                     } else {
                         $message = self::getMessageEndDate();
@@ -179,7 +179,7 @@ class SmsController extends Controller
 
                 if($hourDiff <= 2) {
                     $message = "";
-                    if($order->pickup_location == "Bus Station") {
+                    if($order->pickup_location == "Byron Colab 12 Shirley st") {
                         $message = self::getPromoMessageBus();
                     } else {
                         $message = self::getPromoMessage();
