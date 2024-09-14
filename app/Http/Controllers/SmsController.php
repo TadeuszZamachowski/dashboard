@@ -130,12 +130,19 @@ class SmsController extends Controller
         $orders = DashboardOrder::where("order_status", "LIKE", "Assigned")->get();
         $today = date('Y-m-d H:i');
         $smsSent = "";
+        $timeNeededToFire = 0;
         foreach($orders as $order) {
             if($order->end_date_sms != 1 && $order->end_date_sms != 2) {
                 $date = date('Y-m-d H:i',strtotime($order->end_date));
                 $hourDiff = UtilController::getHours($today, $date); 
 
-                if($hourDiff <= 1) {
+                if($order->pickup_location == "Byron Colab 12 Shirley st") {
+                    $timeNeededToFire = 0.25;
+                } else {
+                    $timeNeededToFire = 1;
+                }
+
+                if($hourDiff <= $timeNeededToFire) {
                     $message = "";
                     if($order->pickup_location == "Byron Colab 12 Shirley st") {
                         $message = self::getMessageEndDateBus();
@@ -172,12 +179,19 @@ class SmsController extends Controller
         $orders = DashboardOrder::where("order_status", "LIKE", "Assigned")->get();
         $today = date('Y-m-d H:i');
         $smsSent = "";
+        $timeNeededToFire = 0;
         foreach($orders as $order) {
             if($order->promo_sms != 1 && $order->promo_sms != 2) {
                 $date = date('Y-m-d H:i',strtotime($order->end_date));
                 $hourDiff = UtilController::getHours($today, $date); 
 
-                if($hourDiff <= 2) {
+                if($order->pickup_location == "Byron Colab 12 Shirley st") {
+                    $timeNeededToFire = 0.5;
+                } else {
+                    $timeNeededToFire = 2;
+                }
+
+                if($hourDiff <= $timeNeededToFire) {
                     $message = "";
                     if($order->pickup_location == "Byron Colab 12 Shirley st") {
                         $message = self::getPromoMessageBus();
