@@ -208,12 +208,12 @@ class ReportsController extends Controller
     }
 
     public function displayRevenueGraph(Request $request) {
-        $start = new DateTimeImmutable($request->start_date); // or your date as well
+        $start = new DateTimeImmutable($request->start_date); 
         $end = new DateTimeImmutable($request->end_date);
 
         $dataPoints1 = array();
         $dataPoints2 = array();
-        if ($request->type_select == "Day") {
+        if ($request->type_select == "Day") { //revenue graph by day selected
             while($start <= $end) {
                 $amount = DashboardOrder::whereDate('created_at', $start)->where('pickup_location', $request->location)->sum('amount_paid');
                 $numberOfOrders = DashboardOrder::whereDate('created_at', $start)->where('pickup_location', $request->location)->count();

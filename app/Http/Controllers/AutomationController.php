@@ -44,26 +44,26 @@ class AutomationController extends Controller
                     continue;
                 }
 
-                //excluding non physical attachements (like bike delivery etc.)
-                $accessories = self::filterAccesssories(DashboardOrderAccessory::where('order_id', $order->dashboard_order_id)->get());
+                //excluding non physical attachements (extra time etc.), returns array
+                $accessories = self::filterAccesssories(DashboardOrderAccessory::where('order_id', $order->dashboard_order_id)->get()); 
                 
                 $bikes = array();
                 for($i = 0; $i < $order->number_of_bikes; $i++) {
-                    $accName = "";//iterating through number of bikes
-                    foreach($accessories as $name => &$quantity) {
+                    $accName = "";
+                    foreach($accessories as $name => &$quantity) { 
                         $accName = "";
                         if($quantity >= 1) {
                             $accName = $name;//assigning current accessory name
                             $quantity -= 1;
-                            break;//accessory found, breaking from foreach statement
+                            break;//accessory found, breaking from foreach statement to assign bike with current accessory
                         }                           
                     }
                     $bike = Bike::where('accessory','LIKE',$accName)//looking for bike with the current accessory name
                                         ->where('status','LIKE','in')
                                         ->where('state', 'NOT LIKE', 'repair')
                                         ->where('location','LIKE', $order->pickup_location)->first();
-                    if(!$bike) {
-                        $bike = Bike::where('accessory','LIKE','None')//bike with current accessory not found, taking one without an accessory
+                    if(!$bike) { //bike with current accessory not found, taking one without an accessory
+                        $bike = Bike::where('accessory','LIKE','None')
                                 ->where('status','LIKE','in')
                                 ->where('state', 'NOT LIKE', 'repair')
                                 ->where('type', 'NOT LIKE', 'Kid')//excluding kids bikes
@@ -74,7 +74,7 @@ class AutomationController extends Controller
                         'status' => 'out',
                         'dashboard_order_id' => $order->dashboard_order_id
                     ));
-                    $bikes[] = $bike;
+                    $bikes[] = $bike; //adding current bikes to all bikes for the order
                 }
 
                 $sms = new SmsController(new ClicksendService());
