@@ -79,7 +79,7 @@ class AutomationController extends Controller
 
                 $sms = new SmsController(new ClicksendService());
                 $message = "";
-                if($order->pickup_location == "Byron Colab 12 Shirley st") {
+                if($order->pickup_location == "Byron Colab 12 Shirley st" || $order->pickup_location == "Glen Villa") {
                     $message = SmsController::getMessageWithBikesBus($bikes);
                 } else {
                     $message = SmsController::getMessageWithBikes($bikes);

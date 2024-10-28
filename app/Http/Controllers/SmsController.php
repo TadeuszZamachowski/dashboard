@@ -94,7 +94,7 @@ class SmsController extends Controller
 
                 if($hourDiff <= 1) { //rent date one hour from now
                     $message = "";
-                    if($order->pickup_location == "Byron Colab 12 Shirley st") {
+                    if($order->pickup_location == "Byron Colab 12 Shirley st" || $order->pickup_location == "Glen Villa") {
                         $message = self::getMessageStartDateBus();
                     } else {
                         $message = self::getMessageStartDate();
@@ -136,7 +136,7 @@ class SmsController extends Controller
                 $date = date('Y-m-d H:i',strtotime($order->end_date));
                 $hourDiff = UtilController::getHours($today, $date); 
 
-                if($order->pickup_location == "Byron Colab 12 Shirley st") {
+                if($order->pickup_location == "Byron Colab 12 Shirley st" || $order->pickup_location == "Glen Villa") {
                     $timeNeededToFire = 0.25;
                 } else {
                     $timeNeededToFire = 1;
@@ -144,7 +144,7 @@ class SmsController extends Controller
 
                 if($hourDiff <= $timeNeededToFire) {
                     $message = "";
-                    if($order->pickup_location == "Byron Colab 12 Shirley st") {
+                    if($order->pickup_location == "Byron Colab 12 Shirley st" || $order->pickup_location == "Glen Villa") {
                         $message = self::getMessageEndDateBus();
                     } else {
                         $message = self::getMessageEndDate();
@@ -185,7 +185,7 @@ class SmsController extends Controller
                 $date = date('Y-m-d H:i',strtotime($order->end_date));
                 $hourDiff = UtilController::getHours($today, $date); 
 
-                if($order->pickup_location == "Byron Colab 12 Shirley st") {
+                if($order->pickup_location == "Byron Colab 12 Shirley st" || $order->pickup_location == "Glen Villa") {
                     $timeNeededToFire = 0.5;
                 } else {
                     $timeNeededToFire = 2;
@@ -193,7 +193,7 @@ class SmsController extends Controller
 
                 if($hourDiff <= $timeNeededToFire) {
                     $message = "";
-                    if($order->pickup_location == "Byron Colab 12 Shirley st") {
+                    if($order->pickup_location == "Byron Colab 12 Shirley st" || $order->pickup_location == "Glen Villa") {
                         $message = self::getPromoMessageBus();
                     } else {
                         $message = self::getPromoMessage();
