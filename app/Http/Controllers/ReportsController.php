@@ -193,7 +193,7 @@ class ReportsController extends Controller
         $chartTitlePrev = "2023 Total";
 
         return view('reports.revenueGraphs', [
-            'locations' => Location::where('value', 'Bus Station')->orWhere('value', 'Mercato')->get(),
+            'locations' => Location::all(),
 
             'chartTitle' => $chartTitle,
 
